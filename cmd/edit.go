@@ -16,10 +16,11 @@ limitations under the License.
 package cmd
 
 import (
-	"os"
+	"errors"
 
 	"github.com/spf13/cobra"
 
+	"github.com/endorama/devid/cmd/ui"
 	"github.com/endorama/devid/internal/persona"
 	"github.com/endorama/devid/internal/utils"
 )
@@ -34,27 +35,25 @@ Open within EDITOR the specified persona configuration file.
 `,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) != 1 {
-			ui.Error("Argument NAME required")
-			os.Exit(genericExitCode)
+			err := errors.New("Argument NAME required")
+			ui.Fatal(err, genericExitCode)
 		}
 
 		name := args[0]
 
 		p, err := persona.New(name)
 		if err != nil {
-			ui.Error(err.Error())
-			os.Exit(genericExitCode)
+			ui.Fatal(err, genericExitCode)
 		}
 
 		if !p.Exists() {
-			ui.Error("Persona does not exists")
-			os.Exit(genericExitCode)
+			err := errors.New("Persona does not exists")
+			ui.Fatal(err, genericExitCode)
 		}
 
 		err = utils.OpenWithEditor(p.File())
 		if err != nil {
-			ui.Error(err.Error())
-			os.Exit(genericExitCode)
+			ui.Fatal(err, genericExitCode)
 		}
 	},
 }

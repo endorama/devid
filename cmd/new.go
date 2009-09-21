@@ -16,11 +16,13 @@ limitations under the License.
 package cmd
 
 import (
+	"errors"
 	"fmt"
 	"os"
 
 	"github.com/spf13/cobra"
 
+	"github.com/endorama/devid/cmd/ui"
 	"github.com/endorama/devid/internal/persona"
 	"github.com/endorama/devid/internal/plugin/manager"
 	"github.com/endorama/devid/internal/utils"
@@ -49,8 +51,8 @@ func init() { //nolint:gochecknoinits // required by cobra
 
 func runCommand(args []string) {
 	if len(args) != 1 {
-		ui.Error("Argument NAME required")
-		os.Exit(genericExitCode)
+		err := errors.New("Argument NAME required")
+		ui.Fatal(err, genericExitCode)
 	}
 
 	name := args[0]
@@ -59,16 +61,15 @@ func runCommand(args []string) {
 
 	err := persona.Create(p)
 	if err != nil {
-		ui.Error(err.Error())
-		os.Exit(genericExitCode)
+		ui.Fatal(err, genericExitCode)
 	}
 
 	errs, err := manager.LoadCorePlugins(p.Config)
 	if err != nil {
-		ui.Error(err.Error())
+		ui.Error(err)
 
 		for _, e := range errs {
-			ui.Error(e.Error())
+			ui.Error(e)
 		}
 
 		os.Exit(pluginManagerCoreLoadingErrorExitCode)
@@ -76,10 +77,10 @@ func runCommand(args []string) {
 
 	errs, err = manager.LoadOptionalPlugins(p.Config)
 	if err != nil {
-		ui.Error(err.Error())
+		ui.Error(err)
 
 		for _, e := range errs {
-			ui.Error(e.Error())
+			ui.Error(e)
 		}
 
 		os.Exit(pluginManagerOptionalLoadingErrorExitCode)
@@ -87,10 +88,10 @@ func runCommand(args []string) {
 
 	errs, err = manager.SetupPlugins(p)
 	if err != nil {
-		ui.Error(err.Error())
+		ui.Error(err)
 
 		for _, e := range errs {
-			ui.Error(e.Error())
+			ui.Error(e)
 		}
 
 		os.Exit(pluginManagerSetupErrorExitCode)
@@ -101,7 +102,6 @@ func runCommand(args []string) {
 		// deleting the created persona so new does not error the second time is run
 		_ = persona.Delete(p)
 
-		ui.Error(err.Error())
-		os.Exit(genericExitCode)
+		ui.Fatal(err, genericExitCode)
 	}
 }

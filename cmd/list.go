@@ -18,11 +18,11 @@ package cmd
 import (
 	"fmt"
 	"io/ioutil"
-	"os"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
+	"github.com/endorama/devid/cmd/ui"
 	"github.com/endorama/devid/internal/persona"
 )
 
@@ -37,8 +37,8 @@ List all available personas.
 	Run: func(cmd *cobra.Command, args []string) {
 		files, err := ioutil.ReadDir(viper.GetString("personas_location"))
 		if err != nil {
-			ui.Error(fmt.Errorf("cannot read folder content: %w", err).Error())
-			os.Exit(genericExitCode)
+			ui.Fatal(fmt.Errorf("cannot read folder content: %w", err), genericExitCode)
+
 		}
 		for _, f := range files {
 			if f.IsDir() {

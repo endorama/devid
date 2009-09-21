@@ -16,11 +16,12 @@ limitations under the License.
 package cmd
 
 import (
-	"os"
+	"errors"
 
 	"github.com/lu4p/shred"
 	"github.com/spf13/cobra"
 
+	"github.com/endorama/devid/cmd/ui"
 	"github.com/endorama/devid/internal/persona"
 )
 
@@ -36,8 +37,7 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) != 1 {
-			ui.Error("Argument NAME required")
-			os.Exit(genericExitCode)
+			ui.Fatal(errors.New("Argument NAME required"), genericExitCode)
 		}
 
 		name := args[0]
@@ -48,8 +48,7 @@ to quickly create a Cobra application.`,
 		shredconf := shred.Conf{Times: shredTimes, Zeros: true, Remove: true}
 		err := shredconf.Dir(p.Location())
 		if err != nil {
-			ui.Error(err.Error())
-			os.Exit(genericExitCode)
+			ui.Fatal(err, genericExitCode)
 		}
 	},
 }

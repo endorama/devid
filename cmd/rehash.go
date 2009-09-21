@@ -16,6 +16,7 @@ limitations under the License.
 package cmd
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -24,6 +25,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
+	"github.com/endorama/devid/cmd/ui"
 	"github.com/endorama/devid/internal/persona"
 	"github.com/endorama/devid/internal/plugin/manager"
 	"github.com/endorama/devid/internal/utils"
@@ -42,27 +44,28 @@ var rehashCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 			// This may be especially problematic for executable path detection in
 			// plugin.
 			// As such we prevent rehashing while there is an active profile.
-			ui.Error("Trying to rehash with an active profile. This may go very wrong.")
-			os.Exit(1)
+			err := errors.New("Trying to rehash with an active profile. This may go very wrong.")
+			ui.Fatal(err, genericExitCode)
+
 		}
 
 		currentPersona, err := cmd.Flags().GetString("persona")
 		if err != nil {
-			ui.Error(fmt.Errorf("cannot access flag currentPersona: %w", err).Error())
+			ui.Error(fmt.Errorf("cannot access flag currentPersona: %w", err))
 		}
 		if currentPersona != "" {
 			p, err := persona.Load(currentPersona)
 			if err != nil {
-				ui.Error(fmt.Errorf("cannot instantiate persona: %w", err).Error())
+				ui.Error(fmt.Errorf("cannot instantiate persona: %w", err))
 				os.Exit(1)
 			}
 
 			errs, err := manager.LoadCorePlugins(p.Config)
 			if err != nil {
-				ui.Error(err.Error())
+				ui.Error(err)
 
 				for _, e := range errs {
-					ui.Error(e.Error())
+					ui.Error(e)
 				}
 
 				os.Exit(pluginManagerCoreLoadingErrorExitCode)
@@ -70,10 +73,10 @@ var rehashCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 
 			errs, err = manager.LoadOptionalPlugins(p.Config)
 			if err != nil {
-				ui.Error(err.Error())
+				ui.Error(err)
 
 				for _, e := range errs {
-					ui.Error(e.Error())
+					ui.Error(e)
 				}
 
 				os.Exit(pluginManagerOptionalLoadingErrorExitCode)
@@ -83,10 +86,10 @@ var rehashCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 
 			errs, err = manager.Generate(p)
 			if err != nil {
-				ui.Error(err.Error())
+				ui.Error(err)
 
 				for _, e := range errs {
-					ui.Error(e.Error())
+					ui.Error(e)
 				}
 
 				os.Exit(pluginGenerationExitCode)
@@ -94,7 +97,7 @@ var rehashCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 
 			content, err := manager.ShellLoader(p)
 			if err != nil {
-				ui.Error(err.Error())
+				ui.Error(err)
 				os.Exit(1)
 			}
 
@@ -103,13 +106,12 @@ var rehashCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 			shellLoaderFilePath := path.Join(p.Location(), viper.GetString("shell_loader_filename"))
 			err = utils.PersistFile(shellLoaderFilePath, content)
 			if err != nil {
-				ui.Error(fmt.Errorf("cannot save shell loader: %w", err).Error())
-				os.Exit(1)
+				ui.Fatal(fmt.Errorf("cannot save shell loader: %w", err), genericExitCode)
 			}
 			os.Chmod(shellLoaderFilePath, 0700)
 		} else {
-			ui.Error("Not yet implemented")
-			os.Exit(1)
+			err := errors.New("Not yet implemented")
+			ui.Fatal(err, genericExitCode)
 		}
 	},
 }

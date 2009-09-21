@@ -17,30 +17,29 @@ package cmd
 
 import (
 	"fmt"
-	"os"
 
+	"github.com/endorama/devid/cmd/ui"
 	"github.com/endorama/devid/internal/plugin/manager"
 	"github.com/spf13/cobra"
 
-	"github.com/mitchellh/cli"
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/viper"
 )
 
 var cfgFile string //nolint:gochecknoglobals // required for init
 
-var ui = &cli.ColoredUi{ //nolint:gochecknoglobals // UI is shared
-	OutputColor: cli.UiColorNone,
-	InfoColor:   cli.UiColorNone,
-	ErrorColor:  cli.UiColorRed,
-	WarnColor:   cli.UiColorYellow,
-
-	Ui: &cli.BasicUi{
-		Reader:      os.Stdin,
-		Writer:      os.Stdout,
-		ErrorWriter: os.Stderr,
-	},
-}
+// var ui = &cli.ColoredUi{ //nolint:gochecknoglobals // UI is shared
+//   OutputColor: cli.UiColorNone,
+//   InfoColor:   cli.UiColorNone,
+//   ErrorColor:  cli.UiColorRed,
+//   WarnColor:   cli.UiColorYellow,
+//
+//   Ui: &cli.BasicUi{
+//     Reader:      os.Stdin,
+//     Writer:      os.Stdout,
+//     ErrorWriter: os.Stderr,
+//   },
+// }
 
 // rootCmd represents the base command when called without any subcommands.
 var rootCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
@@ -61,8 +60,7 @@ to quickly create a Cobra application.`,
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
-		ui.Error(err.Error())
-		os.Exit(genericExitCode)
+		ui.Fatal(err, genericExitCode)
 	}
 }
 
@@ -83,8 +81,7 @@ func initConfig() {
 		// Find home directory.
 		home, err := homedir.Dir()
 		if err != nil {
-			ui.Error(err.Error())
-			os.Exit(1)
+			ui.Fatal(err, genericExitCode)
 		}
 
 		// Search config in home directory with name ".devid" (without extension).

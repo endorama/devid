@@ -18,6 +18,7 @@ package cmd
 import (
 	"github.com/spf13/cobra"
 
+	"github.com/endorama/devid/cmd/ui"
 	"github.com/endorama/devid/internal/version"
 )
 

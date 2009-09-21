@@ -23,6 +23,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
+	"github.com/endorama/devid/cmd/ui"
 	"github.com/endorama/devid/internal/persona"
 	"github.com/endorama/devid/internal/plugin/manager"
 	"github.com/endorama/devid/plugins/identity"
@@ -47,13 +48,12 @@ If no persona is loaded print nothing and exit with code 128.
 
 		extended, err := cmd.Flags().GetBool("extended")
 		if err != nil {
-			ui.Error(fmt.Errorf("cannot access flag extended: %w", err).Error())
+			ui.Error(fmt.Errorf("cannot access flag extended: %w", err))
 		}
 		if extended {
 			p, err := persona.Load(currentPersona)
 			if err != nil {
-				ui.Error(fmt.Errorf("cannot instantiate persona: %w", err).Error())
-				os.Exit(1)
+				ui.Fatal(fmt.Errorf("cannot instantiate persona: %w", err), genericExitCode)
 			}
 
 			manager.LoadCorePlugins(p.Config)
