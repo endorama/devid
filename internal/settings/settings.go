@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"path"
 
 	"github.com/spf13/viper"
 )
@@ -23,7 +22,7 @@ func Init() {
 
 func setXDGBaseDirs() {
 	if name, ok := os.LookupEnv("XDG_DATA_HOME"); !ok || name == "" {
-		os.Setenv("XDG_DATA_HOME", path.Join(os.ExpandEnv("$HOME/.local/share")))
+		os.Setenv("XDG_DATA_HOME", os.ExpandEnv("$HOME/.local/share"))
 	}
 }
 

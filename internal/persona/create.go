@@ -10,6 +10,9 @@ import (
 	"gopkg.in/yaml.v1"
 )
 
+// Create creates specific persona configuration in the personas_location folder
+// It does not override an existing persona
+// If a folder with the same name exists but is not a persona, proceeds
 func Create(p Persona) error {
 	if p.Exists() {
 		return fmt.Errorf("Persona already exists")

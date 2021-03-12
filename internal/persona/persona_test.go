@@ -1,26 +1,31 @@
 package persona_test
 
 import (
-	"fmt"
 	"os"
 	"path"
 	"testing"
 
 	"github.com/endorama/devid/internal/persona"
+	"github.com/endorama/devid/internal/settings"
+	"github.com/spf13/viper"
 )
 
 func setupTestEnv() {
 	cwd, _ := os.Getwd()
-	personasLocation := path.Join(cwd, "..", "..", "test", "testdata")
-	os.Setenv("DEVID_PERSONAS_LOCATION", personasLocation)
+	personasLocation := path.Join(cwd, "..", "..", "test", "testdata", "profiles")
+	settings.Init()
+	viper.Set("personas_location", personasLocation)
+}
+
+func TestPersona(t *testing.T) {
+
 }
 
 func TestPersona_DoNotExistsWithoutFolder(t *testing.T) {
 	setupTestEnv()
 
-	p, _ := persona.New("donotexists", os.Getenv("DEVID_PERSONAS_LOCATION"))
+	p, _ := persona.New("donotexists", viper.GetString("personas_location"))
 
-	fmt.Println(p)
 	if p.Exists() {
 		t.Errorf("Persona.Exists() = %v, want %v", p.Exists(), false)
 	}
@@ -29,10 +34,19 @@ func TestPersona_DoNotExistsWithoutFolder(t *testing.T) {
 func TestPersona_DoNotExistsWithFolder(t *testing.T) {
 	setupTestEnv()
 
-	p, _ := persona.New("alice", os.Getenv("DEVID_PERSONAS_LOCATION"))
+	p, _ := persona.New("alice", viper.GetString("personas_location"))
 
-	fmt.Println(p)
 	if p.Exists() {
 		t.Errorf("Persona.Exists() = %v, want %v", p.Exists(), false)
+	}
+}
+
+func TestPersona_DoExists(t *testing.T) {
+	setupTestEnv()
+
+	p, _ := persona.New("bob", viper.GetString("personas_location"))
+
+	if !p.Exists() {
+		t.Errorf("Persona.Exists() = %v, want %v", p.Exists(), true)
 	}
 }
