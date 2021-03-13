@@ -8,6 +8,7 @@ import (
 	"github.com/endorama/devid/internal/persona"
 	"github.com/endorama/devid/internal/settings"
 	"github.com/spf13/viper"
+	"github.com/stretchr/testify/assert"
 )
 
 func setupTestEnv() {
@@ -17,7 +18,34 @@ func setupTestEnv() {
 	viper.Set("personas_location", personasLocation)
 }
 
-func TestPersona(t *testing.T) {
+func TestPersona_File(t *testing.T) {
+	setupTestEnv()
+
+	p, _ := persona.New("dan")
+
+	assert.Equal(t,
+		path.Join(viper.GetString("personas_location"), p.Name(), "config.yaml"),
+		p.File(), "they should be equal")
+}
+
+func TestPersona_Location(t *testing.T) {
+	setupTestEnv()
+
+	p, _ := persona.New("dan")
+
+	assert.Equal(t,
+		path.Join(viper.GetString("personas_location"), p.Name()),
+		p.Location(), "they should be equal")
+}
+
+func TestPersona_Name(t *testing.T) {
+	setupTestEnv()
+
+	p, _ := persona.New("charlie")
+
+	assert.Equal(t,
+		"charlie",
+		p.Name(), "they should be equal")
 
 }
 

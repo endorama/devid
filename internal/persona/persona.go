@@ -27,6 +27,9 @@ type Persona struct {
 	Plugins map[string]plugin.Pluggable `yaml:",omitempty"`
 }
 
+// Exists verify if a persona exists in the specified location
+// For a persona to exists the configuration file should be present
+// Persona configuration file is not validated
 func (p Persona) Exists() bool {
 	ok := utils.Exists(p.location)
 	if !ok {
