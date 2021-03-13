@@ -40,7 +40,7 @@ List all available personas.
 		}
 		for _, f := range files {
 			if f.IsDir() {
-				p, _ := persona.New(f.Name(), viper.GetString("personas_location"))
+				p, _ := persona.New(f.Name())
 				if p.Exists() {
 					fmt.Println(p.Name())
 				}

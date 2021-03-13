@@ -24,7 +24,7 @@ func TestPersona(t *testing.T) {
 func TestPersona_DoNotExistsWithoutFolder(t *testing.T) {
 	setupTestEnv()
 
-	p, _ := persona.New("donotexists", viper.GetString("personas_location"))
+	p, _ := persona.New("donotexists")
 
 	if p.Exists() {
 		t.Errorf("Persona.Exists() = %v, want %v", p.Exists(), false)
@@ -34,7 +34,7 @@ func TestPersona_DoNotExistsWithoutFolder(t *testing.T) {
 func TestPersona_DoNotExistsWithFolder(t *testing.T) {
 	setupTestEnv()
 
-	p, _ := persona.New("alice", viper.GetString("personas_location"))
+	p, _ := persona.New("alice")
 
 	if p.Exists() {
 		t.Errorf("Persona.Exists() = %v, want %v", p.Exists(), false)
@@ -44,7 +44,7 @@ func TestPersona_DoNotExistsWithFolder(t *testing.T) {
 func TestPersona_DoExists(t *testing.T) {
 	setupTestEnv()
 
-	p, _ := persona.New("bob", viper.GetString("personas_location"))
+	p, _ := persona.New("bob")
 
 	if !p.Exists() {
 		t.Errorf("Persona.Exists() = %v, want %v", p.Exists(), true)

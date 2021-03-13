@@ -7,7 +7,7 @@ import (
 )
 
 func TestPersonaNew(t *testing.T) {
-	p, _ := persona.New("test", "someplace")
+	p, _ := persona.NewWithCustomLocation("test", "someplace")
 
 	if p.Name() != "test" {
 		t.Errorf("p.Name() = %v, want %v", p.Name(), "test")
@@ -18,7 +18,7 @@ func TestPersonaNew(t *testing.T) {
 }
 
 func TestPersonaNew_Error(t *testing.T) {
-	_, err := persona.New("test", "someplace")
+	_, err := persona.NewWithCustomLocation("test", "someplace")
 	if err != nil {
 		t.Errorf("err should be nil, got %v", err)
 	}

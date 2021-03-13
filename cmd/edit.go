@@ -21,7 +21,6 @@ import (
 	"github.com/endorama/devid/internal/persona"
 	"github.com/endorama/devid/internal/utils"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 // editCmd represents the edit command
@@ -39,7 +38,7 @@ Open within EDITOR the specified persona configuration file.
 
 		name := args[0]
 
-		p, err := persona.New(name, viper.GetString("personas_location"))
+		p, err := persona.New(name)
 		if err != nil {
 			log.Fatal(err)
 		}

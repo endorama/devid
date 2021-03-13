@@ -21,7 +21,6 @@ import (
 	"github.com/endorama/devid/internal/persona"
 	"github.com/lu4p/shred"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 // deleteCmd represents the delete command
@@ -41,7 +40,7 @@ to quickly create a Cobra application.`,
 
 		name := args[0]
 
-		p, _ := persona.New(name, viper.GetString("personas_location"))
+		p, _ := persona.New(name)
 
 		shredconf := shred.Conf{Times: 3, Zeros: true, Remove: true}
 		err := shredconf.Dir(p.Location())

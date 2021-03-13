@@ -21,7 +21,6 @@ import (
 	"github.com/endorama/devid/internal/persona"
 	"github.com/endorama/devid/internal/utils"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 // newCmd represents the new command
@@ -58,7 +57,7 @@ func runCommand(args []string) {
 
 	name := args[0]
 	
-	p, _ := persona.New(name, viper.GetString("personas_location"))
+	p, _ := persona.New(name)
 
 	err := persona.Create(p)
 	if err != nil {
