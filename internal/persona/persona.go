@@ -1,6 +1,7 @@
 package persona
 
 import (
+	"fmt"
 	"path"
 
 	"github.com/endorama/devid/internal/plugin"
@@ -56,6 +57,11 @@ func (p Persona) Name() string {
 
 func (p Persona) Load() error {
 	return nil
+}
+
+// Whoami returns human readable identity information
+func (p Persona) Whoami() string {
+	return fmt.Sprintf("%s <%s>", p.Identity.Name, p.Identity.Email)
 }
 
 func (p Persona) loadPlugins() {}
