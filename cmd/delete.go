@@ -43,7 +43,8 @@ to quickly create a Cobra application.`,
 
 		p, _ := persona.New(name)
 
-		shredconf := shred.Conf{Times: 3, Zeros: true, Remove: true}
+		shredTimes := 3
+		shredconf := shred.Conf{Times: shredTimes, Zeros: true, Remove: true}
 		err := shredconf.Dir(p.Location())
 		if err != nil {
 			ui.Error(err.Error())

@@ -44,7 +44,8 @@ Encryption requires a passphrase that is automatically generated using a safe RN
 		ui.Output("backup called")
 		if currentPersona != "" {
 			petname.NonDeterministicMode()
-			passphrase := petname.Generate(6, "-")
+			passphraseLength := 6
+			passphrase := petname.Generate(passphraseLength, "-")
 
 			p, _ := persona.New(currentPersona)
 			if !p.Exists() {

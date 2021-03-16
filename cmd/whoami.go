@@ -40,7 +40,7 @@ If no persona is loaded print nothing and exit with code 128.
 
 		// there is no loaded profile
 		if currentProfile == "" {
-			os.Exit(128)
+			os.Exit(noPersonalLoadedExitCode)
 		}
 
 		if extended {
