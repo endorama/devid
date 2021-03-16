@@ -22,7 +22,6 @@ import (
 
 	petname "github.com/dustinkirkland/golang-petname"
 	"github.com/endorama/devid/internal/backup"
-	"github.com/endorama/devid/internal/backup/encrypted"
 	"github.com/endorama/devid/internal/persona"
 	"github.com/spf13/cobra"
 )
@@ -63,7 +62,7 @@ Encryption requires a passphrase that is automatically generated using a safe RN
 			if err != nil {
 				log.Fatalf("Cannot create backup task: %s", err)
 			}
-			err = encrypted.Backup(b, password)
+			err = backup.Perform(b, password)
 			if err != nil {
 				log.Fatalf(err.Error())
 			}
