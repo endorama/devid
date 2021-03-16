@@ -44,7 +44,7 @@ Encryption requires a passphrase that is automatically generated using a safe RN
 		fmt.Println("backup called")
 		if currentPersona != "" {
 			petname.NonDeterministicMode()
-			password := petname.Generate(6, "-")
+			passphrase := petname.Generate(6, "-")
 
 			p, _ := persona.New(currentPersona)
 			if !p.Exists() {
@@ -62,12 +62,12 @@ Encryption requires a passphrase that is automatically generated using a safe RN
 			if err != nil {
 				log.Fatalf("Cannot create backup task: %s", err)
 			}
-			err = backup.Perform(b, password)
+			err = backup.Perform(b, passphrase)
 			if err != nil {
 				log.Fatalf(err.Error())
 			}
 
-			fmt.Printf("Encryption passphrase is: %s", password)
+			fmt.Printf("Encryption passphrase is: %s", passphrase)
 		} else {
 			fmt.Println("Not yet implemented")
 			os.Exit(1)
