@@ -1,27 +1,65 @@
 package archive
 
 import (
-	"bytes"
+	"archive/tar"
 	"fmt"
 	"io"
+	"os"
 )
 
 // Create creates an encrypted gzipped tar archive file
 func Create(out io.Writer, files []string) error {
-	var targz bytes.Buffer
+	tw := tar.NewWriter(out)
+	defer tw.Close()
 
-	err := createArchive(files, &targz)
+	errs := []error{}
+	for _, file := range files {
+		err := addToArchive(tw, file)
+		if err != nil {
+			errs = append(errs, err)
+		}
+	}
 
+	if len(errs) != 0 {
+		return fmt.Errorf("cannot create archive: %s", errs)
+	}
+
+	return nil
+}
+
+func addToArchive(tw *tar.Writer, filename string) error {
+	file, err := os.Open(filename)
 	if err != nil {
-		return fmt.Errorf("cannot create archive: %w", err)
+		return err
 	}
-	//
-	if _, err := io.Copy(out, &targz); err != nil {
-		return fmt.Errorf("failed copying data: %w", err)
+	defer file.Close()
+
+	info, err := file.Stat()
+	if err != nil {
+		return err
 	}
-	// if err := w.Close(); err != nil {
-	//   return fmt.Errorf("failed closing writer: %w", err)
-	// }
-	//
+
+	// Create a tar Header from the FileInfo data
+	header, err := tar.FileInfoHeader(info, info.Name())
+	if err != nil {
+		return err
+	}
+
+	// NOTE: Use full path as name (FileInfoHeader only takes the basename)
+	// If we don't do this the directory structure would
+	// not be preserved
+	// https://golang.org/src/archive/tar/common.go?#L626
+	header.Name = filename
+
+	err = tw.WriteHeader(header)
+	if err != nil {
+		return err
+	}
+
+	_, err = io.Copy(tw, file)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
