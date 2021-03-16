@@ -47,7 +47,7 @@ devid list ✔
   List all available personas
 devid edit <persona name> ✔
   Open within EDITOR the specified persona configuration file
-devid delete <persona name>
+devid delete <persona name> ✔
   Delete a persona, securely removing all configurations
 devid rehash <persona name>
   Recreate the configuration used by shell and run commands
@@ -57,12 +57,12 @@ devid shell --persona=<persona name>
 devid run --persona=<persona name> <command>
   Run a one-off script in the specific persona environment
 
-devid whoami
+devid whoami ✔
   Print current persona name on stdout or exit with error if no persona is loaded
 
-devid backup <persona name>
+devid backup --persona=<persona name> ✔
   Backup the specified persona configurations & files
-devid restore <persona name> --from-file=<backup file path>
+devid restore --persona=<persona name> --from-file=<backup file path>
   Restore the specified backup file in the specified persona
 
 devid plugin list
@@ -70,9 +70,9 @@ devid plugin list
 devid plugin active [--persona=<persona name>]
   List active plugins for current persona (or specified persona)
 
-devid help
+devid help ✔
   Print help text
-devid version
+devid version ✔
   Print cli version
 ```
 
