@@ -54,7 +54,7 @@ Encryption requires a passphrase that is automatically generated using a safe RN
 
 			out, err := os.Create(fmt.Sprintf("%s.tar.gz.age", p.Name()))
 			if err != nil {
-				log.Fatalf(fmt.Errorf("cannot create archive: %w", err).Error())
+				log.Fatalf(fmt.Errorf("cannot create file: %w", err).Error())
 			}
 			defer out.Close()
 
