@@ -1,10 +1,8 @@
 package backup
 
-import (
-	"os"
-)
+import "io"
 
 // NewTask initialize a Task
-func NewTask(name, source string, destination *os.File) (Task, error) {
-	return Task{name, source, destination}, nil
+func NewTask(name, source string, out io.Writer) (Task, error) {
+	return Task{name, source, out}, nil
 }
