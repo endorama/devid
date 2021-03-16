@@ -16,8 +16,6 @@ limitations under the License.
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/endorama/devid/internal/version"
 	"github.com/spf13/cobra"
 )
@@ -28,7 +26,7 @@ var versionCmd = &cobra.Command{
 	Short: "Print version information",
 	Long:  `Print version information bundled with the program.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println(version.BuildString())
+		ui.Output(version.BuildString())
 	},
 }
 

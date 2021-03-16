@@ -21,11 +21,25 @@ import (
 
 	"github.com/spf13/cobra"
 
+	"github.com/mitchellh/cli"
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/viper"
 )
 
 var cfgFile string
+
+var ui = &cli.ColoredUi{
+	OutputColor: cli.UiColorNone,
+	InfoColor:   cli.UiColorNone,
+	ErrorColor:  cli.UiColorRed,
+	WarnColor:   cli.UiColorYellow,
+
+	Ui: &cli.BasicUi{
+		Reader:      os.Stdin,
+		Writer:      os.Stdout,
+		ErrorWriter: os.Stderr,
+	},
+}
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{

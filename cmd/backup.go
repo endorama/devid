@@ -41,7 +41,7 @@ Encryption requires a passphrase that is automatically generated using a safe RN
 `,
 	Args: cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("backup called")
+		ui.Output("backup called")
 		if currentPersona != "" {
 			petname.NonDeterministicMode()
 			passphrase := petname.Generate(6, "-")
@@ -50,26 +50,29 @@ Encryption requires a passphrase that is automatically generated using a safe RN
 			if !p.Exists() {
 				log.Fatalf("persona does not exists")
 			}
-			fmt.Printf("Creating backup for persona: %s\n", p.Name())
+			ui.Output(fmt.Sprintf("Creating backup for persona: %s\n", p.Name()))
 
 			out, err := os.Create(fmt.Sprintf("%s.tar.gz.age", p.Name()))
 			if err != nil {
-				log.Fatalf(fmt.Errorf("cannot create file: %w", err).Error())
+				ui.Error(fmt.Errorf("cannot create file: %w", err).Error())
+				os.Exit(genericExitCode)
 			}
 			defer out.Close()
 
 			b, err := backup.NewTask(p.Name(), p.Location(), out)
 			if err != nil {
-				log.Fatalf("Cannot create backup task: %s", err)
+				ui.Error(fmt.Sprintf("Cannot create backup task: %s", err))
+				os.Exit(genericExitCode)
 			}
 			err = backup.Perform(b, passphrase)
 			if err != nil {
-				log.Fatalf(err.Error())
+				ui.Error(err.Error())
+				os.Exit(genericExitCode)
 			}
 
-			fmt.Printf("Encryption passphrase is: %s", passphrase)
+			ui.Output(fmt.Sprintf("Encryption passphrase is: %s", passphrase))
 		} else {
-			fmt.Println("Not yet implemented")
+			ui.Output("Not yet implemented")
 			os.Exit(1)
 		}
 	},

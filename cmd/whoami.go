@@ -48,7 +48,7 @@ If no persona is loaded print nothing and exit with code 128.
 			currentProfile = fmt.Sprintf("%s (%s)", currentProfile, p.Whoami())
 		}
 
-		fmt.Print(currentProfile)
+		ui.Output(currentProfile)
 		os.Exit(0)
 	},
 }

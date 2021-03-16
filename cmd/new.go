@@ -16,7 +16,7 @@ limitations under the License.
 package cmd
 
 import (
-	"log"
+	"os"
 
 	"github.com/endorama/devid/internal/persona"
 	"github.com/endorama/devid/internal/utils"
@@ -52,20 +52,23 @@ func init() {
 
 func runCommand(args []string) {
 	if len(args) != 1 {
-		log.Fatalf("Argument NAME required")
+		ui.Error("Argument NAME required")
+		os.Exit(genericExitCode)
 	}
 
 	name := args[0]
-	
+
 	p, _ := persona.New(name)
 
 	err := persona.Create(p)
 	if err != nil {
-		log.Fatal(err.Error())
+		ui.Error(err.Error())
+		os.Exit(genericExitCode)
 	}
 
 	err = utils.OpenWithEditor(p.File())
 	if err != nil {
-		log.Fatal(err.Error())
+		ui.Error(err.Error())
+		os.Exit(genericExitCode)
 	}
 }
