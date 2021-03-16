@@ -1,0 +1,17 @@
+# https://docs.codecov.io/docs/
+
+coverage:
+  status:
+    project:
+      default:
+        informational: true
+        target: auto
+        threshold: 10%
+    patch:
+      default:
+        target: auto
+        threshold: 10%
+
+codecov:
+  require_ci_to_pass: false
+
