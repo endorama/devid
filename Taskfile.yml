@@ -3,9 +3,22 @@
 version: '3'
 
 vars:
-  GREETING: Hello, World!
+  GIT_BRANCH:
+    sh: git rev-parse --abbrev-ref HEAD
+  GIT_COMMIT:
+    sh: git log -n 1 --format=%h
 
 tasks:
   build:
     cmds:
-      - go build --mod=vendor
+      - task: build:dev
+
+  build:dev:
+    cmds:
+      - |
+        go build --mod=vendor 
+          -ldflags="-s -w 
+            -X github.com/endorama/devid/internal/version.version={{.VERSION}} 
+            -X github.com/endorama/devid/internal/version.commit={{.GIT_COMMIT}}"
+    vars:
+      VERSION: "{{.GIT_BRANCH}}"
