@@ -59,7 +59,10 @@ Encryption requires a passphrase that is automatically generated using a safe RN
 			}
 			defer out.Close()
 
-			b := backup.New(p.Name(), p.Location(), out)
+			b, err := backup.NewTask(p.Name(), p.Location(), out)
+			if err != nil {
+				log.Fatalf("Cannot create backup task: %s", err)
+			}
 			err = encrypted.Backup(b, password)
 			if err != nil {
 				log.Fatalf(err.Error())
