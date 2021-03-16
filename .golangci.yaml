@@ -1,0 +1,20 @@
+linters:
+  disable-all: true # implied by presets
+  presets:
+    - bugs
+    - complexity
+    - format
+    - performance
+    - style
+    - unused
+  fast: false
+
+linters-settings:
+  gocyclo:
+    min-complexity: 10
+  cyclop:
+    max-complexity: 10
+  goimports:
+    # put imports beginning with prefix after 3rd-party packages;
+    # it's a comma-separated list of prefixes
+    local-prefixes: github.com/endorama/devid
