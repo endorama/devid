@@ -16,9 +16,10 @@ tasks:
   build:dev:
     cmds:
       - |
-        go build --mod=vendor 
-          -ldflags="-s -w 
+        go build --mod=vendor -ldflags="-s -w 
             -X github.com/endorama/devid/internal/version.version={{.VERSION}} 
-            -X github.com/endorama/devid/internal/version.commit={{.GIT_COMMIT}}"
+            -X github.com/endorama/devid/internal/version.commit={{.GIT_COMMIT}}{{.GIT_DIRTY}}"
     vars:
       VERSION: "{{.GIT_BRANCH}}"
+      GIT_DIRTY:
+        sh: "[[ -z $(git status --porcelain) ]] || echo '-dirty'"
