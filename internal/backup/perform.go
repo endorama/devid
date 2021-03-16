@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/endorama/devid/internal/archive"
+	encryptedarchive "github.com/endorama/devid/internal/archive/encrypted"
 )
 
 // Perform create an encrypted backup archive from the specified set of files, using the
@@ -12,17 +12,10 @@ import (
 // before creating the file.
 // Archive will be created in the current folder
 // func EncryptedBackup(name, password, cwd string, files []string) error {
-func Perform(b Task) error {
-	// create output file
-	out, err := os.Create(fmt.Sprintf("%s.tar.gz", b.Name))
-	if err != nil {
-		return fmt.Errorf("cannot create archive: %w", err)
-	}
-	defer out.Close()
-
-	// change folder to specified location, so is possible to use relative
-	// paths in the archive
-	err = os.Chdir(b.Source)
+func Perform(b Task, passphrase string) error {
+	// NOTE: change folder to source location, as b.Files() return relative
+	// paths for files to be added to the archive
+	err := os.Chdir(b.Source)
 	if err != nil {
 		return err
 	}
@@ -31,8 +24,8 @@ func Perform(b Task) error {
 	if err != nil {
 		return fmt.Errorf("failed retrieving files to backup: %w", err)
 	}
-	// perform archive creation, compression
-	err = archive.Create(out, files)
+
+	err = encryptedarchive.Create(b.Destination, files, passphrase)
 	if err != nil {
 		return fmt.Errorf("failed creating encrypted backup archive: %w", err)
 	}
