@@ -18,9 +18,10 @@ package cmd
 import (
 	"os"
 
+	"github.com/spf13/cobra"
+
 	"github.com/endorama/devid/internal/persona"
 	"github.com/endorama/devid/internal/utils"
-	"github.com/spf13/cobra"
 )
 
 // editCmd represents the edit command

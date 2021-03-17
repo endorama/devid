@@ -18,9 +18,10 @@ package cmd
 import (
 	"os"
 
-	"github.com/endorama/devid/internal/persona"
 	"github.com/lu4p/shred"
 	"github.com/spf13/cobra"
+
+	"github.com/endorama/devid/internal/persona"
 )
 
 // deleteCmd represents the delete command

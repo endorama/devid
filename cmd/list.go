@@ -20,9 +20,10 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/endorama/devid/internal/persona"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+
+	"github.com/endorama/devid/internal/persona"
 )
 
 // listCmd represents the list command

@@ -19,8 +19,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/endorama/devid/internal/persona"
 	"github.com/spf13/cobra"
+
+	"github.com/endorama/devid/internal/persona"
 )
 
 var (

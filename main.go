@@ -19,9 +19,10 @@ import (
 	"log"
 	"os"
 
+	"github.com/spf13/viper"
+
 	"github.com/endorama/devid/cmd"
 	"github.com/endorama/devid/internal/settings"
-	"github.com/spf13/viper"
 )
 
 func main() {

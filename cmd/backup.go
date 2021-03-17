@@ -21,9 +21,10 @@ import (
 	"os"
 
 	petname "github.com/dustinkirkland/golang-petname"
+	"github.com/spf13/cobra"
+
 	"github.com/endorama/devid/internal/backup"
 	"github.com/endorama/devid/internal/persona"
-	"github.com/spf13/cobra"
 )
 
 var (

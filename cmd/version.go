@@ -16,8 +16,9 @@ limitations under the License.
 package cmd
 
 import (
-	"github.com/endorama/devid/internal/version"
 	"github.com/spf13/cobra"
+
+	"github.com/endorama/devid/internal/version"
 )
 
 // versionCmd represents the version command

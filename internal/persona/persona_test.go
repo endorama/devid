@@ -5,10 +5,11 @@ import (
 	"path"
 	"testing"
 
-	"github.com/endorama/devid/internal/persona"
-	"github.com/endorama/devid/internal/settings"
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/endorama/devid/internal/persona"
+	"github.com/endorama/devid/internal/settings"
 )
 
 func setupTestEnv() {

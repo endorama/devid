@@ -10,7 +10,7 @@ import (
 func Test_envPrefix(t *testing.T) {
 	os.Setenv("FOO", "notsomewhere")
 	os.Setenv("DEVID_FOO", "somewhere")
-	
+
 	Init()
 
 	if viper.GetString("foo") != "somewhere" {
@@ -94,4 +94,3 @@ func Test_expandEnvs(t *testing.T) {
 		})
 	}
 }
-

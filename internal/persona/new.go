@@ -11,16 +11,15 @@ func New(name string) (Persona, error) {
 
 	return Persona{
 		APIVersion: apiVersion,
-		location: path.Join(location, name),
-		name: name,
+		location:   path.Join(location, name),
+		name:       name,
 	}, nil
 }
 
 func NewWithCustomLocation(name, location string) (Persona, error) {
 	return Persona{
 		APIVersion: apiVersion,
-		location: path.Join(location, name),
-		name: name,
+		location:   path.Join(location, name),
+		name:       name,
 	}, nil
 }
-

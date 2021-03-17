@@ -5,6 +5,7 @@ import (
 	"io"
 
 	"filippo.io/age"
+
 	compressedarchive "github.com/endorama/devid/internal/archive/compressed"
 )
 
