@@ -10,8 +10,7 @@ import (
 // Perform create an encrypted backup archive from the specified set of files, using the
 // specified passphrase. To support relative paths, it allows a cwd parameter to change directory
 // before creating the file.
-// Archive will be created in the current folder
-// func EncryptedBackup(name, password, cwd string, files []string) error {
+// Archive will be created in the current folder.
 func Perform(b Task, passphrase string) error {
 	// NOTE: change folder to source location, as b.Files() return relative
 	// paths for files to be added to the archive

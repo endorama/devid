@@ -24,7 +24,7 @@ import (
 	"github.com/endorama/devid/internal/utils"
 )
 
-// newCmd represents the new command
+// newCmd represents the new command.
 var newCmd = &cobra.Command{
 	Use:   "new",
 	Short: "Create a new (empty) persona",

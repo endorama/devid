@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-// Create creates an encrypted gzipped tar archive file
+// Create creates an encrypted gzipped tar archive file.
 func Create(out io.Writer, files []string) error {
 	tw := tar.NewWriter(out)
 	defer tw.Close()

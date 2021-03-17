@@ -28,7 +28,7 @@ var (
 	extended bool
 )
 
-// whoamiCmd represents the whoami command
+// whoamiCmd represents the whoami command.
 var whoamiCmd = &cobra.Command{
 	Use:   "whoami",
 	Short: "Print current loaded persona",

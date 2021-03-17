@@ -13,7 +13,7 @@ const (
 	filename   = "config.yaml"
 )
 
-// Persona holds the entire persona information
+// Persona holds the entire persona information.
 type Persona struct {
 	// Version string allows to check for compatibility of the Persona configuration
 	APIVersion string `yaml:"apiVersion"`
@@ -30,7 +30,7 @@ type Persona struct {
 
 // Exists verify if a persona exists in the specified location
 // For a persona to exists the configuration file should be present
-// Persona configuration file is not validated
+// Persona configuration file is not validated.
 func (p Persona) Exists() bool {
 	ok := utils.Exists(p.location)
 	if !ok {
@@ -40,17 +40,17 @@ func (p Persona) Exists() bool {
 	return ok
 }
 
-// File return profile configuration file path
+// File return profile configuration file path.
 func (p Persona) File() string {
 	return path.Join(p.location, filename)
 }
 
-// Location return persona's folder
+// Location return persona's folder.
 func (p Persona) Location() string {
 	return p.location
 }
 
-// Name return persona's name
+// Name return persona's name.
 func (p Persona) Name() string {
 	return p.name
 }
@@ -59,7 +59,7 @@ func (p Persona) Load() error {
 	return nil
 }
 
-// Whoami returns human readable identity information
+// Whoami returns human readable identity information.
 func (p Persona) Whoami() string {
 	return fmt.Sprintf("%s <%s>", p.Identity.Name, p.Identity.Email)
 }

@@ -9,7 +9,7 @@ import (
 	compressedarchive "github.com/endorama/devid/internal/archive/compressed"
 )
 
-// Create creates an encrypted compressed tar archive
+// Create creates an encrypted compressed tar archive.
 func Create(out io.Writer, files []string, password string) error {
 	r, err := age.NewScryptRecipient(password)
 	if err != nil {

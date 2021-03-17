@@ -41,7 +41,7 @@ var ui = &cli.ColoredUi{
 	},
 }
 
-// rootCmd represents the base command when called without any subcommands
+// rootCmd represents the base command when called without any subcommands.
 var rootCmd = &cobra.Command{
 	Use:   "devid",
 	Short: "A brief description of your application",

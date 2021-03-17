@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-// Task contains required information for backup operation
+// Task contains required information for backup operation.
 type Task struct {
 	// Name is the name of the backup task
 	Name string
@@ -18,7 +18,7 @@ type Task struct {
 	Destination io.Writer
 }
 
-// Files retrieves list of files to backup by walking Source
+// Files retrieves list of files to backup by walking Source.
 func (b Task) Files() ([]string, error) {
 	files := []string{}
 

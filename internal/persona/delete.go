@@ -6,7 +6,7 @@ import (
 )
 
 // Delete deletes specified persona configuration
-// It does not delete files within the persona's folder
+// It does not delete files within the persona's folder.
 func Delete(p Persona) error {
 	if !p.Exists() {
 		return nil

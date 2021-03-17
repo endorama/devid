@@ -24,7 +24,7 @@ import (
 	"github.com/endorama/devid/internal/utils"
 )
 
-// editCmd represents the edit command
+// editCmd represents the edit command.
 var editCmd = &cobra.Command{
 	Use:   "edit",
 	Short: "Edit a persona definition file in your $EDITOR",

@@ -8,7 +8,7 @@ import (
 	"github.com/endorama/devid/internal/archive"
 )
 
-// Create creates a compressed tar archive file
+// Create creates a compressed tar archive file.
 func Create(out io.Writer, files []string) error {
 	gw := gzip.NewWriter(out)
 	defer gw.Close()

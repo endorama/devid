@@ -26,7 +26,7 @@ import (
 	"github.com/endorama/devid/internal/persona"
 )
 
-// listCmd represents the list command
+// listCmd represents the list command.
 var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List all available personas",

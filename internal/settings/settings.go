@@ -8,7 +8,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-// Init initialize settings and default values
+// Init initialize settings and default values.
 func Init() {
 	viper.AutomaticEnv()
 	viper.SetEnvPrefix("DEVID")
@@ -43,13 +43,13 @@ func readConfigFile() {
 	}
 }
 
-// setConstants allow setting configuration values that MUST NOT be available in the config file
+// setConstants allow setting configuration values that MUST NOT be available in the config file.
 func setConstants() {
 	viper.Set("shell_loader_filename", "load.sh")
 	viper.Set("shell_runner_filename", "run.sh")
 }
 
-// expandEnvs perform environment variable environment on specific configuration values
+// expandEnvs perform environment variable environment on specific configuration values.
 func expandEnvs() {
 	viper.Set("personas_location",
 		os.ExpandEnv(viper.GetString("personas_location")))

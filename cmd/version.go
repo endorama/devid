@@ -21,7 +21,7 @@ import (
 	"github.com/endorama/devid/internal/version"
 )
 
-// versionCmd represents the version command
+// versionCmd represents the version command.
 var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "Print version information",

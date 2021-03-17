@@ -27,11 +27,7 @@ import (
 	"github.com/endorama/devid/internal/persona"
 )
 
-var (
-	currentPersona string
-)
-
-// backupCmd represents the backup command
+// backupCmd represents the backup command.
 var backupCmd = &cobra.Command{
 	Use:   "backup",
 	Short: "Create encrypted backup of personas",
