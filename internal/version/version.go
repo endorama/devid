@@ -5,8 +5,8 @@ import (
 )
 
 var (
-	version = "master"
-	commit  = "unknown"
+	version = "master"  //nolint:gochecknoglobals
+	commit  = "unknown" //nolint:gochecknoglobals
 )
 
 // BuildString returns full version information.

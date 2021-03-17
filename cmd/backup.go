@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+// nolint:gochecknoglobals
 package cmd
 
 import (
@@ -39,6 +40,7 @@ Encryption requires a passphrase that is automatically generated using a safe RN
 	Args: cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
 		ui.Output("backup called")
+		currentPersona := cmd.Flags().Lookup("persona").Value.String()
 		if currentPersona != "" {
 			petname.NonDeterministicMode()
 			passphraseLength := 6
@@ -87,5 +89,5 @@ func init() {
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	backupCmd.Flags().StringVar(&currentPersona, "persona", "", "The persona to backup")
+	backupCmd.Flags().String("persona", "", "The persona to backup")
 }
