@@ -30,19 +30,19 @@ func Create(out io.Writer, files []string) error {
 func addToArchive(tw *tar.Writer, filename string) error {
 	file, err := os.Open(filename)
 	if err != nil {
-		return err
+		return fmt.Errorf("cannot open file: %w", err)
 	}
 	defer file.Close()
 
 	info, err := file.Stat()
 	if err != nil {
-		return err
+		return fmt.Errorf("cannot stat file: %w", err)
 	}
 
 	// Create a tar Header from the FileInfo data
 	header, err := tar.FileInfoHeader(info, info.Name())
 	if err != nil {
-		return err
+		return fmt.Errorf("cannot create tar file header: %w", err)
 	}
 
 	// NOTE: Use full path as name (FileInfoHeader only takes the basename)
@@ -53,12 +53,12 @@ func addToArchive(tw *tar.Writer, filename string) error {
 
 	err = tw.WriteHeader(header)
 	if err != nil {
-		return err
+		return fmt.Errorf("cannot write tar header: %w", err)
 	}
 
 	_, err = io.Copy(tw, file)
 	if err != nil {
-		return err
+		return fmt.Errorf("cannot copy file to tar: %w", err)
 	}
 
 	return nil

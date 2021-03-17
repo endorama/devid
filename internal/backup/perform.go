@@ -16,7 +16,7 @@ func Perform(b Task, passphrase string) error {
 	// paths for files to be added to the archive
 	err := os.Chdir(b.Source)
 	if err != nil {
-		return err
+		return fmt.Errorf("cannot change dir: %w", err)
 	}
 
 	files, err := b.Files()

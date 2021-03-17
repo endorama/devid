@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"fmt"
 	"os"
 	"os/exec"
 )
@@ -14,5 +15,5 @@ func OpenWithEditor(path string) error {
 	editor.Stdout = os.Stdout
 
 	err := editor.Run()
-	return err
+	return fmt.Errorf("cannot run $EDITOR: %w", err)
 }
