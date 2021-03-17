@@ -30,7 +30,7 @@ func Create(p Persona) error {
 		return fmt.Errorf("cannot marshal yaml: %w", err)
 	}
 
-	err = ioutil.WriteFile(path.Join(p.Location(), filename), d, 0644)
+	err = ioutil.WriteFile(path.Join(p.Location(), filename), d, 0600)
 	if err != nil {
 		return fmt.Errorf("cannot write file: %w", err)
 	}
