@@ -1,12 +1,90 @@
+output:
+  unique-by-line: false
+
 linters:
   disable-all: true # implied by presets
-  presets:
-    - bugs
-    - complexity
-    - format
-    - performance
-    - style
+  enable:
+    # bugs
+    - asciicheck
+    - bodyclose
+    - errcheck
+    - errorlint
+    # - exhaustive
+    - exportloopref
+    - gosec
+    - govet
+    - makezero
+    - noctx
+    - rowserrcheck
+    # - scopelint
+    - sqlclosecheck
+    - staticcheck
+    - typecheck
+    # complexity
+    - cyclop
+    - gocognit
+    - gocyclo
+    - nakedret
+    - nestif
+    # format
+    - gofmt
+    # - gofumpt
+    - goimports
+    # performance
+    # - bodyclose
+    # - maligned
+    - noctx
+    - prealloc
+    # - rowserrcheck
+    # style
+    - asciicheck
+    - depguard
+    - dogsled
+    - dupl
+    # - exhaustivestruct
+    - forbidigo
+    - forcetypeassert
+    - funlen
+    - gochecknoglobals
+    - gochecknoinits
+    - goconst
+    - gocritic
+    - godot
+    - godox
+    - goerr113
+    - goheader
+    - golint
+    - gomnd
+    - gomodguard
+    - goprintffuncname
+    - gosimple
+    - ifshort
+    - importas
+    # - interfacer
+    - lll
+    - makezero
+    - misspell
+    - nlreturn
+    - nolintlint
+    - paralleltest
+    - predeclared
+    - revive
+    - stylecheck
+    - testpackage
+    - thelper
+    # - tparallel
+    - unconvert
+    - wastedassign
+    - whitespace
+    - wrapcheck
+    - wsl
+    # unused
+    - deadcode
+    - ineffassign
+    - structcheck
+    - unparam
     - unused
+    - varcheck
   fast: false
 
 linters-settings:
@@ -18,3 +96,7 @@ linters-settings:
     # put imports beginning with prefix after 3rd-party packages;
     # it's a comma-separated list of prefixes
     local-prefixes: github.com/endorama/devid
+  nolintlint:
+    allow-unused: true
+    require-explanation: true
+    require-specific: true
