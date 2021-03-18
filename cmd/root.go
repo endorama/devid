@@ -26,9 +26,9 @@ import (
 	"github.com/spf13/viper"
 )
 
-var cfgFile string
+var cfgFile string //nolint:gochecknoglobals // required for init
 
-var ui = &cli.ColoredUi{
+var ui = &cli.ColoredUi{ //nolint:gochecknoglobals // UI is shared
 	OutputColor: cli.UiColorNone,
 	InfoColor:   cli.UiColorNone,
 	ErrorColor:  cli.UiColorRed,

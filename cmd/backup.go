@@ -39,7 +39,10 @@ Encryption requires a passphrase that is automatically generated using a safe RN
 	Args: cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
 		ui.Output("backup called")
-		currentPersona := cmd.Flags().Lookup("persona").Value.String()
+		currentPersona, err := cmd.Flags().GetString("persona")
+		if err != nil {
+			ui.Error(fmt.Errorf("cannot access flag currentPersona: %w", err).Error())
+		}
 		if currentPersona != "" {
 			petname.NonDeterministicMode()
 			passphraseLength := 6

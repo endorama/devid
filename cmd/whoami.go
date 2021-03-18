@@ -24,10 +24,6 @@ import (
 	"github.com/endorama/devid/internal/persona"
 )
 
-var (
-	extended bool
-)
-
 // whoamiCmd represents the whoami command.
 var whoamiCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 	Use:   "whoami",
@@ -44,6 +40,10 @@ If no persona is loaded print nothing and exit with code 128.
 			os.Exit(noPersonalLoadedExitCode)
 		}
 
+		extended, err := cmd.Flags().GetBool("extended")
+		if err != nil {
+			ui.Error(fmt.Errorf("cannot access flag extended: %w", err).Error())
+		}
 		if extended {
 			p, _ := persona.New(currentProfile)
 			currentProfile = fmt.Sprintf("%s (%s)", currentProfile, p.Whoami())
@@ -57,5 +57,5 @@ If no persona is loaded print nothing and exit with code 128.
 func init() { //nolint:gochecknoinits // required by cobra
 	rootCmd.AddCommand(whoamiCmd)
 
-	whoamiCmd.Flags().BoolVarP(&extended, "extended", "e", false, "Print extended identity information")
+	whoamiCmd.Flags().BoolP("extended", "e", false, "Print extended identity information")
 }
