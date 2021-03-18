@@ -60,6 +60,6 @@ Open within EDITOR the specified persona configuration file.
 	},
 }
 
-func init() {
+func init() { //nolint:gochecknoinits // required by cobra
 	rootCmd.AddCommand(editCmd)
 }

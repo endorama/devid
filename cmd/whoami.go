@@ -55,7 +55,7 @@ If no persona is loaded print nothing and exit with code 128.
 	},
 }
 
-func init() {
+func init() { //nolint:gochecknoinits // required by cobra
 	rootCmd.AddCommand(whoamiCmd)
 
 	whoamiCmd.Flags().BoolVarP(&extended, "extended", "e", false, "Print extended identity information")

@@ -53,6 +53,6 @@ List all available personas.
 	},
 }
 
-func init() {
+func init() { //nolint:gochecknoinits // required by cobra
 	rootCmd.AddCommand(listCmd)
 }

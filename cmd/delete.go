@@ -55,6 +55,6 @@ to quickly create a Cobra application.`,
 	},
 }
 
-func init() {
+func init() { //nolint:gochecknoinits // required by cobra
 	rootCmd.AddCommand(deleteCmd)
 }

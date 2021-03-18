@@ -38,7 +38,7 @@ Create a new persona configuration file, opens it within EDITOR.
 	},
 }
 
-func init() {
+func init() { //nolint:gochecknoinits // required by cobra
 	rootCmd.AddCommand(newCmd)
 }
 
