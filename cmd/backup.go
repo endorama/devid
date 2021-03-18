@@ -34,7 +34,8 @@ var backupCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 	Long: `Create encrypted backup of personas.
 
 The backup is compressed (.tar.gz) and encrypted using age (filippo.io/age).
-Encryption requires a passphrase that is automatically generated using a safe RNG function and printed after backup creation.
+Encryption requires a passphrase that is automatically generated using a safe 
+RNG function and printed after backup creation.
 `,
 	Args: cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
