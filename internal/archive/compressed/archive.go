@@ -15,7 +15,7 @@ func Create(out io.Writer, files []string) error {
 
 	err := archive.Create(gw, files)
 	if err != nil {
-		return fmt.Errorf("cannot create compressed archive: %s", err)
+		return fmt.Errorf("cannot create compressed archive: %w", err)
 	}
 
 	return nil

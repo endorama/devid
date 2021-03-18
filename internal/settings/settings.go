@@ -1,6 +1,7 @@
 package settings
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -36,7 +37,8 @@ func readConfigFile() {
 	viper.AddConfigPath(os.ExpandEnv("$XDG_CONFIG_HOME/devid"))
 
 	if err := viper.ReadInConfig(); err != nil {
-		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
+		var cfgNotFoundErr *viper.ConfigFileNotFoundError
+		if errors.As(err, &cfgNotFoundErr) {
 			log.Println("no config file found")
 		} else {
 			log.Fatalf(fmt.Errorf("cannot read config file: %w", err).Error())
