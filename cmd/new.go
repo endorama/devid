@@ -13,7 +13,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-// nolint:gochecknoglobals
 package cmd
 
 import (
@@ -26,7 +25,7 @@ import (
 )
 
 // newCmd represents the new command.
-var newCmd = &cobra.Command{
+var newCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 	Use:   "new",
 	Short: "Create a new (empty) persona",
 	Long: `devid new <persona name>

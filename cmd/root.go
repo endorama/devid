@@ -13,7 +13,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-// nolint:gochecknoglobals
 package cmd
 
 import (
@@ -43,7 +42,7 @@ var ui = &cli.ColoredUi{
 }
 
 // rootCmd represents the base command when called without any subcommands.
-var rootCmd = &cobra.Command{
+var rootCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 	Use:   "devid",
 	Short: "A brief description of your application",
 	Long: `A longer description that spans multiple lines and likely contains

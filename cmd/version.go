@@ -13,7 +13,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-// nolint:gochecknoglobals
 package cmd
 
 import (
@@ -23,7 +22,7 @@ import (
 )
 
 // versionCmd represents the version command.
-var versionCmd = &cobra.Command{
+var versionCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 	Use:   "version",
 	Short: "Print version information",
 	Long:  `Print version information bundled with the program.`,

@@ -13,7 +13,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-// nolint:gochecknoglobals
 package cmd
 
 import (
@@ -26,7 +25,7 @@ import (
 )
 
 // editCmd represents the edit command.
-var editCmd = &cobra.Command{
+var editCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 	Use:   "edit",
 	Short: "Edit a persona definition file in your $EDITOR",
 	Long: `devid edit <persona name>

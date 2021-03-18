@@ -13,7 +13,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-// nolint:gochecknoglobals
 package cmd
 
 import (
@@ -30,7 +29,7 @@ var (
 )
 
 // whoamiCmd represents the whoami command.
-var whoamiCmd = &cobra.Command{
+var whoamiCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 	Use:   "whoami",
 	Short: "Print current loaded persona",
 	Long: `Print current loaded persona.

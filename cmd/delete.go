@@ -13,7 +13,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-// nolint:gochecknoglobals
 package cmd
 
 import (
@@ -26,7 +25,7 @@ import (
 )
 
 // deleteCmd represents the delete command.
-var deleteCmd = &cobra.Command{
+var deleteCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 	Use:   "delete",
 	Short: "A brief description of your command",
 	Long: `A longer description that spans multiple lines and likely contains examples

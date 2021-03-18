@@ -13,7 +13,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-// nolint:gochecknoglobals
 package cmd
 
 import (
@@ -28,7 +27,7 @@ import (
 )
 
 // listCmd represents the list command.
-var listCmd = &cobra.Command{
+var listCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 	Use:   "list",
 	Short: "List all available personas",
 	Long: `devid list

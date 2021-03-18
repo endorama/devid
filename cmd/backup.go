@@ -13,7 +13,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-//nolint:gochecknoglobals
 package cmd
 
 import (
@@ -29,7 +28,7 @@ import (
 )
 
 // backupCmd represents the backup command.
-var backupCmd = &cobra.Command{
+var backupCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 	Use:   "backup",
 	Short: "Create encrypted backup of personas",
 	Long: `Create encrypted backup of personas.
