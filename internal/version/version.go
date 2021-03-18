@@ -5,8 +5,8 @@ import (
 )
 
 var (
-	version = "master"  //nolint:gochecknoglobals
-	commit  = "unknown" //nolint:gochecknoglobals
+	version = "master"  //nolint:gochecknoglobals // global required to be overridden at build time
+	commit  = "unknown" //nolint:gochecknoglobals // global required to be overridden at build time
 )
 
 // BuildString returns full version information.
