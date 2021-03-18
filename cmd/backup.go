@@ -80,14 +80,5 @@ Encryption requires a passphrase that is automatically generated using a safe RN
 
 func init() {
 	rootCmd.AddCommand(backupCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// backupCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
 	backupCmd.Flags().String("persona", "", "The persona to backup")
 }

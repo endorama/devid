@@ -36,7 +36,9 @@ func (p Persona) Exists() bool {
 	if !ok {
 		return false
 	}
+
 	ok = utils.Exists(p.File())
+
 	return ok
 }
 

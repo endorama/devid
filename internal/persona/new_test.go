@@ -12,6 +12,7 @@ func TestPersonaNew(t *testing.T) {
 	if p.Name() != "test" {
 		t.Errorf("p.Name() = %v, want %v", p.Name(), "test")
 	}
+
 	if p.Location() != "someplace/test" {
 		t.Errorf("p.Location() = %v, want %v", p.Location(), "someplace/test")
 	}

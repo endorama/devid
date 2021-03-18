@@ -20,6 +20,7 @@ func Create(p Persona) error {
 
 	if _, err := os.Stat(p.Location()); os.IsNotExist(err) {
 		log.Printf("%s does not exists, creating\n", p.Location())
+
 		if err := os.Mkdir(p.Location(), 0755); err != nil {
 			return fmt.Errorf("cannot create directory: %w", err)
 		}

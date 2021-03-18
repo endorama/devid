@@ -34,6 +34,7 @@ func readConfigFile() {
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath(os.ExpandEnv("$XDG_CONFIG_HOME/devid"))
+
 	if err := viper.ReadInConfig(); err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
 			log.Println("no config file found")

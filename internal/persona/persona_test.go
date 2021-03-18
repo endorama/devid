@@ -15,6 +15,7 @@ import (
 func setupTestEnv() {
 	cwd, _ := os.Getwd()
 	personasLocation := path.Join(cwd, "..", "..", "test", "testdata", "profiles")
+
 	settings.Init()
 	viper.Set("personas_location", personasLocation)
 }

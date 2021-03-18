@@ -26,6 +26,7 @@ func (b Task) Files() ([]string, error) {
 	if os.IsNotExist(err) {
 		return files, fmt.Errorf("folder does not exists: %w", err)
 	}
+
 	if !info.IsDir() {
 		return files, fmt.Errorf("source is not a folder")
 	}
@@ -41,11 +42,14 @@ func (b Task) Files() ([]string, error) {
 				files = append(files,
 					strings.ReplaceAll(path, fmt.Sprintf("%s/", b.Source), ""))
 			}
+
 			return nil
 		})
+
 	if err != nil {
 		return files, fmt.Errorf("backup source walk failed: %w", err)
 	}
+
 	if len(walkErrs) != 0 {
 		return files, fmt.Errorf("errors walking source: %s", walkErrs)
 	}

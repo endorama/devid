@@ -13,6 +13,7 @@ func Create(out io.Writer, files []string) error {
 	defer tw.Close()
 
 	errs := []error{}
+
 	for _, file := range files {
 		err := addToArchive(tw, file)
 		if err != nil {

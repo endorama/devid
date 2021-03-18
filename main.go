@@ -37,6 +37,7 @@ func createPersonasFolder() {
 	loc := viper.GetString("personas_location")
 	if _, err := os.Stat(loc); os.IsNotExist(err) {
 		log.Printf("%s does not exists, creating\n", loc)
+
 		if err := os.Mkdir(loc, 0755); err != nil {
 			log.Fatal(err)
 		}
