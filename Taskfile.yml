@@ -23,3 +23,7 @@ tasks:
       VERSION: "{{.GIT_BRANCH}}"
       GIT_DIRTY:
         sh: "[[ -z $(git status --porcelain) ]] || echo '-dirty'"
+
+  tests:
+    cmds:
+      - go test ./... -v
