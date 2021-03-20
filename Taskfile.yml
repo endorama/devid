@@ -9,6 +9,14 @@ vars:
     sh: git log -n 1 --format=%h
 
 tasks:
+  default:
+    cmds:
+      - task: run
+
+  deps:
+    cmds:
+      - go mod vendor
+
   build:
     cmds:
       - task: build:dev
@@ -24,6 +32,23 @@ tasks:
       GIT_DIRTY:
         sh: "[[ -z $(git status --porcelain) ]] || echo '-dirty'"
 
-  tests:
+  lint:
     cmds:
-      - go test ./... -v
+      - golangci-lint run
+
+  run:
+    desc: Build and run the web app
+    cmds:
+      - task: build
+      - ./devid{{.EXE}}
+
+  tests:
+    desc: Run entire testsuite
+    cmds:
+      - go test ./...
+
+  tests:single:
+    desc: Run a single test, specify with RUN
+    cmds:
+      - go test -v ./... -run {{.RUN}}
+
