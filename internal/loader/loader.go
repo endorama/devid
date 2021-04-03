@@ -5,10 +5,11 @@ import (
 	"io/ioutil"
 	"log"
 
+	"gopkg.in/yaml.v1"
+
 	"github.com/endorama/devid/internal/persona"
 	"github.com/endorama/devid/internal/plugin"
 	"github.com/endorama/devid/plugins/identity"
-	"gopkg.in/yaml.v1"
 )
 
 func LoadPlugins(p *persona.Persona) error {

@@ -3,8 +3,9 @@ package persona
 import (
 	"path"
 
-	"github.com/endorama/devid/internal/plugin"
 	"github.com/spf13/viper"
+
+	"github.com/endorama/devid/internal/plugin"
 )
 
 func New(name string) (Persona, error) {

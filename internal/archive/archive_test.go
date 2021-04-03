@@ -5,9 +5,10 @@ import (
 	"bytes"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/endorama/devid/internal/archive"
 	"github.com/endorama/devid/internal/utils"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestArchive_Create(t *testing.T) {
