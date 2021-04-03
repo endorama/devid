@@ -21,12 +21,13 @@ import (
 	"os"
 	"path"
 
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
+
 	"github.com/endorama/devid/internal/generate"
 	"github.com/endorama/devid/internal/loader"
 	"github.com/endorama/devid/internal/persona"
 	"github.com/endorama/devid/internal/utils"
-	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 // rehashCmd represents the rehash command.

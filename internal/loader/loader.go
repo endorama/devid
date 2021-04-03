@@ -5,9 +5,10 @@ import (
 	"fmt"
 	"io/ioutil"
 
+	"gopkg.in/yaml.v1"
+
 	"github.com/endorama/devid/internal/persona"
 	"github.com/endorama/devid/plugins/identity"
-	"gopkg.in/yaml.v1"
 )
 
 var errUnsupportedAPIVersion = errors.New("unsupported API version")

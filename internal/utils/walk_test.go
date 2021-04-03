@@ -3,8 +3,9 @@ package utils_test
 import (
 	"testing"
 
-	"github.com/endorama/devid/internal/utils"
 	"github.com/stretchr/testify/require"
+
+	"github.com/endorama/devid/internal/utils"
 )
 
 func TestWalk(t *testing.T) {
