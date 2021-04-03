@@ -21,9 +21,6 @@ type Persona struct {
 	location string `yaml:"-"`
 	name     string `yaml:"-"`
 
-	// Identity contains identifying information for this persona
-	Identity Identity
-
 	// Plugins contains a map of Pluggable
 	Plugins map[string]plugin.Pluggable `yaml:",omitempty"`
 }
@@ -63,7 +60,7 @@ func (p Persona) Load() error {
 
 // Whoami returns human readable identity information.
 func (p Persona) Whoami() string {
-	return fmt.Sprintf("%s <%s>", p.Identity.Name, p.Identity.Email)
+	return p.name
 }
 
 func (p Persona) loadPlugins() {}
