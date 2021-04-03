@@ -6,12 +6,6 @@ type Pluggable interface {
 	Name() string
 }
 
-
-// Setuppable interface allow a plugin to perform setup steps before rendering.
-type Setuppable interface {
-	Setup(name string) error
-}
-
 // Configurable interface allow a plugin to load configuration from the profile
 // folder.
 type Configurable interface {
@@ -29,4 +23,9 @@ type Generator interface {
 // and runner files.
 type Renderable interface {
 	Render(name, location string) string
+}
+
+// Setuppable interface allow a plugin to perform setup steps before rendering.
+type Setuppable interface {
+	Setup(name string) error
 }
