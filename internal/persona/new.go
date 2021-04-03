@@ -3,6 +3,7 @@ package persona
 import (
 	"path"
 
+	"github.com/endorama/devid/internal/plugin"
 	"github.com/spf13/viper"
 )
 
@@ -13,6 +14,7 @@ func New(name string) (Persona, error) {
 		APIVersion: apiVersion,
 		location:   path.Join(location, name),
 		name:       name,
+		Plugins:    make(map[string]plugin.Pluggable),
 	}, nil
 }
 
@@ -21,5 +23,6 @@ func NewWithCustomLocation(name, location string) (Persona, error) {
 		APIVersion: apiVersion,
 		location:   path.Join(location, name),
 		name:       name,
+		Plugins:    make(map[string]plugin.Pluggable),
 	}, nil
 }
