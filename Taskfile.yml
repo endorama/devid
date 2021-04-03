@@ -13,11 +13,8 @@ tasks:
     cmds:
       - task: run
 
-  deps:
-    cmds:
-      - go mod vendor
-
   build:
+    desc: Build the project
     cmds:
       - task: build:dev
 
@@ -32,15 +29,27 @@ tasks:
       GIT_DIRTY:
         sh: "[[ -z $(git status --porcelain) ]] || echo '-dirty'"
 
+  deps:
+    desc: Vendor mod dependencies
+    cmds:
+      - go mod vendor
+
+  go-imports:
+    desc: Perform goimports
+    cmds:
+      - goimports -w -local github.com/endorama/devid *.go cmd internal plugins test
+
   lint:
+    desc: Lint go code
     cmds:
       - golangci-lint run
 
   run:
     desc: Build and run the web app
     cmds:
-      - task: build
-      - ./devid{{.EXE}}
+      - go run . {{.CLI_ARGS}}
+    env:
+      DEVID_PERSONAS_LOCATION: ./test/
 
   tests:
     desc: Run entire testsuite
