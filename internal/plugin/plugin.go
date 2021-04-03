@@ -10,8 +10,7 @@ type Pluggable interface {
 // folder.
 type Configurable interface {
 	Config() interface{}
-	ConfigFile(location string) string
-	LoadConfig(location string) error
+	LoadConfig(configFile []byte) error
 }
 
 // Generator interface allow a plugin to generate content before rendering.
