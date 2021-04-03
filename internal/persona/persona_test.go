@@ -54,14 +54,8 @@ func TestPersona_Whoami(t *testing.T) {
 	setupTestEnv()
 
 	p, _ := persona.New("charlie")
-	p.Identity = persona.Identity{
-		Name:  "Charlie Chaplin",
-		Email: "charliechaplin@example.com",
-	}
 
-	assert.Equal(t,
-		"Charlie Chaplin <charliechaplin@example.com>",
-		p.Whoami(), "they should be equal")
+	assert.Equal(t, "charlie", p.Whoami(), "they should be equal")
 }
 
 func TestPersona_DoNotExistsWithoutFolder(t *testing.T) {
