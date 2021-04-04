@@ -10,7 +10,11 @@ func PersistFile(path, content string) error {
 	}
 	defer file.Close()
 
-	file.WriteString(content)
+	_, err = file.WriteString(content)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -21,6 +25,10 @@ func PersistExecutableFile(path, content string) error {
 		return err
 	}
 
-	os.Chmod(path, 0700)
+	err = os.Chmod(path, 0700)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
