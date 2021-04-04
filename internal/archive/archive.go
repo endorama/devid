@@ -2,10 +2,13 @@ package archive
 
 import (
 	"archive/tar"
+	"errors"
 	"fmt"
 	"io"
 	"os"
 )
+
+var errCreateArchive = errors.New("cannot create archive")
 
 // Create creates an encrypted gzipped tar archive file.
 func Create(out io.Writer, files []string) error {
@@ -22,7 +25,7 @@ func Create(out io.Writer, files []string) error {
 	}
 
 	if len(errs) != 0 {
-		return fmt.Errorf("cannot create archive: %s", errs)
+		return fmt.Errorf("%w: %s", errCreateArchive, errs)
 	}
 
 	return nil
