@@ -38,7 +38,7 @@ func createPersonasFolder() {
 	if _, err := os.Stat(loc); os.IsNotExist(err) {
 		log.Printf("%s does not exists, creating\n", loc)
 
-		if err := os.Mkdir(loc, 0755); err != nil {
+		if err := os.MkdirAll(loc, 0755); err != nil {
 			log.Fatal(err)
 		}
 	}
