@@ -7,13 +7,17 @@ import (
 	"os/exec"
 )
 
-var errEditorValueNotAllowed = errors.New("$EDITOR value is not allowed")
+var errEditorValueNotAllowed = errors.New("$EDITOR environment variable value is not allowed")
 
 // OpenWithEditor open the specified path with the EDITOR set in the corresponding environment
 // variable.
 func OpenWithEditor(path string) error {
 	editorCmd := os.ExpandEnv("$EDITOR")
 	if !isEditorAllowed(editorCmd) {
+		if editorCmd == "" {
+			return fmt.Errorf("%w, is empty", errEditorValueNotAllowed)
+		}
+
 		return fmt.Errorf("%w (%s)", errEditorValueNotAllowed, editorCmd)
 	}
 
