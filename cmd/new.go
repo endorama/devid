@@ -62,6 +62,9 @@ func runCommand(args []string) {
 
 	err = utils.OpenWithEditor(p.File())
 	if err != nil {
+		// deleting the created persona so new does not error the second time is run
+		_ = persona.Delete(p)
+
 		ui.Error(err.Error())
 		os.Exit(genericExitCode)
 	}
