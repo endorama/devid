@@ -16,6 +16,7 @@ limitations under the License.
 package cmd
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -28,10 +29,12 @@ import (
 var newCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 	Use:   "new",
 	Short: "Create a new (empty) persona",
-	Long: `devid new <persona name>
+	Long: fmt.Sprintf(`devid new <persona name>
 
 Create a new persona configuration file, opens it within EDITOR.
-`,
+
+Allowed EDITOR values: %s
+`, utils.AllowedEditors),
 	Run: func(cmd *cobra.Command, args []string) {
 		runCommand(args)
 	},

@@ -30,16 +30,19 @@ func OpenWithEditor(path string) error {
 	return nil
 }
 
+// AllowerdEditors is a list of allowed values for the EDITOR environment variable.
+var AllowedEditors = []string{
+	"/bin/ed",
+	"/bin/nano",
+	"/usr/bin/vim",
+	"nano",
+	"vim",
+}
+
 // isEditorAllowed solve gosec:G204(Audit use of command execution) by sanitizing the values of
 // $EDITOR environment value to prevent arbitrary command injection.
 func isEditorAllowed(editorCmd string) bool {
-	allowedEditorCmds := []string{
-		"/bin/ed",
-		"/bin/nano",
-		"/usr/bin/vim",
-		"nano",
-		"vim",
-	}
+	allowedEditorCmds := AllowedEditors
 
 	return containsString(allowedEditorCmds, editorCmd)
 }
