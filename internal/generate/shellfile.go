@@ -49,6 +49,7 @@ func ShellLoader(p persona.Persona) (string, error) {
 
 	sb := strings.Builder{}
 
+	log.Println(p.Plugins)
 	for _, plg := range p.Plugins {
 		if renderablePlugin, ok := plg.(plugin.Renderable); ok {
 			log.Println(fmt.Sprintf("rendering plugin: %s", plg.Name()))

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"log"
 
 	"gopkg.in/yaml.v1"
 
@@ -25,6 +26,7 @@ func LoadPlugins(p *persona.Persona) error {
 		Plugins    []string `yaml:"plugins"`
 	}
 
+	log.Println(string(yamlFile))
 	err = yaml.Unmarshal(yamlFile, &fromConfig)
 	if err != nil {
 		return fmt.Errorf("cannot unmarshal yaml file: %w", err)
@@ -35,8 +37,10 @@ func LoadPlugins(p *persona.Persona) error {
 	}
 
 	p.APIVersion = fromConfig.APIVersion
+	log.Println(fromConfig)
 
 	for _, pluginName := range fromConfig.Plugins {
+		log.Println(pluginName)
 		switch pluginName {
 		case identity.PluginName:
 			p.EnablePlugin(identity.NewPlugin())
