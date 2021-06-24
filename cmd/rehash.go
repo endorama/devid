@@ -77,7 +77,7 @@ var rehashCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 				os.Exit(1)
 			}
 
-			log.Println(content)
+			log.Printf("%+v\n", content)
 
 			shellLoaderFilePath := path.Join(p.Location(), viper.GetString("shell_loader_filename"))
 			err = utils.PersistFile(shellLoaderFilePath, content)
