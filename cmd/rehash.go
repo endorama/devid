@@ -25,8 +25,8 @@ import (
 	"github.com/spf13/viper"
 
 	"github.com/endorama/devid/internal/generate"
-	"github.com/endorama/devid/internal/loader"
 	"github.com/endorama/devid/internal/persona"
+	"github.com/endorama/devid/internal/plugin"
 	"github.com/endorama/devid/internal/utils"
 )
 
@@ -61,13 +61,15 @@ var rehashCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 				ui.Error("persona does not exists")
 			}
 
-			err = loader.LoadPlugins(&p)
+			config, err := plugin.LoadConfigFromFile(p.File())
 			if err != nil {
-				ui.Error(fmt.Errorf("cannot load persona: %w", err).Error())
+				ui.Error(fmt.Errorf("cannot load configuration from file (%s): %w", p.File(), err).Error())
 				os.Exit(1)
 			}
 
-			log.Println(p)
+			p.Config = config
+
+			log.Printf("%+v\n", p)
 
 			content, err := generate.ShellLoader(p)
 			if err != nil {
