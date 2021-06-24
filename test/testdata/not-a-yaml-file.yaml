@@ -1,0 +1,4 @@
+test:
+  foo: bar
+# wrong indentation to trigger parser error
+ hello: world
