@@ -8,20 +8,18 @@ import (
 )
 
 const (
-	apiVersion = "v1"
-	filename   = "config.yaml"
+	filename = "config.yaml"
 )
 
 // Persona holds the entire persona information.
 type Persona struct {
-	// Version string allows to check for compatibility of the Persona configuration
-	APIVersion string `yaml:"apiVersion"`
-
-	location string `yaml:"-"`
-	name     string `yaml:"-"`
+	location string
+	name     string
 
 	// Plugins contains a map of Pluggable
-	Plugins map[string]plugin.Pluggable `yaml:",omitempty"`
+	Plugins map[string]plugin.Pluggable
+
+	Config plugin.Config
 }
 
 // Exists verify if a persona exists in the specified location

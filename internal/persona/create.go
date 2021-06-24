@@ -29,7 +29,7 @@ func Create(p Persona) error {
 		}
 	}
 
-	d, err := yaml.Marshal(&p)
+	d, err := yaml.Marshal(&p.Config)
 	if err != nil {
 		return fmt.Errorf("cannot marshal yaml: %w", err)
 	}
