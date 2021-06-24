@@ -11,12 +11,7 @@ import (
 func New(name string) (Persona, error) {
 	location := viper.GetString("personas_location")
 
-	return Persona{
-		APIVersion: apiVersion,
-		location:   path.Join(location, name),
-		name:       name,
-		Plugins:    make(map[string]plugin.Pluggable),
-	}, nil
+	return NewWithCustomLocation(name, location)
 }
 
 func NewWithCustomLocation(name, location string) (Persona, error) {
