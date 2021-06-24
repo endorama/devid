@@ -1,6 +1,0 @@
----
-id: test-persona
-identity:
-  email: persona@example.com
-  name: Foo Persona
-plugins:
