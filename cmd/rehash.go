@@ -27,6 +27,7 @@ import (
 	"github.com/endorama/devid/internal/generate"
 	"github.com/endorama/devid/internal/persona"
 	"github.com/endorama/devid/internal/plugin"
+	"github.com/endorama/devid/internal/plugin/manager"
 	"github.com/endorama/devid/internal/utils"
 )
 
@@ -68,6 +69,17 @@ var rehashCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 			}
 
 			p.Config = config
+
+			err, errs := manager.LoadCorePlugins(p.File())
+			if err != nil {
+				ui.Error(err.Error())
+
+				for _, e := range errs {
+					ui.Error(e.Error())
+				}
+
+				os.Exit(pluginManagerCoreLoadingErrorExitCode)
+			}
 
 			log.Printf("%+v\n", p)
 
