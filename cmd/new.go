@@ -22,6 +22,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/endorama/devid/internal/persona"
+	"github.com/endorama/devid/internal/plugin/manager"
 	"github.com/endorama/devid/internal/utils"
 )
 
@@ -42,6 +43,8 @@ Allowed EDITOR values: %s
 
 func init() { //nolint:gochecknoinits // required by cobra
 	rootCmd.AddCommand(newCmd)
+
+	// add --overwrite to overwrite already existing profile
 }
 
 func runCommand(args []string) {
@@ -54,7 +57,18 @@ func runCommand(args []string) {
 
 	p, _ := persona.New(name)
 
-	err := persona.Create(p)
+	err, errs := manager.LoadCorePlugins(p.File())
+	if err != nil {
+		ui.Error(err.Error())
+
+		for _, e := range errs {
+			ui.Error(e.Error())
+		}
+
+		os.Exit(pluginManagerCoreLoadingErrorExitCode)
+	}
+
+	err = persona.Create(p)
 	if err != nil {
 		ui.Error(err.Error())
 		os.Exit(genericExitCode)

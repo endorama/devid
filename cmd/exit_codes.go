@@ -1,4 +1,7 @@
 package cmd
 
-const genericExitCode = 1
-const noPersonalLoadedExitCode = 128
+const (
+	genericExitCode                       = 1
+	noPersonalLoadedExitCode              = 128
+	pluginManagerCoreLoadingErrorExitCode = 129
+)
