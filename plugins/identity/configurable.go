@@ -18,8 +18,7 @@ func (p Plugin) Config() interface{} {
 func (p *Plugin) LoadConfig(configFile []byte) error {
 	var config struct {
 		Identity struct {
-			Email string `yaml:"email"`
-			Name  string `yaml:"name"`
+			Config
 		}
 	}
 
@@ -28,10 +27,7 @@ func (p *Plugin) LoadConfig(configFile []byte) error {
 		return fmt.Errorf("cannot unmarshal config file: %w", err)
 	}
 
-	p.config = Config{
-		Email: config.Identity.Email,
-		Name:  config.Identity.Name,
-	}
+	p.config = config.Identity.Config
 
 	return nil
 }
