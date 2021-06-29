@@ -12,6 +12,7 @@ import (
 
 	"github.com/endorama/devid/internal/persona"
 	"github.com/endorama/devid/internal/plugin"
+	"github.com/endorama/devid/internal/plugin/manager"
 )
 
 const activeProfile = "DEVID_ACTIVE_PROFILE"
@@ -45,14 +46,13 @@ func ShellLoader(p persona.Persona) (string, error) {
 		return "", fmt.Errorf("cannot create shellLoaderFile template: %w", err)
 	}
 
-	log.Println(tmpl)
+	log.Printf("%+v", tmpl)
+	log.Printf("%+v", manager.Plugins())
 
 	sb := strings.Builder{}
-
-	log.Println(p.Plugins)
-	for _, plg := range p.Plugins {
+	for _, plg := range manager.Plugins() {
 		if renderablePlugin, ok := plg.(plugin.Renderable); ok {
-			log.Println(fmt.Sprintf("rendering plugin: %s", plg.Name()))
+			log.Printf("rendering plugin: %s", plg.Name())
 			sb.WriteString(fmt.Sprintf("# plugin %s\n", plg.Name()))
 			sb.WriteString(renderablePlugin.Render(p.Name(), p.Location()))
 		}
