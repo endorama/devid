@@ -10,14 +10,14 @@ import (
 
 // DeregisterPlugin removes a plugin from the global plugin directory.
 func DeregisterPlugin(plg plugin.Pluggable) error {
-	enabledPlugins[plg.Name()] = nil
+	pluginsDirectory[plg.Name()] = nil
 
 	return nil
 }
 
 // RegisterPlugin register a plugin instance in the global plugin directory.
 func RegisterPlugin(plg plugin.Pluggable, config []byte) error {
-	enabledPlugins[plg.Name()] = plg
+	pluginsDirectory[plg.Name()] = plg
 
 	if configurablePlugin, ok := plg.(plugin.Configurable); ok {
 		err := configurablePlugin.LoadConfig(config)
