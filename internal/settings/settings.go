@@ -9,6 +9,11 @@ import (
 	"github.com/spf13/viper"
 )
 
+const (
+	ActivePersonaEnv     = "DEVID_ACTIVE_PERSONA"
+	ActivePersonaPathEnv = "DEVID_ACTIVE_PERSONA_PATH"
+)
+
 // Init initialize settings and default values.
 func Init() {
 	viper.AutomaticEnv()

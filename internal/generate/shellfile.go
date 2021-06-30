@@ -13,10 +13,8 @@ import (
 	"github.com/endorama/devid/internal/persona"
 	"github.com/endorama/devid/internal/plugin"
 	"github.com/endorama/devid/internal/plugin/manager"
+	"github.com/endorama/devid/internal/settings"
 )
-
-const activeProfile = "DEVID_ACTIVE_PROFILE"
-const activeProfilePath = "DEVENV_ACTIVE_PROFILE_PATH"
 
 //go:embed load.sh.txt
 // nolint:gochecknoglobals // required by embed
@@ -25,16 +23,16 @@ var shellLoader string
 // ShellLoader generate profile shell loader file.
 func ShellLoader(p persona.Persona) (string, error) {
 	data := struct {
-		ActiveProfile     string
-		ActiveProfilePath string
+		ActivePersona     string
+		ActivePersonaPath string
 		Name              string
 		Date              string
 		Location          string
 		RenderedPlugins   string
 		Shell             string
 	}{
-		ActiveProfile:     activeProfile,
-		ActiveProfilePath: activeProfilePath,
+		ActivePersona:     settings.ActivePersonaEnv,
+		ActivePersonaPath: settings.ActivePersonaPathEnv,
 		Name:              p.Name(),
 		Date:              time.Now().Format(time.RFC822),
 		Location:          p.Location(),
