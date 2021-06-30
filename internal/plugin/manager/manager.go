@@ -8,13 +8,15 @@ import (
 	"github.com/endorama/devid/internal/utils"
 )
 
-func DisablePlugin(plg plugin.Pluggable) error {
+// DeregisterPlugin removes a plugin from the global plugin directory.
+func DeregisterPlugin(plg plugin.Pluggable) error {
 	enabledPlugins[plg.Name()] = nil
 
 	return nil
 }
 
-func EnablePlugin(plg plugin.Pluggable, config []byte) error {
+// RegisterPlugin register a plugin instance in the global plugin directory.
+func RegisterPlugin(plg plugin.Pluggable, config []byte) error {
 	enabledPlugins[plg.Name()] = plg
 
 	if configurablePlugin, ok := plg.(plugin.Configurable); ok {
@@ -40,10 +42,10 @@ func LoadCorePlugins(configFile string) ([]error, error) {
 		return errs, fmt.Errorf("failed loading core plugins: %w", err)
 	}
 
-	for _, initFn := range corePlugins {
+	for _, initFn := range plugin.Core {
 		plg := initFn()
 
-		err := EnablePlugin(plg, yamlFile)
+		err := RegisterPlugin(plg, yamlFile)
 		if err != nil {
 			errs = append(errs, err)
 		}
