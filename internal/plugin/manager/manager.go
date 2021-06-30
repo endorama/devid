@@ -27,7 +27,9 @@ func EnablePlugin(plg plugin.Pluggable, config []byte) error {
 	return nil
 }
 
-func LoadCorePlugins(configFile string) (error, []error) {
+// LoadCorePlugins instantiate and register all core plugins, configuring them using the values
+// from the provided configuration file.
+func LoadCorePlugins(configFile string) ([]error, error) {
 	log.SetPrefix("core-plugins-loader ")
 	defer log.SetPrefix("")
 
@@ -35,7 +37,7 @@ func LoadCorePlugins(configFile string) (error, []error) {
 
 	yamlFile, err := utils.ReadFile(configFile)
 	if err != nil {
-		return fmt.Errorf("failed loading core plugins: %w", err), errs
+		return errs, fmt.Errorf("failed loading core plugins: %w", err)
 	}
 
 	for _, initFn := range corePlugins {
@@ -47,14 +49,16 @@ func LoadCorePlugins(configFile string) (error, []error) {
 		}
 	}
 
-	return nil, errs
+	return errs, nil
 }
 
-func LoadOptionalPlugins() (error, []error) {
+// LoadOptionalPlugins instantiate and register all optional plugins, configuring them using the
+// values from the provided configuration file.
+func LoadOptionalPlugins() ([]error, error) {
 	log.SetPrefix("optional-plugins-loader ")
 	defer log.SetPrefix("")
 
 	errs := []error{}
 
-	return nil, errs
+	return errs, nil
 }

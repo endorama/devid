@@ -57,7 +57,7 @@ func runCommand(args []string) {
 
 	p, _ := persona.New(name)
 
-	err, errs := manager.LoadCorePlugins(p.File())
+	errs, err := manager.LoadCorePlugins(p.File())
 	if err != nil {
 		ui.Error(err.Error())
 
