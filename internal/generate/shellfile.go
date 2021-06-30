@@ -41,6 +41,9 @@ func ShellLoader(p persona.Persona) (string, error) {
 		Shell:             os.Getenv("SHELL"),
 	}
 
+	log.SetPrefix("shell-loader-generator ")
+	defer log.SetPrefix("")
+
 	tmpl, err := template.New("shellLoaderFile").Parse(shellLoader)
 	if err != nil {
 		return "", fmt.Errorf("cannot create shellLoaderFile template: %w", err)
