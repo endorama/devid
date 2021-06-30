@@ -4,8 +4,8 @@
 # Please remember that running 'devid rehash --persona {{.Name}}' will 
 # overwrite this file :)
 
-if [ "${{.ActiveProfile}}" != "" ]; then
-	echo "A profile is already loaded (${{.ActiveProfile}}). Loading a new profile on top may leak credentials."
+if [ "${{.ActivePersona}}" != "" ]; then
+	echo "A profile is already loaded (${{.ActivePersona}}). Loading a new profile on top may leak credentials."
 	echo "Are you sure you want to continue?"
 	select yn in "Yes" "No"; do
 		case $yn in
@@ -14,12 +14,12 @@ if [ "${{.ActiveProfile}}" != "" ]; then
 		esac
 	done
 fi
-if [ "${{.ActiveProfile}}" == "{{.Name}}" ]; then
+if [ "${{.ActivePersona}}" == "{{.Name}}" ]; then
 	echo "This profile is already loaded, stopping."
 	exit 0
 fi
-export {{.ActiveProfile}}='{{.Name}}'
-export {{.ActiveProfilePath}}='{{.Location}}'
+export {{.ActivePersona}}='{{.Name}}'
+export {{.ActivePersonaPath}}='{{.Location}}'
  
 # plugins BEGIN ##################
 {{.RenderedPlugins}}
