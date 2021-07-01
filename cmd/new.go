@@ -57,6 +57,12 @@ func runCommand(args []string) {
 
 	p, _ := persona.New(name)
 
+	err := persona.Create(p)
+	if err != nil {
+		ui.Error(err.Error())
+		os.Exit(genericExitCode)
+	}
+
 	errs, err := manager.LoadCorePlugins(p.File())
 	if err != nil {
 		ui.Error(err.Error())
@@ -68,10 +74,15 @@ func runCommand(args []string) {
 		os.Exit(pluginManagerCoreLoadingErrorExitCode)
 	}
 
-	err = persona.Create(p)
+	errs, err = manager.SetupPlugins(p)
 	if err != nil {
 		ui.Error(err.Error())
-		os.Exit(genericExitCode)
+
+		for _, e := range errs {
+			ui.Error(e.Error())
+		}
+
+		os.Exit(pluginManagerSetupErrorExitCode)
 	}
 
 	err = utils.OpenWithEditor(p.File())
