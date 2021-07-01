@@ -40,7 +40,7 @@ func PersistExecutableFile(path, content string) error {
 func ReadFile(path string) ([]byte, error) {
 	content, err := ioutil.ReadFile(path)
 	if err != nil {
-		return []byte{}, fmt.Errorf("cannot read file at %s: %w", path, err)
+		return []byte{}, fmt.Errorf("cannot read file: %w", err)
 	}
 
 	return content, nil

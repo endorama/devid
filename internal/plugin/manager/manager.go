@@ -20,6 +20,8 @@ func RegisterPlugin(plg plugin.Pluggable, config []byte) error {
 	pluginsDirectory[plg.Name()] = plg
 
 	if configurablePlugin, ok := plg.(plugin.Configurable); ok {
+		log.Printf("loading config for: %s", plg.Name())
+
 		err := configurablePlugin.LoadConfig(config)
 		if err != nil {
 			return fmt.Errorf("loading plugin configuration failed: %w", err)
@@ -42,7 +44,9 @@ func LoadCorePlugins(configFile string) ([]error, error) {
 		return errs, fmt.Errorf("failed loading core plugins: %w", err)
 	}
 
-	for _, initFn := range plugin.Core {
+	for name, initFn := range plugin.Core {
+		log.Printf("running for: %s", name)
+
 		plg := initFn()
 
 		err := RegisterPlugin(plg, yamlFile)
