@@ -70,7 +70,7 @@ var rehashCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 
 			p.Config = config
 
-			errs, err := manager.LoadCorePlugins(p.File())
+			errs, err := manager.LoadCorePlugins(p.Config)
 			if err != nil {
 				ui.Error(err.Error())
 

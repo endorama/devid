@@ -10,7 +10,7 @@ type Pluggable interface {
 // folder.
 type Configurable interface {
 	Config() interface{}
-	LoadConfig(configFile []byte) error
+	LoadConfig(configFile Config) error
 }
 
 // Generator interface allow a plugin to generate content before rendering.
@@ -28,3 +28,6 @@ type Renderable interface {
 type Setuppable interface {
 	Setup(name string) error
 }
+
+// PluggableInstantiator is a proxy type for the init function for a plugin.
+type PluggableInstantiator func() Pluggable

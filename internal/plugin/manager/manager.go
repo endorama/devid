@@ -5,7 +5,6 @@ import (
 	"log"
 
 	"github.com/endorama/devid/internal/plugin"
-	"github.com/endorama/devid/internal/utils"
 )
 
 // DeregisterPlugin removes a plugin from the global plugin directory.
@@ -16,7 +15,7 @@ func DeregisterPlugin(plg plugin.Pluggable) error {
 }
 
 // RegisterPlugin register a plugin instance in the global plugin directory.
-func RegisterPlugin(plg plugin.Pluggable, config []byte) error {
+func RegisterPlugin(plg plugin.Pluggable, config plugin.Config) error {
 	pluginsDirectory[plg.Name()] = plg
 
 	if configurablePlugin, ok := plg.(plugin.Configurable); ok {
@@ -33,23 +32,18 @@ func RegisterPlugin(plg plugin.Pluggable, config []byte) error {
 
 // LoadCorePlugins instantiate and register all core plugins, configuring them using the values
 // from the provided configuration file.
-func LoadCorePlugins(configFile string) ([]error, error) {
+func LoadCorePlugins(config plugin.Config) ([]error, error) {
 	log.SetPrefix("core-plugins-loader ")
 	defer log.SetPrefix("")
 
 	errs := []error{}
-
-	yamlFile, err := utils.ReadFile(configFile)
-	if err != nil {
-		return errs, fmt.Errorf("failed loading core plugins: %w", err)
-	}
 
 	for name, initFn := range Core {
 		log.Printf("running for: %s", name)
 
 		plg := initFn()
 
-		err := RegisterPlugin(plg, yamlFile)
+		err := RegisterPlugin(plg, config)
 		if err != nil {
 			errs = append(errs, err)
 		}

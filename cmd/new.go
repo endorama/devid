@@ -63,7 +63,7 @@ func runCommand(args []string) {
 		os.Exit(genericExitCode)
 	}
 
-	errs, err := manager.LoadCorePlugins(p.File())
+	errs, err := manager.LoadCorePlugins(p.Config)
 	if err != nil {
 		ui.Error(err.Error())
 

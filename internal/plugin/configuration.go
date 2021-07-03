@@ -14,13 +14,8 @@ type Config struct {
 	APIVersion string `yaml:"apiVersion"`
 
 	Identity struct {
-		// identity.Config
-		Config struct {
-			Email string
-			Name  string
-		}
+		Email string
+		Name  string
 	}
-	Envs struct {
-		Config map[string]string
-	}
+	Envs map[string]string
 }
