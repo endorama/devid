@@ -1,10 +1,6 @@
 package identity
 
-import (
-	"fmt"
-
-	"gopkg.in/yaml.v1"
-)
+import "github.com/endorama/devid/internal/plugin"
 
 type Config struct {
 	Email string `yaml:"email"`
@@ -15,19 +11,11 @@ func (p Plugin) Config() interface{} {
 	return p.config
 }
 
-func (p *Plugin) LoadConfig(configFile []byte) error {
-	var config struct {
-		Identity struct {
-			Config
-		}
+func (p *Plugin) LoadConfig(config plugin.Config) error {
+	p.config = Config{
+		Email: config.Identity.Email,
+		Name:  config.Identity.Name,
 	}
-
-	err := yaml.Unmarshal(configFile, &config)
-	if err != nil {
-		return fmt.Errorf("cannot unmarshal config file: %w", err)
-	}
-
-	p.config = config.Identity.Config
 
 	return nil
 }
