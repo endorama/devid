@@ -2,6 +2,7 @@ package plugin
 
 import (
 	"github.com/endorama/devid/plugins/bin"
+	"github.com/endorama/devid/plugins/envs"
 	"github.com/endorama/devid/plugins/identity"
 )
 
@@ -13,6 +14,7 @@ type PluggableInstantiator func() Pluggable
 var Core = map[string]PluggableInstantiator{
 	"identity": func() Pluggable { return identity.NewPlugin() },
 	"bin":      func() Pluggable { return bin.NewPlugin() },
+	"envs":     func() Pluggable { return envs.NewPlugin() },
 }
 
 // Optional contains all optional plugins. Optional plugins are disabled by default and can be enabled.
