@@ -41,6 +41,7 @@ func LoadConfig(external Config) (Config, error) {
 	}
 
 	config.Identity = external.Identity
+	config.Envs = external.Envs
 
 	log.Printf("loaded config: %+v\n", config)
 

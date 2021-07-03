@@ -44,7 +44,7 @@ func LoadCorePlugins(configFile string) ([]error, error) {
 		return errs, fmt.Errorf("failed loading core plugins: %w", err)
 	}
 
-	for name, initFn := range plugin.Core {
+	for name, initFn := range Core {
 		log.Printf("running for: %s", name)
 
 		plg := initFn()
