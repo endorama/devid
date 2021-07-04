@@ -10,6 +10,12 @@ func NewConfig() Config {
 	}
 }
 
+// Config contains configuration available to configure this application
+// behaviour.
+// Using a separate configuration object to load external configuration allow
+// stricter control of what is unmarshalled from the configuration YAML file.
+// This should reduce YAML attach surface (DOS kind of attacks against this
+// CLI are not part of the threat model).
 type Config struct {
 	APIVersion string `yaml:"apiVersion"`
 
@@ -18,4 +24,8 @@ type Config struct {
 		Name  string
 	}
 	Envs map[string]string
+
+	Tmux struct {
+		Enabled bool
+	}
 }

@@ -42,6 +42,7 @@ func LoadConfig(external Config) (Config, error) {
 
 	config.Identity = external.Identity
 	config.Envs = external.Envs
+	config.Tmux = external.Tmux
 
 	log.Printf("loaded config: %+v\n", config)
 
