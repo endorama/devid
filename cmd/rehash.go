@@ -118,6 +118,7 @@ var rehashCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 				ui.Error(fmt.Errorf("cannot save shell loader: %w", err).Error())
 				os.Exit(1)
 			}
+			os.Chmod(shellLoaderFilePath, 0700)
 		} else {
 			ui.Error("Not yet implemented")
 			os.Exit(1)
