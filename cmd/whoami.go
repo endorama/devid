@@ -24,7 +24,6 @@ import (
 	"github.com/spf13/viper"
 
 	"github.com/endorama/devid/internal/persona"
-	"github.com/endorama/devid/internal/plugin"
 	"github.com/endorama/devid/internal/plugin/manager"
 	"github.com/endorama/devid/plugins/identity"
 )
@@ -51,15 +50,12 @@ If no persona is loaded print nothing and exit with code 128.
 			ui.Error(fmt.Errorf("cannot access flag extended: %w", err).Error())
 		}
 		if extended {
-			p, _ := persona.New(currentPersona)
-
-			config, err := plugin.LoadConfigFromFile(p.File())
+			p, err := persona.Load(currentPersona)
 			if err != nil {
-				ui.Error(fmt.Errorf("cannot load configuration from file (%s): %w", p.File(), err).Error())
+				ui.Error(fmt.Errorf("cannot instantiate persona: %w", err).Error())
 				os.Exit(1)
 			}
 
-			p.Config = config
 			manager.LoadCorePlugins(p.Config)
 
 			plg, found := manager.GetPlugin("identity")

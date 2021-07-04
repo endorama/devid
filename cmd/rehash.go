@@ -25,7 +25,6 @@ import (
 	"github.com/spf13/viper"
 
 	"github.com/endorama/devid/internal/persona"
-	"github.com/endorama/devid/internal/plugin"
 	"github.com/endorama/devid/internal/plugin/manager"
 	"github.com/endorama/devid/internal/utils"
 )
@@ -52,22 +51,11 @@ var rehashCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 			ui.Error(fmt.Errorf("cannot access flag currentPersona: %w", err).Error())
 		}
 		if currentPersona != "" {
-			p, err := persona.New(currentPersona)
+			p, err := persona.Load(currentPersona)
 			if err != nil {
 				ui.Error(fmt.Errorf("cannot instantiate persona: %w", err).Error())
 				os.Exit(1)
 			}
-			if !p.Exists() {
-				ui.Error("persona does not exists")
-			}
-
-			config, err := plugin.LoadConfigFromFile(p.File())
-			if err != nil {
-				ui.Error(fmt.Errorf("cannot load configuration from file (%s): %w", p.File(), err).Error())
-				os.Exit(1)
-			}
-
-			p.Config = config
 
 			errs, err := manager.LoadCorePlugins(p.Config)
 			if err != nil {
