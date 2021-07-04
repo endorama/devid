@@ -27,8 +27,8 @@ func SetupPlugins(p persona.Persona) ([]error, error) {
 
 	errs := []error{}
 
-	for _, plg := range pluginsDirectory {
-		err := setupPlugin(p, plg)
+	for _, plg := range plugins {
+		err := setupPlugin(p, plg.Instance)
 		if err != nil {
 			errs = append(errs, err)
 		}
