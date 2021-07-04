@@ -93,6 +93,17 @@ var rehashCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 
 			log.Printf("persona: %+v\n", p)
 
+			errs, err = manager.Generate(p)
+			if err != nil {
+				ui.Error(err.Error())
+
+				for _, e := range errs {
+					ui.Error(e.Error())
+				}
+
+				os.Exit(pluginGenerationExitCode)
+			}
+
 			content, err := manager.ShellLoader(p)
 			if err != nil {
 				ui.Error(err.Error())
