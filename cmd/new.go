@@ -74,6 +74,17 @@ func runCommand(args []string) {
 		os.Exit(pluginManagerCoreLoadingErrorExitCode)
 	}
 
+	errs, err = manager.LoadOptionalPlugins(p.Config)
+	if err != nil {
+		ui.Error(err.Error())
+
+		for _, e := range errs {
+			ui.Error(e.Error())
+		}
+
+		os.Exit(pluginManagerOptionalLoadingErrorExitCode)
+	}
+
 	errs, err = manager.SetupPlugins(p)
 	if err != nil {
 		ui.Error(err.Error())

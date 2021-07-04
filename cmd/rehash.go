@@ -80,7 +80,18 @@ var rehashCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 				os.Exit(pluginManagerCoreLoadingErrorExitCode)
 			}
 
-			log.Printf("%+v\n", p)
+			errs, err = manager.LoadOptionalPlugins(p.Config)
+			if err != nil {
+				ui.Error(err.Error())
+
+				for _, e := range errs {
+					ui.Error(e.Error())
+				}
+
+				os.Exit(pluginManagerOptionalLoadingErrorExitCode)
+			}
+
+			log.Printf("persona: %+v\n", p)
 
 			content, err := manager.ShellLoader(p)
 			if err != nil {
