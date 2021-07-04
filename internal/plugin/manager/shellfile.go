@@ -1,4 +1,4 @@
-package generate
+package manager
 
 import (
 	// required by go:embed.
@@ -12,7 +12,6 @@ import (
 
 	"github.com/endorama/devid/internal/persona"
 	"github.com/endorama/devid/internal/plugin"
-	"github.com/endorama/devid/internal/plugin/manager"
 	"github.com/endorama/devid/internal/settings"
 )
 
@@ -48,14 +47,16 @@ func ShellLoader(p persona.Persona) (string, error) {
 	}
 
 	log.Printf("%+v", tmpl)
-	log.Printf("%+v", manager.Plugins())
+	log.Printf("%+v", plugins)
 
 	sb := strings.Builder{}
-	for _, plg := range manager.Plugins() {
-		if renderablePlugin, ok := plg.(plugin.Renderable); ok {
-			log.Printf("rendering plugin: %s", plg.Name())
-			sb.WriteString(fmt.Sprintf("# plugin %s\n", plg.Name()))
-			sb.WriteString(renderablePlugin.Render(p.Name(), p.Location()))
+	for _, plg := range plugins {
+		if renderablePlugin, ok := plg.Instance.(plugin.Renderable); ok {
+			if plg.Enabled {
+				log.Printf("rendering plugin: %s", plg.Instance.Name())
+				sb.WriteString(fmt.Sprintf("# plugin %s\n", plg.Instance.Name()))
+				sb.WriteString(renderablePlugin.Render(p.Name(), p.Location()))
+			}
 		}
 	}
 

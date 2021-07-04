@@ -24,7 +24,6 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/endorama/devid/internal/generate"
 	"github.com/endorama/devid/internal/persona"
 	"github.com/endorama/devid/internal/plugin"
 	"github.com/endorama/devid/internal/plugin/manager"
@@ -83,7 +82,7 @@ var rehashCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 
 			log.Printf("%+v\n", p)
 
-			content, err := generate.ShellLoader(p)
+			content, err := manager.ShellLoader(p)
 			if err != nil {
 				ui.Error(err.Error())
 				os.Exit(1)
