@@ -18,7 +18,6 @@ func NewWithCustomLocation(name, location string) (Persona, error) {
 	return Persona{
 		location: path.Join(location, name),
 		name:     name,
-		Plugins:  make(map[string]plugin.Pluggable),
 		Config:   plugin.NewConfig(),
 	}, nil
 }

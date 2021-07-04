@@ -16,9 +16,6 @@ type Persona struct {
 	location string
 	name     string
 
-	// Plugins contains a map of Pluggable
-	Plugins map[string]plugin.Pluggable
-
 	Config plugin.Config
 }
 
@@ -54,18 +51,4 @@ func (p Persona) Name() string {
 // Whoami returns human readable identity information.
 func (p Persona) Whoami() string {
 	return p.name
-}
-
-// EnablePlugin adds an initialized plugin from the Plugins list.
-func (p *Persona) EnablePlugin(pg plugin.Pluggable) {
-	if p.Plugins[pg.Name()] == nil {
-		p.Plugins[pg.Name()] = pg
-	}
-}
-
-// DisablePlugin removes a plugin from the Plugins list.
-func (p *Persona) DisablePlugin(pg plugin.Pluggable) {
-	if p.Plugins[pg.Name()] != nil {
-		p.Plugins[pg.Name()] = nil
-	}
 }
