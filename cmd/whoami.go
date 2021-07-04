@@ -17,11 +17,16 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/spf13/cobra"
 
 	"github.com/endorama/devid/internal/persona"
+	"github.com/endorama/devid/internal/plugin"
+	"github.com/endorama/devid/internal/plugin/manager"
+	"github.com/endorama/devid/internal/settings"
+	"github.com/endorama/devid/plugins/identity"
 )
 
 // whoamiCmd represents the whoami command.
@@ -33,10 +38,11 @@ var whoamiCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 If no persona is loaded print nothing and exit with code 128.
 `,
 	Run: func(cmd *cobra.Command, args []string) {
-		currentProfile := os.Getenv("DEVENV_ACTIVE_PROFILE")
+		currentPersona := os.Getenv(settings.ActivePersonaEnv)
+		log.Println(currentPersona)
 
 		// there is no loaded profile
-		if currentProfile == "" {
+		if currentPersona == "" {
 			os.Exit(noPersonalLoadedExitCode)
 		}
 
@@ -45,11 +51,24 @@ If no persona is loaded print nothing and exit with code 128.
 			ui.Error(fmt.Errorf("cannot access flag extended: %w", err).Error())
 		}
 		if extended {
-			p, _ := persona.New(currentProfile)
-			currentProfile = fmt.Sprintf("%s (%s)", currentProfile, p.Whoami())
+			p, _ := persona.New(currentPersona)
+
+			config, err := plugin.LoadConfigFromFile(p.File())
+			if err != nil {
+				ui.Error(fmt.Errorf("cannot load configuration from file (%s): %w", p.File(), err).Error())
+				os.Exit(1)
+			}
+
+			p.Config = config
+			manager.LoadCorePlugins(p.Config)
+
+			plg, found := manager.GetPlugin("identity")
+			if identityPlugin, ok := plg.Instance.(*identity.Plugin); found && ok {
+				currentPersona = fmt.Sprintf("%s, %s", currentPersona, identityPlugin.Whoami())
+			}
 		}
 
-		ui.Output(currentProfile)
+		ui.Output(currentPersona)
 		os.Exit(0)
 	},
 }

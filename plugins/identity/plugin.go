@@ -1,5 +1,9 @@
 package identity
 
+import (
+	"fmt"
+)
+
 const PluginName = "identity"
 
 func NewPlugin() *Plugin {
@@ -12,4 +16,9 @@ type Plugin struct {
 
 func (p Plugin) Name() string {
 	return PluginName
+}
+
+func (p Plugin) Whoami() string {
+	cfg := p.Config().(Config)
+	return fmt.Sprintf("%s <%s>", cfg.Name, cfg.Email)
 }
