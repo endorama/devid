@@ -13,9 +13,25 @@ type Configurable interface {
 	LoadConfig(configFile Config) error
 }
 
+// Generated allow a plugin implementing the Generator interface to return a
+// list of files to be generated.
+// File generation is then handled by the plugin/manager.
+// Should contain maps of <file name>: <file content>
+type Generated struct {
+	Executables []GeneratedFile
+	Files       []GeneratedFile
+}
+
+type GeneratedFile struct {
+	Name    string
+	Content string
+}
+
 // Generator interface allow a plugin to generate content before rendering.
+// Generation has side effects, so is required to provide a method to cleanup
+// generated content to allow for idempotency.
 type Generator interface {
-	Generate(location string) error
+	Generate(location string) (Generated, error)
 }
 
 // Renderable interface allow a plugin to render content in the shell loader

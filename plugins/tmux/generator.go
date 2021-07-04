@@ -2,15 +2,13 @@ package tmux
 
 import (
 	"fmt"
-	"os"
 	"os/exec"
-	"path"
 	"strings"
 
-	"github.com/endorama/devid/internal/utils"
+	"github.com/endorama/devid/internal/plugin"
 )
 
-func (p *Plugin) Generate(personaDirectory string) error {
+func (p *Plugin) Generate(personaDirectory string) (plugin.Generated, error) {
 	tmux := strings.Builder{}
 	tmux.WriteString("#!/usr/bin/env bash\n")
 	tmux.WriteString("exec ")
@@ -18,16 +16,20 @@ func (p *Plugin) Generate(personaDirectory string) error {
 	// we need to use the absolute path or will end up in a loop
 	systemTmuxPath, err := exec.LookPath("tmux")
 	if err != nil {
-		return fmt.Errorf("cannot lookup tmux path: %w", err)
+		return plugin.Generated{}, fmt.Errorf("cannot lookup tmux path: %w", err)
 	}
+
 	tmux.WriteString(systemTmuxPath)
 
 	tmux.WriteString(" -S \"/tmp/devid-$TMUX_SOCKET_NAME\" ")
 	tmux.WriteString("\"$@\"")
 
-	binFilePath := path.Join(personaDirectory, "bin", "tmux")
-	utils.PersistFile(binFilePath, tmux.String())
-	os.Chmod(binFilePath, 0700)
+	// binFilePath := path.Join(personaDirectory, "bin", "tmux")
+	// utils.PersistFile(binFilePath, tmux.String())
+	// os.Chmod(binFilePath, 0700)
 
-	return nil
+	return plugin.Generated{
+		Executables: []plugin.GeneratedFile{
+			{Name: "tmux", Content: tmux.String()},
+		}}, nil
 }
