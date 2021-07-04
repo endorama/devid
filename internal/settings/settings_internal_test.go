@@ -63,6 +63,8 @@ func Test_setConstants(t *testing.T) {
 		name string
 		want string
 	}{
+		{name: "active_persona_env", want: "DEVID_ACTIVE_PERSONA"},
+		{name: "active_persona_path_env", want: "DEVID_ACTIVE_PERSONA_PATH"},
 		{name: "shell_loader_filename", want: "load.sh"},
 		{name: "shell_runner_filename", want: "run.sh"},
 	}

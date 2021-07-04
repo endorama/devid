@@ -36,7 +36,7 @@ var rehashCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 	Short: "Rebuild profiles loader and shims",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		if os.Getenv("DEVID_ACTIVE_PROFILE") != "" {
+		if viper.GetString("active_persona") != "" {
 			// NOTE: rehashing when a profile is active is dangerous, as the environment
 			// has been changed with customizations and there is no guarantee about
 			// what those changes have affected.

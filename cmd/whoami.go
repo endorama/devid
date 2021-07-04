@@ -21,11 +21,11 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 
 	"github.com/endorama/devid/internal/persona"
 	"github.com/endorama/devid/internal/plugin"
 	"github.com/endorama/devid/internal/plugin/manager"
-	"github.com/endorama/devid/internal/settings"
 	"github.com/endorama/devid/plugins/identity"
 )
 
@@ -38,7 +38,7 @@ var whoamiCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 If no persona is loaded print nothing and exit with code 128.
 `,
 	Run: func(cmd *cobra.Command, args []string) {
-		currentPersona := os.Getenv(settings.ActivePersonaEnv)
+		currentPersona := viper.GetString("active_persona")
 		log.Println(currentPersona)
 
 		// there is no loaded profile

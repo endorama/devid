@@ -9,11 +9,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-const (
-	ActivePersonaEnv     = "DEVID_ACTIVE_PERSONA"
-	ActivePersonaPathEnv = "DEVID_ACTIVE_PERSONA_PATH"
-)
-
 // Init initialize settings and default values.
 func Init() {
 	viper.AutomaticEnv()
@@ -34,6 +29,7 @@ func setXDGBaseDirs() {
 
 func setDefaults() {
 	viper.SetDefault("personas_location", "$XDG_DATA_HOME/devid/personas")
+	viper.SetDefault("shell", os.Getenv("SHELL"))
 }
 
 func readConfigFile() {
@@ -53,6 +49,9 @@ func readConfigFile() {
 
 // setConstants allow setting configuration values that MUST NOT be available in the config file.
 func setConstants() {
+	viper.Set("active_persona_env", "DEVID_ACTIVE_PERSONA")
+	viper.Set("active_persona_path_env", "DEVID_ACTIVE_PERSONA_PATH")
+	viper.Set("active_persona", os.Getenv(viper.GetString("active_persona_env")))
 	viper.Set("shell_loader_filename", "load.sh")
 	viper.Set("shell_runner_filename", "run.sh")
 }

@@ -5,14 +5,13 @@ import (
 	_ "embed"
 	"fmt"
 	"log"
-	"os"
 	"strings"
 	"text/template"
 	"time"
 
 	"github.com/endorama/devid/internal/persona"
 	"github.com/endorama/devid/internal/plugin"
-	"github.com/endorama/devid/internal/settings"
+	"github.com/spf13/viper"
 )
 
 //go:embed load.sh.txt
@@ -30,12 +29,12 @@ func ShellLoader(p persona.Persona) (string, error) {
 		RenderedPlugins   string
 		Shell             string
 	}{
-		ActivePersona:     settings.ActivePersonaEnv,
-		ActivePersonaPath: settings.ActivePersonaPathEnv,
+		ActivePersona:     viper.GetString("active_persona_env"),
+		ActivePersonaPath: viper.GetString("active_persona_path_env"),
 		Name:              p.Name(),
 		Date:              time.Now().Format(time.RFC822),
 		Location:          p.Location(),
-		Shell:             os.Getenv("SHELL"),
+		Shell:             viper.GetString("shell"),
 	}
 
 	log.SetPrefix("shell-loader-generator ")
