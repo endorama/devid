@@ -95,3 +95,17 @@ func LoadPlugins(config plugin.Config) ([]error, error) {
 
 	return []error{}, nil
 }
+
+// GetPlugin find a plugin by name and return it. Boolean value varies if the
+// plugin is found in the plugins list or not.
+func GetPlugin(name string) (Plugin, bool) {
+	for _, plg := range plugins {
+		log.Printf("searching for: %s", plg.Instance.Name())
+
+		if plg.Instance.Name() == name {
+			return plg, true
+		}
+	}
+
+	return Plugin{}, false
+}
