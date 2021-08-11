@@ -53,7 +53,7 @@ linters:
     - godox
     - goerr113
     - goheader
-    - golint
+    # - golint # deprecated
     - gomnd
     - gomodguard
     - goprintffuncname
