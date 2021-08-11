@@ -30,7 +30,7 @@ func Load(name string) (Persona, error) {
 	p, _ := New(name)
 
 	if !p.Exists() {
-		return p, errPersonaDoesNotExists
+		return p, fmt.Errorf("%s in %s", errPersonaDoesNotExists, p.Location())
 	}
 
 	config, err := plugin.LoadConfigFromFile(p.File())
