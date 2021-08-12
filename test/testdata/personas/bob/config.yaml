@@ -2,3 +2,7 @@ apiVersion: v1
 identity:
   email: "bob@example.com"
   name: "Bob Testcase"
+envs:
+  foo: bar
+tmux:
+  enabled: true
