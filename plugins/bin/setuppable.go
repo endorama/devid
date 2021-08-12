@@ -7,5 +7,6 @@ import (
 
 func (p Plugin) Setup(profileLocation string) error {
 	loc := path.Join(profileLocation, pluginName)
-	return os.MkdirAll(loc, 0750)
+
+	return p.fs.MkdirAll(loc, 0750)
 }
