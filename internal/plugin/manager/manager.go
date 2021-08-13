@@ -62,16 +62,14 @@ func LoadOptionalPlugins(config plugin.Config) ([]error, error) {
 	errs := []error{}
 
 	for _, plg := range Optional {
+		enabled := false
 		name := plg.Name()
 		log.Printf("running for: %s", name)
 
-		// plg := initFn()
-
-		enabled := false
-		// switch name {
-		// case "tmux":
-		//   enabled = config.Tmux.Enabled
-		// }
+		switch name {
+		case "tmux":
+			enabled = config.Tmux.Enabled
+		}
 
 		err := RegisterPlugin(plg, config, enabled)
 		if err != nil {
