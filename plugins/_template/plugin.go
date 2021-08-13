@@ -1,6 +1,6 @@
 package name
 
-const pluginName = "template"
+const pluginName = "name"
 
 type Plugin struct {
 	config Config
