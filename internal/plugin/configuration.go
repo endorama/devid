@@ -25,6 +25,13 @@ type Config struct {
 	}
 	Envs map[string]string
 
+	Ssh struct {
+		Enabled bool
+
+		Keys      []string
+		CachePath string
+	}
+
 	Tmux struct {
 		Enabled bool
 	}

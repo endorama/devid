@@ -5,6 +5,7 @@ import (
 	"github.com/endorama/devid/plugins/bin"
 	"github.com/endorama/devid/plugins/envs"
 	"github.com/endorama/devid/plugins/identity"
+	"github.com/endorama/devid/plugins/ssh"
 	"github.com/endorama/devid/plugins/tmux"
 )
 
@@ -37,6 +38,7 @@ var Core = []plugin.Pluggable{
 //   "tmux": func() plugin.Pluggable { return tmux.NewPlugin() },
 // }
 var Optional = []plugin.Pluggable{
+	ssh.NewPlugin(),
 	tmux.NewPlugin(),
 }
 

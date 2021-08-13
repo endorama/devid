@@ -67,6 +67,8 @@ func LoadOptionalPlugins(config plugin.Config) ([]error, error) {
 		log.Printf("running for: %s", name)
 
 		switch name {
+		case "ssh":
+			enabled = config.Ssh.Enabled
 		case "tmux":
 			enabled = config.Tmux.Enabled
 		}
