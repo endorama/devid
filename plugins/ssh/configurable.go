@@ -2,9 +2,11 @@ package ssh
 
 import "github.com/endorama/devid/internal/plugin"
 
+const defaultCachePath = "/tmp/devid-%s-ssh-agent.tmp"
+
 type Config struct {
-	// TODO: add configuration fields
-	// TODO: add configuration fields to plugin.Config struct
+	Keys      []string
+	CachePath string
 }
 
 func (p Plugin) Config() interface{} {
@@ -12,7 +14,12 @@ func (p Plugin) Config() interface{} {
 }
 
 func (p *Plugin) LoadConfig(config plugin.Config) error {
-	// TODO: import configuration option from plugin.Config
-	// p.config = config....
+	p.config.Keys = config.Ssh.Keys
+
+	p.config.CachePath = config.Ssh.CachePath
+	if p.config.CachePath == "" {
+		p.config.CachePath = defaultCachePath
+	}
+
 	return nil
 }
