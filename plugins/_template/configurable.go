@@ -13,6 +13,7 @@ func (p Plugin) Config() interface{} {
 
 func (p *Plugin) LoadConfig(config plugin.Config) error {
 	// TODO: import configuration option from plugin.Config
+	// TODO: add key for loading from external config in internal/plugin/from-file.go LoadConfig()
 	// p.config = config....
 	return nil
 }

@@ -1,5 +1,7 @@
 package name
 
+// TODO: add name.NewPlugin() to internal/plugin/manager/available.go under Optional
+// TODO: add enabled check in internal/plugin/manager/manager.go LoadOptionalPlugins switch case
 const pluginName = "name"
 
 type Plugin struct {
