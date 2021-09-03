@@ -16,14 +16,27 @@ func TestPlugin_Renderable(t *testing.T) {
 }
 
 func TestPlugin_Render(t *testing.T) {
-	p := plugintest.GetPersona(t)
+	p := plugintest.GetPersona(t, "alice")
+	cfg := p.Config.Sub("ssh")
+	assert.NotNil(t, cfg)
 
 	i := ssh.NewPlugin()
-	i.LoadConfig(p.Config)
+	i.Configure(cfg)
 
 	r := i.Render(p.Name(), p.Location())
 
-	expected := `not implemented
+	expected := `# create agent cache if missing
+if [ ! -f /tmp/devid-alice-ssh-agent.tmp ]; then
+	ssh-agent -s | sed "s/echo/# echo/" > /tmp/devid-alice-ssh-agent.tmp
+	chown "$USER:$USER" /tmp/devid-alice-ssh-agent.tmp
+	chmod 600 /tmp/devid-alice-ssh-agent.tmp
+fi
+# load agent
+source /tmp/devid-alice-ssh-agent.tmp
+# add ssh keys, if not already loaded
+if ! ssh-add -l 2> /dev/null | grep testdata/alice/ssh/id_rsa > /dev/null; then
+	ssh-add testdata/alice/ssh/id_rsa > /dev/null
+fi
 `
 	assert.Equal(t, expected, r)
 }

@@ -26,17 +26,17 @@ fi
 // Render returns content rendered by the plugin.
 // Implements `plugin.Renderable` interface.
 func (p Plugin) Render(personaName, personaDirectory string) string {
-	config := p.Config().(Config)
+	config := Config{}
 	sb := strings.Builder{}
 	sshPluginFolder := path.Join(personaDirectory, pluginName)
 
-	config.CachePath = fmt.Sprintf(config.CachePath, personaName)
+	config.CachePath = fmt.Sprintf(p.config.CachePath, personaName)
 
 	// NOTE: to avoid specifying the entire path to the key, we expect them to
 	// be in {{profileLocation}}/ssh
-	for idx, value := range config.Keys {
+	for _, value := range p.config.Keys {
 		// FIXME: prevent directory traversal
-		config.Keys[idx] = path.Join(sshPluginFolder, value)
+		config.Keys = append(config.Keys, path.Join(sshPluginFolder, value))
 	}
 
 	tpl, err := template.New("plugin-ssh").Parse(t)
