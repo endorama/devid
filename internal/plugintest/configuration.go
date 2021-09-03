@@ -3,11 +3,11 @@ package plugintest
 import (
 	"testing"
 
-	"github.com/endorama/devid/internal/plugin"
+	"github.com/spf13/viper"
 )
 
 // GetTestConfig return a valid and complete plugin.Config for testing purposes.
-func GetConfig(t *testing.T) plugin.Config {
+func GetConfig(t *testing.T, name string) *viper.Viper {
 	t.Helper()
 
 	p := GetPersona(t)
