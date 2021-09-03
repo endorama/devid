@@ -1,5 +1,7 @@
 package plugin
 
+import "github.com/spf13/viper"
+
 // Pluggable interface allow a plugin to be leveraged.
 // Is the common interface implemented by all plugins.
 type Pluggable interface {
@@ -9,8 +11,7 @@ type Pluggable interface {
 // Configurable interface allow a plugin to load configuration from the profile
 // folder.
 type Configurable interface {
-	Config() interface{}
-	LoadConfig(configFile Config) error
+	Configure(v *viper.Viper) error
 }
 
 // Generated allow a plugin implementing the Generator interface to return a
