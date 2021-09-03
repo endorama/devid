@@ -1,6 +1,8 @@
 package persona
 
 import (
+	"errors"
+	"fmt"
 	"path"
 
 	"github.com/endorama/devid/internal/utils"
@@ -8,8 +10,11 @@ import (
 )
 
 const (
-	filename = "config.yaml"
+	apiVersion = "v1"
+	filename   = "config.yaml"
 )
+
+var errUnsupportedAPIVersion = errors.New("unsupported API version")
 
 // Persona holds the entire persona information.
 type Persona struct {
@@ -34,7 +39,16 @@ func (p Persona) Exists() bool {
 }
 
 func (p Persona) Load() error {
-	return p.Config.ReadInConfig() //nolint:wrapcheck // not needed as only this action is performe
+	err := p.Config.ReadInConfig()
+	if err != nil {
+		return fmt.Errorf("cannot read persona configuration: %w", err)
+	}
+
+	if p.Config.GetString("APIVersion") != apiVersion {
+		return errUnsupportedAPIVersion
+	}
+
+	return nil
 }
 
 // File return profile configuration file path.
