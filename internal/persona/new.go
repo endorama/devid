@@ -6,8 +6,6 @@ import (
 	"path"
 
 	"github.com/spf13/viper"
-
-	"github.com/endorama/devid/internal/plugin"
 )
 
 func New(name string) (Persona, error) {
@@ -17,28 +15,36 @@ func New(name string) (Persona, error) {
 }
 
 func NewWithCustomLocation(name, location string) (Persona, error) {
+	loc := path.Join(location, name)
+
+	v := viper.New()
+	v.SetConfigType("yaml")
+	v.SetConfigName(filename)
+	v.AddConfigPath(loc)
+
 	return Persona{
-		location: path.Join(location, name),
+		location: loc,
 		name:     name,
-		Config:   plugin.NewConfig(),
+		Config:   v,
 	}, nil
 }
 
 var errPersonaDoesNotExists = errors.New("does not exists")
 
 func Load(name string) (Persona, error) {
-	p, _ := New(name)
+	p, err := New(name)
+	if err != nil {
+		return p, fmt.Errorf("init failed: %w", err)
+	}
 
 	if !p.Exists() {
-		return p, fmt.Errorf("%s in %s", errPersonaDoesNotExists, p.Location())
+		return p, fmt.Errorf("%w in %s", errPersonaDoesNotExists, p.Location())
 	}
 
-	config, err := plugin.LoadConfigFromFile(p.File())
+	err = p.Load()
 	if err != nil {
-		return p, fmt.Errorf("cannot load configuration from file (%s): %w", p.File(), err)
+		return p, fmt.Errorf("cannot load persona configuration: %w", err)
 	}
-
-	p.Config = config
 
 	return p, nil
 }

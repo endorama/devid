@@ -3,8 +3,8 @@ package persona
 import (
 	"path"
 
-	"github.com/endorama/devid/internal/plugin"
 	"github.com/endorama/devid/internal/utils"
+	"github.com/spf13/viper"
 )
 
 const (
@@ -16,7 +16,7 @@ type Persona struct {
 	location string
 	name     string
 
-	Config plugin.Config
+	Config *viper.Viper
 }
 
 // Exists verify if a persona exists in the specified location
@@ -31,6 +31,10 @@ func (p Persona) Exists() bool {
 	ok = utils.Exists(p.File())
 
 	return ok
+}
+
+func (p Persona) Load() error {
+	return p.Config.ReadInConfig() //nolint:wrapcheck // not needed as only this action is performe
 }
 
 // File return profile configuration file path.

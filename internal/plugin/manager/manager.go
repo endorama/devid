@@ -1,27 +1,28 @@
 package manager
 
 import (
+	"errors"
 	"fmt"
 	"log"
 
 	"github.com/endorama/devid/internal/plugin"
+	"github.com/spf13/viper"
 )
 
-// DeregisterPlugin removes a plugin from the global plugin directory.
-// func DeregisterPlugin(plg plugin.Pluggable) error {
-//   pluginsDirectory[plg.Name()] = nil
-//
-//   return nil
-// }
+var errMissingPluginConfig = errors.New("plugin config not found")
+var errLoadingCorePlugins = errors.New("cannot load all core plugins")
+var errLoadingOptionalPlugins = errors.New("cannot load all requested optional plugins")
 
-// RegisterPlugin register a plugin instance in the global plugin directory.
-func RegisterPlugin(plg plugin.Pluggable, config plugin.Config, enabled bool) error {
-	plugins = append(plugins, Plugin{Instance: plg, Enabled: enabled})
-
+func configurePlugin(plg plugin.Pluggable, config *viper.Viper) error {
 	if configurablePlugin, ok := plg.(plugin.Configurable); ok {
-		log.Printf("loading config for: %s", plg.Name())
+		log.Printf("configuring %s plugin", plg.Name())
 
-		err := configurablePlugin.LoadConfig(config)
+		plgCfg := config.Sub(plg.Name())
+		if plgCfg == nil {
+			return fmt.Errorf("%s %w", plg.Name(), errMissingPluginConfig)
+		}
+
+		err := configurablePlugin.Configure(plgCfg)
 		if err != nil {
 			return fmt.Errorf("loading plugin configuration failed: %w", err)
 		}
@@ -32,7 +33,7 @@ func RegisterPlugin(plg plugin.Pluggable, config plugin.Config, enabled bool) er
 
 // LoadCorePlugins instantiate and register all core plugins, configuring them using the values
 // from the provided configuration file.
-func LoadCorePlugins(config plugin.Config) ([]error, error) {
+func LoadCorePlugins(config *viper.Viper) ([]error, error) {
 	log.SetPrefix("core-plugins-loader ")
 	defer log.SetPrefix("")
 
@@ -42,12 +43,18 @@ func LoadCorePlugins(config plugin.Config) ([]error, error) {
 		name := plg.Name()
 		log.Printf("running for: %s", name)
 
-		// plg := initFn()
-
-		err := RegisterPlugin(plg, config, true)
+		err := configurePlugin(plg, config)
 		if err != nil {
 			errs = append(errs, err)
+
+			continue
 		}
+
+		plugins = append(plugins, Plugin{Instance: plg, Enabled: true})
+	}
+
+	if len(errs) != 0 {
+		return errs, errLoadingCorePlugins
 	}
 
 	return errs, nil
@@ -55,34 +62,41 @@ func LoadCorePlugins(config plugin.Config) ([]error, error) {
 
 // LoadOptionalPlugins instantiate and register all optional plugins, configuring them using the
 // values from the provided configuration file.
-func LoadOptionalPlugins(config plugin.Config) ([]error, error) {
+func LoadOptionalPlugins(config *viper.Viper) ([]error, error) {
 	log.SetPrefix("optional-plugins-loader ")
 	defer log.SetPrefix("")
 
 	errs := []error{}
 
 	for _, plg := range Optional {
-		enabled := false
 		name := plg.Name()
 		log.Printf("running for: %s", name)
 
-		switch name {
-		case "ssh":
-			enabled = config.Ssh.Enabled
-		case "tmux":
-			enabled = config.Tmux.Enabled
+		enabled := config.GetBool(fmt.Sprintf("%s.enabled", name))
+
+		err := configurePlugin(plg, config)
+		if err != nil && !errors.Is(err, errMissingPluginConfig) {
+			errs = append(errs, err)
+
+			continue
 		}
 
-		err := RegisterPlugin(plg, config, enabled)
-		if err != nil {
-			errs = append(errs, err)
+		if err != nil && errors.Is(err, errMissingPluginConfig) {
+			enabled = false
 		}
+
+		log.Printf("%s plugin is %s", name, humanizeEnabled(enabled))
+		plugins = append(plugins, Plugin{Instance: plg, Enabled: enabled})
+	}
+
+	if len(errs) != 0 {
+		return errs, errLoadingOptionalPlugins
 	}
 
 	return errs, nil
 }
 
-func LoadPlugins(config plugin.Config) ([]error, error) {
+func LoadPlugins(config *viper.Viper) ([]error, error) {
 	errs, err := LoadCorePlugins(config)
 	if err != nil {
 		return errs, err
@@ -108,4 +122,12 @@ func GetPlugin(name string) (Plugin, bool) {
 	}
 
 	return Plugin{}, false
+}
+
+func humanizeEnabled(enabled bool) string {
+	if enabled {
+		return "enabled"
+	}
+
+	return "disabled"
 }
