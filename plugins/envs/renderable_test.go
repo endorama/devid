@@ -15,10 +15,12 @@ func TestPlugin_Renderable(t *testing.T) {
 }
 
 func TestPlugin_Render(t *testing.T) {
-	p := plugintest.GetPersona(t)
+	p := plugintest.GetPersona(t, "alice")
+	cfg := p.Config.Sub("envs")
+	assert.NotNil(t, cfg)
 
 	i := envs.NewPlugin()
-	i.LoadConfig(p.Config)
+	i.Configure(cfg)
 
 	r := i.Render(p.Name(), p.Location())
 

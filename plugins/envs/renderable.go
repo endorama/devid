@@ -6,9 +6,8 @@ import (
 )
 
 func (p Plugin) Render(profileName, profileLocation string) string {
-	config := p.Config().(Config)
 	sb := strings.Builder{}
-	for name, value := range config {
+	for name, value := range p.config {
 		name = strings.ToUpper(name)
 		sb.WriteString(fmt.Sprintf("export %s=\"%s\"\n", name, value))
 	}
