@@ -15,24 +15,13 @@ func TestPlugin_Configurable(t *testing.T) {
 	assert.Implements(t, (*plugin.Configurable)(nil), p)
 }
 
-func TestPlugin_Config(t *testing.T) {
-	cfg := plugintest.GetConfig(t)
+func TestPlugin_Configure(t *testing.T) {
+	config := plugintest.GetConfig(t, "alice").Sub("identity")
+	assert.NotNil(t, config)
 
 	p := name.NewPlugin()
 
-	if err := p.LoadConfig(cfg); err != nil {
-		t.Errorf("cannot load plugin config: %w", err)
-	}
-
-	assert.ObjectsAreEqual(cfg, p.Config().(name.Config))
-}
-
-func TestPlugin_LoadConfig(t *testing.T) {
-	cfg := plugintest.GetConfig(t)
-
-	p := name.NewPlugin()
-
-	err := p.LoadConfig(cfg)
+	err := p.Configure(config)
 	if err != nil {
 		t.Errorf("cannot load plugin config: %w", err)
 	}
