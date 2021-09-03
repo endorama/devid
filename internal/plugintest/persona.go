@@ -3,7 +3,6 @@ package plugintest
 import (
 	"io/ioutil"
 	"log"
-	"os"
 	"path"
 	"testing"
 
@@ -11,22 +10,19 @@ import (
 	"github.com/spf13/viper"
 )
 
-func GetPersona(t *testing.T) persona.Persona {
+func GetPersona(t *testing.T, name string) persona.Persona {
 	t.Helper()
 
 	if !testing.Verbose() {
 		log.SetOutput(ioutil.Discard)
 	}
 
-	// NOTE: this is not going to work if the tests are run from a directory
-	// that is not 2 level below the test/ one.
-	// Note that running go test <module> change the working directory.
-	cwd, _ := os.Getwd()
-	personasLocation := path.Join(cwd, "..", "..", "test", "testdata", "personas")
-
+	// NOTE: this loads personas from within a testdata folder within the tested
+	// package. Each package should supply it's own personas for testing
+	personasLocation := path.Join("testdata")
 	viper.Set("personas_location", personasLocation)
 
-	p, err := persona.Load("bob")
+	p, err := persona.Load(name)
 	if err != nil {
 		t.Fatalf("cannot load test persona: %s", err)
 	}

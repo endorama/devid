@@ -10,7 +10,7 @@ import (
 func GetConfig(t *testing.T, name string) *viper.Viper {
 	t.Helper()
 
-	p := GetPersona(t)
+	p := GetPersona(t, name)
 
 	return p.Config
 }
