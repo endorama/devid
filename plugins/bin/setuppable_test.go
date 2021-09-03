@@ -18,7 +18,7 @@ func TestPlugin_Setuppable(t *testing.T) {
 
 func TestPlugin_Setup(t *testing.T) {
 	appFS := afero.NewMemMapFs()
-	p := plugintest.GetPersona(t)
+	p := plugintest.GetPersona(t, "alice")
 
 	plg := bin.TestNewPlugin(appFS)
 

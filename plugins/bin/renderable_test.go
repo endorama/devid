@@ -16,7 +16,7 @@ func TestPlugin_Renderable(t *testing.T) {
 }
 
 func TestPlugin_Render(t *testing.T) {
-	p := plugintest.GetPersona(t)
+	p := plugintest.GetPersona(t, "alice")
 
 	i := bin.NewPlugin()
 
