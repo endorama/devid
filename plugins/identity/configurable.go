@@ -1,20 +1,31 @@
 package identity
 
-import "github.com/endorama/devid/internal/plugin"
+import (
+	"errors"
+	"fmt"
+
+	"github.com/spf13/viper"
+)
 
 type Config struct {
 	Email string `yaml:"email"`
 	Name  string `yaml:"name"`
 }
 
-func (p Plugin) Config() interface{} {
-	return p.config
-}
+var errEmailMissing = errors.New("email field missing")
+var errNameMissing = errors.New("name field missing")
 
-func (p *Plugin) LoadConfig(config plugin.Config) error {
-	p.config = Config{
-		Email: config.Identity.Email,
-		Name:  config.Identity.Name,
+func (p *Plugin) Configure(v *viper.Viper) error {
+	if err := v.Unmarshal(&p.config); err != nil {
+		return fmt.Errorf("cannot unmarshal %s configuration:  %w", p.Name(), err)
+	}
+
+	if p.config.Email == "" {
+		return errEmailMissing
+	}
+
+	if p.config.Name == "" {
+		return errNameMissing
 	}
 
 	return nil

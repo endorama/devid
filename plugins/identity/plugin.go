@@ -19,6 +19,6 @@ func (p Plugin) Name() string {
 }
 
 func (p Plugin) Whoami() string {
-	cfg := p.Config().(Config)
+	cfg := p.config
 	return fmt.Sprintf("%s <%s>", cfg.Name, cfg.Email)
 }
