@@ -5,7 +5,7 @@ import (
 )
 
 var (
-	version = "master"  //nolint:gochecknoglobals // global required to be overridden at build time
+	version = "main"    //nolint:gochecknoglobals // global required to be overridden at build time
 	commit  = "unknown" //nolint:gochecknoglobals // global required to be overridden at build time
 )
 
