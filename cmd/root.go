@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/endorama/devid/internal/plugin/manager"
 	"github.com/spf13/cobra"
 
 	"github.com/mitchellh/cli"
@@ -70,7 +71,7 @@ func init() { //nolint:gochecknoinits // required by cobra
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.devid.yaml)")
 
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	rootCmd.AddCommand(manager.LoadCommands()...)
 }
 
 // initConfig reads in config file and ENV variables if set.
