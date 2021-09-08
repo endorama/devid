@@ -20,9 +20,9 @@ import (
 	"log"
 	"os"
 
-	petname "github.com/dustinkirkland/golang-petname"
 	"github.com/spf13/cobra"
 
+	"github.com/endorama/devid/cmd/utils"
 	"github.com/endorama/devid/internal/backup"
 	"github.com/endorama/devid/internal/persona"
 )
@@ -45,9 +45,7 @@ RNG function and printed after backup creation.
 			ui.Error(fmt.Errorf("cannot access flag currentPersona: %w", err).Error())
 		}
 		if currentPersona != "" {
-			petname.NonDeterministicMode()
-			passphraseLength := 6
-			passphrase := petname.Generate(passphraseLength, "-")
+			passphrase := utils.GeneratePassphrase()
 
 			p, _ := persona.New(currentPersona)
 			if !p.Exists() {
