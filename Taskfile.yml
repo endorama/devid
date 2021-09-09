@@ -21,7 +21,7 @@ tasks:
   build:dev:
     cmds:
       - |
-        go build --mod=vendor -ldflags="-s -w 
+        go build -ldflags="-s -w 
             -X github.com/endorama/devid/internal/version.version={{.VERSION}} 
             -X github.com/endorama/devid/internal/version.commit={{.GIT_COMMIT}}{{.GIT_DIRTY}}"
     vars:
@@ -32,7 +32,16 @@ tasks:
   deps:
     desc: Vendor mod dependencies
     cmds:
-      - go mod vendor
+      - go mod tidy
+      - go mod verify
+
+  deps:update:
+    desc: update all deps to latest version
+    cmds:
+      - echo "{{.mods}}" | xargs go get -u
+    vars:
+      mods:
+        sh: ag "\t" go.mod --no-color --no-numbers | ag --invert-match "indirect" | cut -d" " -f 1 | tr -d "\t" | sort
 
   go-imports:
     desc: Perform goimports
@@ -60,4 +69,3 @@ tasks:
     desc: Run a single test, specify with RUN
     cmds:
       - go test -v ./... -run {{.RUN}}
-
