@@ -16,6 +16,9 @@ limitations under the License.
 package cmd
 
 import (
+	"io/ioutil"
+	"log"
+
 	"github.com/endorama/devid/cmd/ui"
 	"github.com/endorama/devid/internal/plugin/manager"
 	"github.com/spf13/cobra"
@@ -25,6 +28,7 @@ import (
 )
 
 var cfgFile string //nolint:gochecknoglobals // required for init
+var verbose bool   //nolint:gochecknoglobals // require for init
 
 // rootCmd represents the base command when called without any subcommands.
 var rootCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
@@ -35,6 +39,11 @@ var rootCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 Each of us has multiple personas for different areas of their life. It may be work/personal, or for different open source projects, for different clients, or whatever reason you may think for presenting yourself differently in different context. This is something we do in real life (think dressing differently for different social events) but doing so in digital world as developers can be a pain: you have to manage identities (GPG or SSH keys), authentication tokens, specific configurations.
 
 Properly securing our developer identity and personas is hard. devid aims to help you with that.`,
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		if !verbose {
+			log.SetOutput(ioutil.Discard)
+		}
+	},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -49,6 +58,7 @@ func init() { //nolint:gochecknoinits // required by cobra
 	cobra.OnInitialize(initConfig)
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.devid.yaml)")
+	rootCmd.PersistentFlags().BoolVar(&verbose, "verbose", false, "enable diagnostic logs")
 
 	rootCmd.AddCommand(manager.LoadCommands()...)
 }

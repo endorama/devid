@@ -2,7 +2,6 @@ package manager
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/endorama/devid/internal/plugin"
 	"github.com/endorama/devid/internal/plugin/registry"
@@ -10,14 +9,15 @@ import (
 )
 
 func LoadCommands() []*cobra.Command {
-	log.SetPrefix("command-plugins-loader ")
-	defer log.SetPrefix("")
+	// loggin here cannot be managed via --verbose flag, so disabling it
+	// log.SetPrefix("command-plugins-loader ")
+	// defer log.SetPrefix("")
 
 	cmds := []*cobra.Command{}
 
 	all := append(registry.Cores(), registry.Optionals()...) //nolint:gocritic // not appending to the same slice
 	for _, plg := range all {
-		log.Printf("%s plugin loading commands", plg.Name())
+		// log.Printf("%s plugin loading commands", plg.Name())
 
 		if cmdPlg, ok := plg.(plugin.Commander); ok {
 			wrapCmd := &cobra.Command{
@@ -32,7 +32,7 @@ subcommands.
 			wrapCmd.PersistentFlags().String("persona", "", "persona on which to execute the specified action")
 
 			for _, c := range cmdPlg.Commands() {
-				log.Printf("adding: %s %s", plg.Name(), c.Name())
+				// log.Printf("adding: %s %s", plg.Name(), c.Name())
 				wrapCmd.AddCommand(c)
 			}
 
