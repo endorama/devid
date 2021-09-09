@@ -51,7 +51,13 @@ func readConfigFile() {
 func setConstants() {
 	viper.Set("active_persona_env", "DEVID_ACTIVE_PERSONA")
 	viper.Set("active_persona_path_env", "DEVID_ACTIVE_PERSONA_PATH")
+	// NOTE: using Set here overrides any future value from standard viper sources.
+	// This means for example the BindPFlag is not going to work as expected.
+	// This is the desired behaviour: if the environment variable is set, there is
+	// an active persona. This behaviour prevents you from running command against
+	// another persona when one is already loaded.
 	viper.Set("active_persona", os.Getenv(viper.GetString("active_persona_env")))
+
 	viper.Set("shell_loader_filename", "load.sh")
 	viper.Set("shell_runner_filename", "run.sh")
 }

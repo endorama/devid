@@ -34,8 +34,10 @@ func OpenWithEditor(path string) error {
 	return nil
 }
 
-// AllowerdEditors is a list of allowed values for the EDITOR environment variable.
-var AllowedEditors = []string{
+// AllowedEditors is a list of allowed values for the EDITOR environment variable.
+// FIXME: prevent unknown command execution when some of these editor is not available.
+// FIXME: make this a function so is not directly modifiable
+var AllowedEditors = []string{ // nolint:gochecknoglobals // implementation detail
 	"/bin/ed",
 	"/bin/nano",
 	"/usr/bin/vim",
