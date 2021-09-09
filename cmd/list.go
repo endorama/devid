@@ -37,8 +37,7 @@ List all available personas.
 	Run: func(cmd *cobra.Command, args []string) {
 		files, err := ioutil.ReadDir(viper.GetString("personas_location"))
 		if err != nil {
-			ui.Fatal(fmt.Errorf("cannot read folder content: %w", err), genericExitCode)
-
+			ui.Fatal(fmt.Errorf("cannot read folder content: %w", err), noPersonaLoadedExitCode)
 		}
 		for _, f := range files {
 			if f.IsDir() {
@@ -47,7 +46,6 @@ List all available personas.
 					ui.Output(p.Name())
 				}
 			}
-
 		}
 	},
 }

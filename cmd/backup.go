@@ -16,7 +16,6 @@ limitations under the License.
 package cmd
 
 import (
-	"errors"
 	"fmt"
 	"os"
 
@@ -25,7 +24,6 @@ import (
 	"github.com/endorama/devid/cmd/ui"
 	"github.com/endorama/devid/cmd/utils"
 	"github.com/endorama/devid/internal/backup"
-	"github.com/endorama/devid/internal/persona"
 )
 
 // backupCmd represents the backup command.
@@ -41,43 +39,34 @@ RNG function and printed after backup creation.
 	Args: cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
 		ui.Output("backup called")
-		currentPersona, err := cmd.Flags().GetString("persona")
+		p, err := utils.LoadPersona(cmd)
 		if err != nil {
-			ui.Error(fmt.Errorf("cannot access flag currentPersona: %w", err))
+			ui.Fatal(fmt.Errorf("cannot instantiate persona: %w", err), noPersonaLoadedExitCode)
 		}
-		if currentPersona != "" {
-			passphrase := utils.GeneratePassphrase()
+		passphrase := utils.GeneratePassphrase()
 
-			p, _ := persona.New(currentPersona)
-			if !p.Exists() {
-				ui.Fatal(errors.New("persona does not exists"), genericExitCode)
-			}
-			ui.Output(fmt.Sprintf("Creating backup for persona: %s\n", p.Name()))
+		ui.Output(fmt.Sprintf("Creating backup for persona: %s\n", p.Name()))
 
-			out, err := os.Create(fmt.Sprintf("%s.tar.gz.age", p.Name()))
-			if err != nil {
-				ui.Fatal(fmt.Errorf("cannot create file: %w", err), genericExitCode)
-			}
-			defer out.Close()
-
-			b, err := backup.NewTask(p.Name(), p.Location(), out)
-			if err != nil {
-				ui.Fatal(fmt.Errorf("Cannot create backup task: %w", err), genericExitCode)
-			}
-			err = backup.Perform(b, passphrase)
-			if err != nil {
-				ui.Fatal(err, genericExitCode)
-			}
-
-			ui.Output("Encryption passphrase is: %s", passphrase)
-		} else {
-			ui.Output("Not yet implemented")
-			os.Exit(1)
+		out, err := os.Create(fmt.Sprintf("%s.tar.gz.age", p.Name()))
+		if err != nil {
+			ui.Fatal(fmt.Errorf("cannot create file: %w", err), genericExitCode)
 		}
+		defer out.Close()
+
+		b, err := backup.NewTask(p.Name(), p.Location(), out)
+		if err != nil {
+			ui.Fatal(fmt.Errorf("Cannot create backup task: %w", err), genericExitCode)
+		}
+		err = backup.Perform(b, passphrase)
+		if err != nil {
+			ui.Fatal(err, genericExitCode)
+		}
+
+		ui.Info("Encryption passphrase is: %s", passphrase)
 	},
 }
 
 func init() { //nolint:gochecknoinits // required by cobra
-	rootCmd.AddCommand(backupCmd)
 	backupCmd.Flags().String("persona", "", "The persona to backup")
+	rootCmd.AddCommand(backupCmd)
 }

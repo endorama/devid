@@ -16,8 +16,6 @@ limitations under the License.
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/endorama/devid/cmd/ui"
 	"github.com/endorama/devid/internal/plugin/manager"
 	"github.com/spf13/cobra"
@@ -93,6 +91,6 @@ func initConfig() {
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
-		ui.Info(fmt.Sprintf("Using config file: %s", viper.ConfigFileUsed()))
+		ui.Info("Using config file: %s", viper.ConfigFileUsed())
 	}
 }

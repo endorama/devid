@@ -16,13 +16,13 @@ limitations under the License.
 package cmd
 
 import (
-	"errors"
+	"fmt"
 
 	"github.com/lu4p/shred"
 	"github.com/spf13/cobra"
 
 	"github.com/endorama/devid/cmd/ui"
-	"github.com/endorama/devid/internal/persona"
+	"github.com/endorama/devid/cmd/utils"
 )
 
 // deleteCmd represents the delete command.
@@ -36,17 +36,14 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		if len(args) != 1 {
-			ui.Fatal(errors.New("Argument NAME required"), genericExitCode)
+		p, err := utils.LoadPersona(cmd)
+		if err != nil {
+			ui.Fatal(fmt.Errorf("cannot instantiate persona: %w", err), noPersonaLoadedExitCode)
 		}
-
-		name := args[0]
-
-		p, _ := persona.New(name)
 
 		shredTimes := 3
 		shredconf := shred.Conf{Times: shredTimes, Zeros: true, Remove: true}
-		err := shredconf.Dir(p.Location())
+		err = shredconf.Dir(p.Location())
 		if err != nil {
 			ui.Fatal(err, genericExitCode)
 		}
@@ -54,5 +51,6 @@ to quickly create a Cobra application.`,
 }
 
 func init() { //nolint:gochecknoinits // required by cobra
+	deleteCmd.Flags().String("persona", "", "The persona to delete")
 	rootCmd.AddCommand(deleteCmd)
 }

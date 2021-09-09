@@ -16,12 +16,12 @@ limitations under the License.
 package cmd
 
 import (
-	"errors"
+	"fmt"
 
 	"github.com/spf13/cobra"
 
 	"github.com/endorama/devid/cmd/ui"
-	"github.com/endorama/devid/internal/persona"
+	cmdutils "github.com/endorama/devid/cmd/utils"
 	"github.com/endorama/devid/internal/utils"
 )
 
@@ -29,26 +29,14 @@ import (
 var editCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 	Use:   "edit",
 	Short: "Edit a persona definition file in your $EDITOR",
-	Long: `devid edit <persona name>
+	Long: `devid edit 
 
 Open within EDITOR the specified persona configuration file.
 `,
 	Run: func(cmd *cobra.Command, args []string) {
-		if len(args) != 1 {
-			err := errors.New("Argument NAME required")
-			ui.Fatal(err, genericExitCode)
-		}
-
-		name := args[0]
-
-		p, err := persona.New(name)
+		p, err := cmdutils.LoadPersona(cmd)
 		if err != nil {
-			ui.Fatal(err, genericExitCode)
-		}
-
-		if !p.Exists() {
-			err := errors.New("Persona does not exists")
-			ui.Fatal(err, genericExitCode)
+			ui.Fatal(fmt.Errorf("cannot instantiate persona: %w", err), genericExitCode)
 		}
 
 		err = utils.OpenWithEditor(p.File())
@@ -59,5 +47,6 @@ Open within EDITOR the specified persona configuration file.
 }
 
 func init() { //nolint:gochecknoinits // required by cobra
+	editCmd.Flags().String("persona", "", "The persona to backup")
 	rootCmd.AddCommand(editCmd)
 }

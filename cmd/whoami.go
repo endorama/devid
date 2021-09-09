@@ -16,15 +16,14 @@ limitations under the License.
 package cmd
 
 import (
+	"errors"
 	"fmt"
-	"log"
 	"os"
 
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 
 	"github.com/endorama/devid/cmd/ui"
-	"github.com/endorama/devid/internal/persona"
+	"github.com/endorama/devid/cmd/utils"
 	"github.com/endorama/devid/internal/plugin/manager"
 	"github.com/endorama/devid/plugins/identity"
 )
@@ -38,39 +37,39 @@ var whoamiCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 If no persona is loaded print nothing and exit with code 128.
 `,
 	Run: func(cmd *cobra.Command, args []string) {
-		currentPersona := viper.GetString("active_persona")
-		log.Println(currentPersona)
-
-		// there is no loaded profile
-		if currentPersona == "" {
-			os.Exit(noPersonalLoadedExitCode)
+		p, err := utils.LoadPersona(cmd)
+		if err != nil {
+			ui.Fatal(fmt.Errorf("cannot instantiate persona: %w", err), noPersonaLoadedExitCode)
 		}
 
 		extended, err := cmd.Flags().GetBool("extended")
 		if err != nil {
 			ui.Error(fmt.Errorf("cannot access flag extended: %w", err))
 		}
-		if extended {
-			p, err := persona.Load(currentPersona)
-			if err != nil {
-				ui.Fatal(fmt.Errorf("cannot instantiate persona: %w", err), genericExitCode)
-			}
 
+		if extended {
 			manager.LoadCorePlugins(p.Config)
 
 			plg, found := manager.GetPlugin("identity")
-			if identityPlugin, ok := plg.Instance.(*identity.Plugin); found && ok {
-				currentPersona = fmt.Sprintf("%s, %s", currentPersona, identityPlugin.Whoami())
+			if !found {
+				ui.Fatal(errors.New("Cannot find identity plugin"), genericExitCode)
 			}
+
+			identityPlugin, ok := plg.Instance.(*identity.Plugin)
+			if !ok {
+				ui.Fatal(errors.New("Retrieved plugin is not an instance of identity.Plugin"), genericExitCode)
+			}
+
+			ui.Output("%s, %s", p.Name(), identityPlugin.Whoami())
+			os.Exit(0)
 		}
 
-		ui.Output(currentPersona)
+		ui.Output(p.Name())
 		os.Exit(0)
 	},
 }
 
 func init() { //nolint:gochecknoinits // required by cobra
-	rootCmd.AddCommand(whoamiCmd)
-
 	whoamiCmd.Flags().BoolP("extended", "e", false, "Print extended identity information")
+	rootCmd.AddCommand(whoamiCmd)
 }

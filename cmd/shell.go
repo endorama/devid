@@ -8,7 +8,7 @@ import (
 	"syscall"
 
 	"github.com/endorama/devid/cmd/ui"
-	"github.com/endorama/devid/internal/persona"
+	"github.com/endorama/devid/cmd/utils"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -20,19 +20,9 @@ var shellCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 
 exec the load.sh file of the specified persona, loading the environment`,
 	Run: func(cmd *cobra.Command, args []string) {
-		currentPersona, err := cmd.Flags().GetString("persona")
+		p, err := utils.LoadPersona(cmd)
 		if err != nil {
-			ui.Fatal(fmt.Errorf("cannot access flag currentPersona: %w", err), genericExitCode)
-
-		}
-		if currentPersona == "" {
-			err := errors.New("--persona requires a value")
-			ui.Fatal(err, genericExitCode)
-		}
-
-		p, err := persona.New(currentPersona)
-		if err != nil {
-			ui.Fatal(fmt.Errorf("cannot instantiate persona: %w", err), genericExitCode)
+			ui.Fatal(fmt.Errorf("cannot instantiate persona: %w", err), noPersonaLoadedExitCode)
 		}
 		if !p.Exists() {
 			err := errors.New("persona does not exists")
@@ -49,6 +39,6 @@ exec the load.sh file of the specified persona, loading the environment`,
 }
 
 func init() { //nolint:gochecknoinits // required by cobra
+	shellCmd.Flags().String("persona", "", "The persona's shell to load")
 	rootCmd.AddCommand(shellCmd)
-	shellCmd.Flags().String("persona", "", "The persona to backup")
 }
