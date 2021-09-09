@@ -42,16 +42,12 @@ var cfgFile string //nolint:gochecknoglobals // required for init
 // rootCmd represents the base command when called without any subcommands.
 var rootCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 	Use:   "devid",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
+	Short: "Secure manager for your developer personas",
+	Long: `devid (pronounced /ˈdeɪvɪd/) is a Swiss Army Knife for your developer identity personas.
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	//	Run: func(cmd *cobra.Command, args []string) { },
+Each of us has multiple personas for different areas of their life. It may be work/personal, or for different open source projects, for different clients, or whatever reason you may think for presenting yourself differently in different context. This is something we do in real life (think dressing differently for different social events) but doing so in digital world as developers can be a pain: you have to manage identities (GPG or SSH keys), authentication tokens, specific configurations.
+
+Properly securing our developer identity and personas is hard. devid aims to help you with that.`,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.

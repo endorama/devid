@@ -31,10 +31,12 @@ import (
 // whoamiCmd represents the whoami command.
 var whoamiCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 	Use:   "whoami",
-	Short: "Print current loaded persona",
-	Long: `Print current loaded persona.
+	Short: "print current loaded persona",
+	Long: `Print information about persona currently loaded.
 
 If no persona is loaded print nothing and exit with code 128.
+
+This command loads the current persona from DEVID_ACTIVE_PERSONA environment variable, and this value takes precedence over the --persona flag.
 `,
 	Run: func(cmd *cobra.Command, args []string) {
 		p, err := utils.LoadPersona(cmd)

@@ -29,16 +29,17 @@ import (
 // backupCmd represents the backup command.
 var backupCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 	Use:   "backup",
-	Short: "Create encrypted backup of personas",
-	Long: `Create encrypted backup of personas.
+	Short: "backup a persona",
+	Long: `Create encrypted backup of a persona.
 
 The backup is compressed (.tar.gz) and encrypted using age (filippo.io/age).
 Encryption requires a passphrase that is automatically generated using a safe 
 RNG function and printed after backup creation.
+
+This command loads the current persona from DEVID_ACTIVE_PERSONA environment variable, and this value takes precedence over the --persona flag.
 `,
 	Args: cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
-		ui.Output("backup called")
 		p, err := utils.LoadPersona(cmd)
 		if err != nil {
 			ui.Fatal(fmt.Errorf("cannot instantiate persona: %w", err), noPersonaLoadedExitCode)

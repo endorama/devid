@@ -16,7 +16,6 @@ limitations under the License.
 package cmd
 
 import (
-	"errors"
 	"fmt"
 	"os"
 
@@ -30,14 +29,17 @@ import (
 
 // newCmd represents the new command.
 var newCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
-	Use:   "new",
-	Short: "Create a new (empty) persona",
-	Long: fmt.Sprintf(`devid new <persona name>
+	Use:   "new [name]",
+	Short: "create a persona",
+	Long: fmt.Sprintf(`Create a new, empty, persona configuration file, opens it within EDITOR.
 
-Create a new persona configuration file, opens it within EDITOR.
+For security EDITOR variable content is matched against a list of valid editor executable paths.
+NOTE however that if some of this commands are not available on your system is still possible to 
+trigger an unknown command execution trough this command.
 
 Allowed EDITOR values: %s
 `, utils.AllowedEditors),
+	Args: cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		runCommand(args)
 	},
@@ -50,11 +52,6 @@ func init() { //nolint:gochecknoinits // required by cobra
 }
 
 func runCommand(args []string) {
-	if len(args) != 1 {
-		err := errors.New("Argument NAME required")
-		ui.Fatal(err, genericExitCode)
-	}
-
 	name := args[0]
 
 	p, _ := persona.New(name)

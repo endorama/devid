@@ -28,11 +28,17 @@ import (
 // editCmd represents the edit command.
 var editCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 	Use:   "edit",
-	Short: "Edit a persona definition file in your $EDITOR",
-	Long: `devid edit 
+	Short: "edit a persona definition file in your $EDITOR",
+	Long: fmt.Sprintf(`Open within EDITOR the specified persona configuration file.
 
-Open within EDITOR the specified persona configuration file.
-`,
+For security EDITOR variable content is matched against a list of valid editor executable paths.
+NOTE however that if some of this commands are not available on your system is still possible to 
+trigger an unknown command execution trough this command.
+
+Allowed EDITOR values: %s
+
+This command loads the current persona from DEVID_ACTIVE_PERSONA environment variable, and this value takes precedence over the --persona flag.
+`, utils.AllowedEditors),
 	Run: func(cmd *cobra.Command, args []string) {
 		p, err := cmdutils.LoadPersona(cmd)
 		if err != nil {

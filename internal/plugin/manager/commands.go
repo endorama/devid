@@ -20,21 +20,16 @@ func LoadCommands() []*cobra.Command {
 		log.Printf("%s plugin loading commands", plg.Name())
 
 		if cmdPlg, ok := plg.(plugin.Commander); ok {
-			short := fmt.Sprintf("devid %s", plg.Name())
-			long := fmt.Sprintf(`%s
-
-Provide access to %s dedicated subcommands.
+			wrapCmd := &cobra.Command{
+				Use:   plg.Name(),
+				Short: fmt.Sprintf("%s plugin subcommands", plg.Name()),
+				Long: fmt.Sprintf(`Provide access to %s dedicated subcommands.
 
 This command does not do anything by itself, please use one of the available
 subcommands.
-`, short, plg.Name())
-
-			wrapCmd := &cobra.Command{
-				Use:   plg.Name(),
-				Short: short,
-				Long:  long,
+`, plg.Name()),
 			}
-			wrapCmd.PersistentFlags().String("persona", "", "")
+			wrapCmd.PersistentFlags().String("persona", "", "persona on which to execute the specified action")
 
 			for _, c := range cmdPlg.Commands() {
 				log.Printf("adding: %s %s", plg.Name(), c.Name())

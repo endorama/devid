@@ -15,10 +15,10 @@ import (
 
 var shellCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 	Use:   "shell",
-	Short: "Load a shell preconfigured with persona environment",
-	Long: `devid shell --persona=<name>
+	Short: "load a shell preconfigured with persona environment",
+	Long: `Execute the load.sh file of the specified persona, loading the environment,
 
-exec the load.sh file of the specified persona, loading the environment`,
+This command loads the current persona from DEVID_ACTIVE_PERSONA environment variable, and this value takes precedence over the --persona flag.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		p, err := utils.LoadPersona(cmd)
 		if err != nil {

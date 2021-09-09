@@ -29,11 +29,8 @@ import (
 // listCmd represents the list command.
 var listCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 	Use:   "list",
-	Short: "List all available personas",
-	Long: `devid list
-
-List all available personas.
-`,
+	Short: "list personas",
+	Long:  `List all available personas.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		files, err := ioutil.ReadDir(viper.GetString("personas_location"))
 		if err != nil {

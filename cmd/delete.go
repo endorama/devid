@@ -28,18 +28,24 @@ import (
 // deleteCmd represents the delete command.
 var deleteCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 	Use:   "delete",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Short: "delete a persona",
+	Long: `Delete a persona using a secure deletion function.
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+All content from the persona's folder will be destroyed through this command.
+
+Deletion is performed using a Golang implementation of Linux shred command, configured to perform 3 iteration, overriding with zero and final file removal.
+
+Note that shred relies on a very important assumption: that the file system overwrites data in place. This may not be the case for your file system, please refer to shred documentation for further details.
+
+This command loads the current persona from DEVID_ACTIVE_PERSONA environment variable, and this value takes precedence over the --persona flag.
+`,
 	Run: func(cmd *cobra.Command, args []string) {
 		p, err := utils.LoadPersona(cmd)
 		if err != nil {
 			ui.Fatal(fmt.Errorf("cannot instantiate persona: %w", err), noPersonaLoadedExitCode)
 		}
+
+		// TODO: ask for confirmation (and add it to command docs)
 
 		shredTimes := 3
 		shredconf := shred.Conf{Times: shredTimes, Zeros: true, Remove: true}

@@ -25,7 +25,7 @@ import (
 // versionCmd represents the version command.
 var versionCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 	Use:   "version",
-	Short: "Print version information",
+	Short: "print version",
 	Long:  `Print version information bundled with the program.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		ui.Output(version.BuildString())

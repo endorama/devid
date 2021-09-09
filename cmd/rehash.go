@@ -34,8 +34,20 @@ import (
 // rehashCmd represents the rehash command.
 var rehashCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 	Use:   "rehash",
-	Short: "Rebuild profiles loader and shims",
-	Long:  ``,
+	Short: "rebuild profiles loader and shims",
+	Long: `Rebuild profiles loader and shims, performing setup, generation and shell file rendering.
+
+This command will not run if a personal is already loaded.
+
+At it's core devid is a tool to render a bash based template to load a dedicated environment for a
+specific persona.
+
+This resulting file is stored in the persona's folder and is usable without devid. If everything 
+goes bad you can still load a persona's shell environment by running 
+	bash /path/to/persona/load.sh
+
+rehash command is directly inspired by rbenv, a ruby version manager.
+`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if viper.GetString("active_persona") != "" {
 			// NOTE: rehashing when a profile is active is dangerous, as the environment
