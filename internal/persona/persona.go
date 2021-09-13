@@ -11,7 +11,8 @@ import (
 
 const (
 	apiVersion = "v1"
-	filename   = "config.yaml"
+	filename   = "config"
+	configType = "yaml"
 )
 
 var errUnsupportedAPIVersion = errors.New("unsupported API version")
@@ -53,7 +54,7 @@ func (p Persona) Load() error {
 
 // File return profile configuration file path.
 func (p Persona) File() string {
-	return path.Join(p.location, filename)
+	return path.Join(p.location, fmt.Sprintf("%s.%s", filename, configType))
 }
 
 // Location return persona's folder.

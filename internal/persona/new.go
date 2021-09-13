@@ -18,7 +18,7 @@ func NewWithCustomLocation(name, location string) (Persona, error) {
 	loc := path.Join(location, name)
 
 	v := viper.New()
-	v.SetConfigType("yaml")
+	v.SetConfigType(configType)
 	v.SetConfigName(filename)
 	v.AddConfigPath(loc)
 
