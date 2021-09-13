@@ -3,15 +3,11 @@ package persona
 import (
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
-	"path"
-
-	"gopkg.in/yaml.v1"
 )
 
-var errPersonaExists = errors.New("Persona already exists")
+var errPersonaExists = errors.New("persona already exists")
 
 // Create creates specific persona configuration in the personas_location folder
 // It does not override an existing persona
@@ -29,14 +25,9 @@ func Create(p Persona) error {
 		}
 	}
 
-	d, err := yaml.Marshal(&p.Config)
+	err := p.Config.SafeWriteConfig()
 	if err != nil {
-		return fmt.Errorf("cannot marshal yaml: %w", err)
-	}
-
-	err = ioutil.WriteFile(path.Join(p.Location(), filename), d, 0600)
-	if err != nil {
-		return fmt.Errorf("cannot write file: %w", err)
+		return fmt.Errorf("cannot write persona's config file: %w", err)
 	}
 
 	return nil
