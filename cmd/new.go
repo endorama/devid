@@ -69,6 +69,8 @@ func runCommand(args []string) {
 			ui.Error(e)
 		}
 
+		// deleting the created persona so new does not error the second time is run
+		// _ = persona.Delete(p)
 		os.Exit(pluginManagerCoreLoadingErrorExitCode)
 	}
 
@@ -80,6 +82,8 @@ func runCommand(args []string) {
 			ui.Error(e)
 		}
 
+		// deleting the created persona so new does not error the second time is run
+		_ = persona.Delete(p)
 		os.Exit(pluginManagerOptionalLoadingErrorExitCode)
 	}
 
@@ -91,6 +95,8 @@ func runCommand(args []string) {
 			ui.Error(e)
 		}
 
+		// deleting the created persona so new does not error the second time is run
+		_ = persona.Delete(p)
 		os.Exit(pluginManagerSetupErrorExitCode)
 	}
 
