@@ -17,6 +17,9 @@ tasks:
   build:
     desc: Build the project
     cmds:
+      - task: deps
+      - task: go-imports
+      - task: lint
       - task: build:dev
 
   build:dev:
