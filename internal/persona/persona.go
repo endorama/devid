@@ -5,8 +5,9 @@ import (
 	"fmt"
 	"path"
 
-	"github.com/endorama/devid/internal/utils"
 	"github.com/spf13/viper"
+
+	"github.com/endorama/devid/internal/utils"
 )
 
 const (
@@ -40,8 +41,7 @@ func (p Persona) Exists() bool {
 }
 
 func (p Persona) Load() error {
-	err := p.Config.ReadInConfig()
-	if err != nil {
+	if err := p.Config.ReadInConfig(); err != nil {
 		return fmt.Errorf("cannot read persona configuration: %w", err)
 	}
 

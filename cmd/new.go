@@ -46,9 +46,8 @@ Allowed EDITOR values: %s
 }
 
 func init() { //nolint:gochecknoinits // required by cobra
-	rootCmd.AddCommand(newCmd)
-
 	// add --overwrite to overwrite already existing profile
+	rootCmd.AddCommand(newCmd)
 }
 
 func runCommand(args []string) {
@@ -84,6 +83,7 @@ func runCommand(args []string) {
 
 		// deleting the created persona so new does not error the second time is run
 		_ = persona.Delete(p)
+
 		os.Exit(pluginManagerOptionalLoadingErrorExitCode)
 	}
 
@@ -97,6 +97,7 @@ func runCommand(args []string) {
 
 		// deleting the created persona so new does not error the second time is run
 		_ = persona.Delete(p)
+
 		os.Exit(pluginManagerSetupErrorExitCode)
 	}
 

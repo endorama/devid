@@ -3,8 +3,9 @@ package identity
 import (
 	"testing"
 
-	"github.com/endorama/devid/internal/plugintest"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/endorama/devid/internal/plugintest"
 )
 
 func TestPlugin_ConfigureErrorOnMissingEmail(t *testing.T) {

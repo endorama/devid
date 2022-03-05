@@ -8,8 +8,6 @@ import (
 
 const defaultCachePath = "/tmp/devid-%s-ssh-agent.tmp"
 
-var defaultSshKeys = []string{"id_rsa"}
-
 type Config struct {
 	Keys      []string
 	CachePath string
@@ -25,8 +23,12 @@ func (p *Plugin) Configure(v *viper.Viper) error {
 	}
 
 	if len(p.config.Keys) == 0 {
-		p.config.Keys = defaultSshKeys
+		p.config.Keys = defaultSSHKeys()
 	}
 
 	return nil
+}
+
+func defaultSSHKeys() []string {
+	return []string{"id_rsa"}
 }

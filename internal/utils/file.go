@@ -6,6 +6,8 @@ import (
 	"os"
 )
 
+const execPerms = os.FileMode(0700)
+
 // PersistFile writes content to a path.
 func PersistFile(path, content string) error {
 	file, err := os.Create(path)
@@ -29,7 +31,7 @@ func PersistExecutableFile(path, content string) error {
 		return err
 	}
 
-	err = os.Chmod(path, 0700)
+	err = os.Chmod(path, execPerms)
 	if err != nil {
 		return fmt.Errorf("cannot change file permissions: %w", err)
 	}

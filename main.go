@@ -35,10 +35,13 @@ func main() {
 
 func createPersonasFolder() {
 	loc := viper.GetString("personas_location")
+
+	const perm = os.FileMode(0750)
+
 	if _, err := os.Stat(loc); os.IsNotExist(err) {
 		log.Printf("%s does not exists, creating\n", loc)
 
-		if err := os.MkdirAll(loc, 0755); err != nil {
+		if err := os.MkdirAll(loc, perm); err != nil {
 			log.Fatal(err)
 		}
 	}

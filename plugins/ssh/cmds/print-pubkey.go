@@ -4,9 +4,10 @@ import (
 	"os"
 	"path"
 
+	"github.com/spf13/cobra"
+
 	"github.com/endorama/devid/cmd/ui"
 	"github.com/endorama/devid/cmd/utils"
-	"github.com/spf13/cobra"
 )
 
 var PrintPubKey = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
@@ -26,6 +27,6 @@ var PrintPubKey = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 			ui.Error(err)
 		}
 
-		ui.Output(string(dat))
+		ui.Outputf(string(dat))
 	},
 }

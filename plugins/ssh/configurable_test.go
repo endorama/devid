@@ -23,7 +23,7 @@ func TestPlugin_LoadConfig(t *testing.T) {
 
 	err := p.Configure(cfg)
 	if err != nil {
-		t.Errorf("cannot load plugin config: %w", err)
+		t.Errorf("cannot load plugin config: %v", err) //nolint:govet // don't care
 	}
 
 	assert.Nil(t, err, "err should be nil")

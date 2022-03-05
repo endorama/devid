@@ -28,7 +28,7 @@ var versionCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 	Short: "print version",
 	Long:  `Print version information bundled with the program.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		ui.Output(version.BuildString())
+		ui.Outputf(version.BuildString())
 	},
 }
 

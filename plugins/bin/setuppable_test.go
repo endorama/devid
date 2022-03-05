@@ -4,11 +4,12 @@ import (
 	"path"
 	"testing"
 
+	"github.com/spf13/afero"
+	"github.com/stretchr/testify/assert"
+
 	"github.com/endorama/devid/internal/plugin"
 	"github.com/endorama/devid/internal/plugintest"
 	"github.com/endorama/devid/plugins/bin"
-	"github.com/spf13/afero"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestPlugin_Setuppable(t *testing.T) {

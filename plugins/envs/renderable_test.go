@@ -3,10 +3,11 @@ package envs_test
 import (
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/endorama/devid/internal/plugin"
 	"github.com/endorama/devid/internal/plugintest"
 	"github.com/endorama/devid/plugins/envs"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestPlugin_Renderable(t *testing.T) {
@@ -20,7 +21,9 @@ func TestPlugin_Render(t *testing.T) {
 	assert.NotNil(t, cfg)
 
 	i := envs.NewPlugin()
-	i.Configure(cfg)
+	if err := i.Configure(cfg); err != nil {
+		panic(err)
+	}
 
 	r := i.Render(p.Name(), p.Location())
 

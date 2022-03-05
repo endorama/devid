@@ -9,9 +9,10 @@ import (
 	"text/template"
 	"time"
 
+	"github.com/spf13/viper"
+
 	"github.com/endorama/devid/internal/persona"
 	"github.com/endorama/devid/internal/plugin"
-	"github.com/spf13/viper"
 )
 
 //go:embed load.sh.txt
@@ -49,6 +50,7 @@ func ShellLoader(p persona.Persona) (string, error) {
 	log.Printf("%+v", plugins)
 
 	sb := strings.Builder{}
+
 	for _, plg := range plugins {
 		if renderablePlugin, ok := plg.Instance.(plugin.Renderable); ok {
 			if plg.Enabled {

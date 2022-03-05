@@ -3,9 +3,10 @@ package identity_test
 import (
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/endorama/devid/internal/plugintest"
 	"github.com/endorama/devid/plugins/identity"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestPlugin_Configure(t *testing.T) {
@@ -16,7 +17,7 @@ func TestPlugin_Configure(t *testing.T) {
 
 	err := p.Configure(config)
 	if err != nil {
-		t.Errorf("cannot load plugin config: %w", err)
+		t.Errorf("cannot load plugin config: %v", err)
 	}
 
 	assert.Nil(t, err, "err should be nil")

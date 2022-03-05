@@ -7,5 +7,4 @@ const (
 	pluginManagerSetupErrorExitCode           = 130
 	pluginManagerOptionalLoadingErrorExitCode = 131
 	pluginGenerationExitCode                  = 132
-	pluginManagerLoadingErrorExitCode         = 133
 )

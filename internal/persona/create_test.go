@@ -12,7 +12,7 @@ func TestCreate(t *testing.T) {
 	p, _ := persona.New("carol")
 
 	if err := persona.Create(p); err != nil {
-		t.Errorf("Unexpected error %w", err)
+		t.Errorf("unexpected error %v", err)
 	}
 
 	_ = persona.Delete(p)
@@ -24,6 +24,6 @@ func TestCreate_DoNotOverride(t *testing.T) {
 	p, _ := persona.New("bob")
 
 	if err := persona.Create(p); err == nil {
-		t.Errorf("Should have been an error error but it's %w", err)
+		t.Errorf("should have been an error error but it's %v", err)
 	}
 }

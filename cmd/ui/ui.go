@@ -43,14 +43,14 @@ func Fatal(e error, ec int) {
 	os.Exit(ec)
 }
 
-func Info(format string, a ...interface{}) {
+func Infof(format string, a ...interface{}) {
 	ui.Info(fmt.Sprintf(format, a...))
 }
 
-func Output(format string, a ...interface{}) {
+func Outputf(format string, a ...interface{}) {
 	ui.Output(fmt.Sprintf(format, a...))
 }
 
-func Warn(format string, a ...interface{}) {
+func Warnf(format string, a ...interface{}) {
 	ui.Warn(fmt.Sprintf(format, a...))
 }

@@ -19,9 +19,10 @@ import (
 	"io/ioutil"
 	"log"
 
+	"github.com/spf13/cobra"
+
 	"github.com/endorama/devid/cmd/ui"
 	"github.com/endorama/devid/internal/plugin/manager"
-	"github.com/spf13/cobra"
 
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/viper"
@@ -36,12 +37,18 @@ var rootCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 	Short: "Secure manager for your developer personas",
 	Long: `devid (pronounced /ˈdeɪvɪd/) is a Swiss Army Knife for your developer identity personas.
 
-Each of us has multiple personas for different areas of their life. It may be work/personal, or for different open source projects, for different clients, or whatever reason you may think for presenting yourself differently in different context. This is something we do in real life (think dressing differently for different social events) but doing so in digital world as developers can be a pain: you have to manage identities (GPG or SSH keys), authentication tokens, specific configurations.
+Each of us has multiple personas for different areas of their life. It may be work/personal, or for
+different open source projects, for different clients, or whatever reason you may think for 
+presenting yourself differently in different context. This is something we do in real life (think 
+dressing differently for different social events) but doing so in digital world as developers can 
+be a pain: you have to manage identities (GPG or SSH keys), authentication tokens, specific 
+configurations.
 
 Properly securing our developer identity and personas is hard. devid aims to help you with that.
 
 Environment variables:
-- DEVID_PERSONAS_LOCATION (default $XDG_DATA_HOME/devid/personas): specify where devid will look for persona's folders.
+- DEVID_PERSONAS_LOCATION (default $XDG_DATA_HOME/devid/personas): specify where devid will look 
+for persona's folders.
 `,
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		if !verbose {
@@ -88,6 +95,6 @@ func initConfig() {
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
-		ui.Info("Using config file: %s", viper.ConfigFileUsed())
+		ui.Infof("Using config file: %s", viper.ConfigFileUsed())
 	}
 }

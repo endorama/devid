@@ -4,9 +4,10 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/endorama/devid/internal/persona"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+
+	"github.com/endorama/devid/internal/persona"
 )
 
 var errNoActivePersona = errors.New("no active persona found")

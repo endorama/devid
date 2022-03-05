@@ -43,7 +43,10 @@ func (p Plugin) Render(personaName, personaDirectory string) string {
 	if err != nil {
 		log.Fatal(err)
 	}
-	tpl.Execute(&sb, config)
+
+	if err := tpl.Execute(&sb, config); err != nil {
+		return fmt.Sprintf("# cannot render template: %v", err)
+	}
 
 	return sb.String()
 }

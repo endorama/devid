@@ -4,10 +4,11 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/endorama/devid/internal/plugin"
 	"github.com/endorama/devid/internal/plugintest"
 	"github.com/endorama/devid/plugins/bin"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestPlugin_Renderable(t *testing.T) {

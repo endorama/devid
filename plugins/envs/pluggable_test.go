@@ -3,9 +3,10 @@ package envs_test
 import (
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/endorama/devid/internal/plugin"
 	"github.com/endorama/devid/plugins/envs"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestPlugin_Pluggable(t *testing.T) {

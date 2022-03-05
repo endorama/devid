@@ -26,8 +26,7 @@ func OpenWithEditor(path string) error {
 	editor.Stdin = os.Stdin
 	editor.Stdout = os.Stdout
 
-	err := editor.Run()
-	if err != nil {
+	if err := editor.Run(); err != nil {
 		return fmt.Errorf("cannot run '%s': %w", editor.String(), err)
 	}
 
@@ -36,7 +35,7 @@ func OpenWithEditor(path string) error {
 
 // AllowedEditors is a list of allowed values for the EDITOR environment variable.
 // FIXME: prevent unknown command execution when some of these editor is not available.
-// FIXME: make this a function so is not directly modifiable
+// FIXME: make this a function so is not directly modifiable.
 var AllowedEditors = []string{ // nolint:gochecknoglobals // implementation detail
 	"/bin/ed",
 	"/bin/nano",

@@ -5,8 +5,9 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/endorama/devid/internal/plugin"
 	"github.com/spf13/viper"
+
+	"github.com/endorama/devid/internal/plugin"
 )
 
 var errMissingPluginConfig = errors.New("plugin config not found")

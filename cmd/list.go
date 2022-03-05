@@ -40,7 +40,7 @@ var listCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 			if f.IsDir() {
 				p, _ := persona.New(f.Name())
 				if p.Exists() {
-					ui.Output(p.Name())
+					ui.Outputf(p.Name())
 				}
 			}
 		}

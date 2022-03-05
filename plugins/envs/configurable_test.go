@@ -3,10 +3,11 @@ package envs_test
 import (
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/endorama/devid/internal/plugin"
 	"github.com/endorama/devid/internal/plugintest"
 	"github.com/endorama/devid/plugins/envs"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestPlugin_Configurable(t *testing.T) {
@@ -22,7 +23,7 @@ func TestPlugin_Configure(t *testing.T) {
 
 	err := p.Configure(cfg)
 	if err != nil {
-		t.Errorf("cannot load plugin config: %w", err)
+		t.Errorf("cannot load plugin config: %v", err)
 	}
 
 	assert.Nil(t, err, "err should be nil")

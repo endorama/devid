@@ -7,9 +7,10 @@ import (
 	"os/exec"
 	"path"
 
+	"github.com/spf13/cobra"
+
 	"github.com/endorama/devid/cmd/ui"
 	"github.com/endorama/devid/cmd/utils"
-	"github.com/spf13/cobra"
 )
 
 var CreateKey = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
@@ -24,7 +25,7 @@ var CreateKey = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 		}
 
 		passphrase := utils.GeneratePassphrase()
-		ui.Info(fmt.Sprintf("Generated passphrase: %s", passphrase))
+		ui.Infof(fmt.Sprintf("Generated passphrase: %s", passphrase))
 
 		genCmd := "ssh-keygen"
 		genArgs := []string{
@@ -40,11 +41,14 @@ var CreateKey = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 		out, err := c.Output()
 		if err != nil {
 			ui.Error(err)
-			if e, ok := err.(*exec.ExitError); ok {
-				ui.Error(errors.New(string(e.Stderr)))
+
+			var eerr *exec.ExitError
+			if errors.As(err, &eerr) {
+				ui.Error(err)
 			}
 			os.Exit(1)
 		}
-		ui.Output(string(out))
+
+		ui.Outputf(string(out))
 	},
 }

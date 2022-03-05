@@ -37,7 +37,8 @@ trigger an unknown command execution trough this command.
 
 Allowed EDITOR values: %s
 
-This command loads the current persona from DEVID_ACTIVE_PERSONA environment variable, and this value takes precedence over the --persona flag.
+This command loads the current persona from DEVID_ACTIVE_PERSONA environment variable, and this 
+value takes precedence over the --persona flag.
 `, utils.AllowedEditors),
 	Run: func(cmd *cobra.Command, args []string) {
 		p, err := cmdutils.LoadPersona(cmd)

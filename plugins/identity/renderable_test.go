@@ -3,9 +3,10 @@ package identity_test
 import (
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/endorama/devid/internal/plugintest"
 	"github.com/endorama/devid/plugins/identity"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestPlugin_Render(t *testing.T) {

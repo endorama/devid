@@ -16,7 +16,6 @@ limitations under the License.
 package cmd
 
 import (
-	"errors"
 	"fmt"
 	"os"
 
@@ -36,7 +35,8 @@ var whoamiCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 
 If no persona is loaded print nothing and exit with code 128.
 
-This command loads the current persona from DEVID_ACTIVE_PERSONA environment variable, and this value takes precedence over the --persona flag.
+This command loads the current persona from DEVID_ACTIVE_PERSONA environment variable, and this 
+value takes precedence over the --persona flag.
 `,
 	Run: func(cmd *cobra.Command, args []string) {
 		p, err := utils.LoadPersona(cmd)
@@ -50,23 +50,31 @@ This command loads the current persona from DEVID_ACTIVE_PERSONA environment var
 		}
 
 		if extended {
-			manager.LoadCorePlugins(p.Config)
+			if errs, err := manager.LoadCorePlugins(p.Config); err != nil {
+				ui.Error(errLoadingCorePlugins)
+
+				for _, e := range errs {
+					ui.Error(e)
+				}
+
+				os.Exit(pluginManagerCoreLoadingErrorExitCode)
+			}
 
 			plg, found := manager.GetPlugin("identity")
 			if !found {
-				ui.Fatal(errors.New("Cannot find identity plugin"), genericExitCode)
+				ui.Fatal(errIdentityPluginNotFound, genericExitCode)
 			}
 
 			identityPlugin, ok := plg.Instance.(*identity.Plugin)
 			if !ok {
-				ui.Fatal(errors.New("Retrieved plugin is not an instance of identity.Plugin"), genericExitCode)
+				ui.Fatal(errPluginNotInstanceOf, genericExitCode)
 			}
 
-			ui.Output("%s, %s", p.Name(), identityPlugin.Whoami())
+			ui.Outputf("%s, %s", p.Name(), identityPlugin.Whoami())
 			os.Exit(0)
 		}
 
-		ui.Output(p.Name())
+		ui.Outputf(p.Name())
 		os.Exit(0)
 	},
 }

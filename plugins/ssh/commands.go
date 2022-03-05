@@ -1,8 +1,9 @@
 package ssh
 
 import (
-	"github.com/endorama/devid/plugins/ssh/cmds"
 	"github.com/spf13/cobra"
+
+	"github.com/endorama/devid/plugins/ssh/cmds"
 )
 
 func (p Plugin) Commands() []*cobra.Command {

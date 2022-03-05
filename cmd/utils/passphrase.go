@@ -2,8 +2,10 @@ package utils
 
 import petname "github.com/dustinkirkland/golang-petname"
 
+const passphraseLength = 6
+
 func GeneratePassphrase() string {
 	petname.NonDeterministicMode()
-	passphraseLength := 6
+
 	return petname.Generate(passphraseLength, "-")
 }

@@ -20,12 +20,14 @@ func (p Plugin) Setup(profileLocation string) error {
 	if err != nil {
 		return fmt.Errorf("cannot create known_hosts file: %w", err)
 	}
+
 	knownHostsFile.Close()
 
 	configFile, err := os.Create(path.Join(loc, "config"))
 	if err != nil {
 		return fmt.Errorf("cannot create config file: %w", err)
 	}
+
 	configFile.Close()
 
 	return nil

@@ -33,11 +33,15 @@ var deleteCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 
 All content from the persona's folder will be destroyed through this command.
 
-Deletion is performed using a Golang implementation of Linux shred command, configured to perform 3 iteration, overriding with zero and final file removal.
+Deletion is performed using a Golang implementation of Linux shred command, configured to perform 3
+iteration, overriding with zero and final file removal.
 
-Note that shred relies on a very important assumption: that the file system overwrites data in place. This may not be the case for your file system, please refer to shred documentation for further details.
+Note that shred relies on a very important assumption: that the file system overwrites data in 
+place. This may not be the case for your file system, please refer to shred documentation for 
+further details.
 
-This command loads the current persona from DEVID_ACTIVE_PERSONA environment variable, and this value takes precedence over the --persona flag.
+This command loads the current persona from DEVID_ACTIVE_PERSONA environment variable, and this 
+value takes precedence over the --persona flag.
 `,
 	Run: func(cmd *cobra.Command, args []string) {
 		p, err := utils.LoadPersona(cmd)

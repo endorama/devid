@@ -7,6 +7,8 @@ import (
 	"os"
 )
 
+const folderPerms = os.FileMode(0750)
+
 var errPersonaExists = errors.New("persona already exists")
 
 // Create creates specific persona configuration in the personas_location folder
@@ -20,7 +22,7 @@ func Create(p Persona) error {
 	if _, err := os.Stat(p.Location()); os.IsNotExist(err) {
 		log.Printf("%s does not exists, creating\n", p.Location())
 
-		if err := os.Mkdir(p.Location(), 0755); err != nil {
+		if err := os.Mkdir(p.Location(), folderPerms); err != nil {
 			return fmt.Errorf("cannot create directory: %w", err)
 		}
 	}

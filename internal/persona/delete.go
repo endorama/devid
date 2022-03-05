@@ -12,8 +12,7 @@ func Delete(p Persona) error {
 		return nil
 	}
 
-	err := os.Remove(p.File())
-	if err != nil {
+	if err := os.Remove(p.File()); err != nil {
 		return fmt.Errorf("cannot delete persona(%s): %w", p.Name(), err)
 	}
 

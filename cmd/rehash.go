@@ -16,7 +16,6 @@ limitations under the License.
 package cmd
 
 import (
-	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -30,6 +29,8 @@ import (
 	"github.com/endorama/devid/internal/plugin/manager"
 	"github.com/endorama/devid/internal/utils"
 )
+
+const permUserRWX = os.FileMode(0700)
 
 // rehashCmd represents the rehash command.
 var rehashCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
@@ -56,8 +57,7 @@ rehash command is directly inspired by rbenv, a ruby version manager.
 			// This may be especially problematic for executable path detection in
 			// plugin.
 			// As such we prevent rehashing while there is an active profile.
-			err := errors.New("Trying to rehash with an active profile. This may go very wrong.")
-			ui.Fatal(err, genericExitCode)
+			ui.Fatal(errRehashWithActiveProfile, genericExitCode)
 		}
 
 		var errs []error
@@ -137,7 +137,12 @@ rehash command is directly inspired by rbenv, a ruby version manager.
 		if err != nil {
 			ui.Fatal(fmt.Errorf("cannot save shell loader: %w", err), genericExitCode)
 		}
-		os.Chmod(shellLoaderFilePath, 0700)
+
+		if err := os.Chmod(shellLoaderFilePath, permUserRWX); err != nil {
+			ui.Fatal(
+				fmt.Errorf("cannot change permissions to %s on %s: %v", permUserRWX, shellLoaderFilePath, err),
+				genericExitCode)
+		}
 	},
 }
 

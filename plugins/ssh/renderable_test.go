@@ -21,7 +21,9 @@ func TestPlugin_Render(t *testing.T) {
 	assert.NotNil(t, cfg)
 
 	i := ssh.NewPlugin()
-	i.Configure(cfg)
+	if err := i.Configure(cfg); err != nil {
+		panic(err)
+	}
 
 	r := i.Render(p.Name(), p.Location())
 

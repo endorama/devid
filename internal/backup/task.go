@@ -1,6 +1,7 @@
 package backup
 
 import (
+	"fmt"
 	"io"
 
 	"github.com/endorama/devid/internal/utils"
@@ -18,5 +19,10 @@ type Task struct {
 
 // Files retrieves list of files to backup by walking Source.
 func (b Task) Files() ([]string, error) {
-	return utils.WalkRelative(b.Source)
+	paths, err := utils.WalkRelative(b.Source)
+	if err != nil {
+		return paths, fmt.Errorf("cannot walk relative path: %v", err)
+	}
+
+	return paths, nil
 }

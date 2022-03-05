@@ -11,6 +11,7 @@ type Plugin struct {
 	Enabled  bool
 }
 
+//nolint:gochecknoglobals // the plugins state is shared through this global variable
 var plugins = []Plugin{}
 
 // GetPlugin find a plugin by name and return it. Boolean value varies if the

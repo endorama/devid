@@ -36,7 +36,8 @@ The backup is compressed (.tar.gz) and encrypted using age (filippo.io/age).
 Encryption requires a passphrase that is automatically generated using a safe 
 RNG function and printed after backup creation.
 
-This command loads the current persona from DEVID_ACTIVE_PERSONA environment variable, and this value takes precedence over the --persona flag.
+This command loads the current persona from DEVID_ACTIVE_PERSONA environment variable, and this 
+value takes precedence over the --persona flag.
 `,
 	Args: cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
@@ -46,7 +47,7 @@ This command loads the current persona from DEVID_ACTIVE_PERSONA environment var
 		}
 		passphrase := utils.GeneratePassphrase()
 
-		ui.Output(fmt.Sprintf("Creating backup for persona: %s\n", p.Name()))
+		ui.Outputf(fmt.Sprintf("creating backup for persona: %s\n", p.Name()))
 
 		out, err := os.Create(fmt.Sprintf("%s.tar.gz.age", p.Name()))
 		if err != nil {
@@ -56,14 +57,14 @@ This command loads the current persona from DEVID_ACTIVE_PERSONA environment var
 
 		b, err := backup.NewTask(p.Name(), p.Location(), out)
 		if err != nil {
-			ui.Fatal(fmt.Errorf("Cannot create backup task: %w", err), genericExitCode)
+			ui.Fatal(fmt.Errorf("cannot create backup task: %w", err), genericExitCode)
 		}
 		err = backup.Perform(b, passphrase)
 		if err != nil {
 			ui.Fatal(err, genericExitCode)
 		}
 
-		ui.Info("Encryption passphrase is: %s", passphrase)
+		ui.Infof("Encryption passphrase is: %s", passphrase)
 	},
 }
 

@@ -6,8 +6,9 @@ import (
 	"path"
 	"testing"
 
-	"github.com/endorama/devid/internal/persona"
 	"github.com/spf13/viper"
+
+	"github.com/endorama/devid/internal/persona"
 )
 
 func GetPersona(t *testing.T, name string) persona.Persona {
