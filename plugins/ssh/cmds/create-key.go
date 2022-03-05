@@ -1,4 +1,4 @@
-package ssh
+package cmds
 
 import (
 	"errors"
@@ -12,7 +12,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var createKeyCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
+var CreateKey = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 	Use:   "create-key",
 	Short: "create a SSH key",
 	Long: `Perform secure SSH key generation.
@@ -47,8 +47,4 @@ var createKeyCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobr
 		}
 		ui.Output(string(out))
 	},
-}
-
-func (p Plugin) Commands() []*cobra.Command {
-	return []*cobra.Command{createKeyCmd}
 }
