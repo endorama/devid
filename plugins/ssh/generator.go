@@ -33,10 +33,18 @@ func (p *Plugin) Generate(personaDirectory string) (plugin.Generated, error) {
 	scp.WriteString(configOption)
 	scp.WriteString("$@")
 
+	sshCopyId := strings.Builder{}
+	sshCopyId.WriteString("#!/usr/bin/env bash\n")
+	sshCopyId.WriteString("exec /usr/bin/ssh-copy-id ")
+	sshCopyId.WriteString(knownHostsOption)
+	sshCopyId.WriteString(configOption)
+	sshCopyId.WriteString("$@")
+
 	return plugin.Generated{
 		Executables: []plugin.GeneratedFile{
 			{Name: "ssh", Content: ssh.String()},
 			{Name: "scp", Content: scp.String()},
+			{Name: "ssh-copy-id", Content: sshCopyId.String()},
 		},
 		Files: []plugin.GeneratedFile{},
 	}, nil
