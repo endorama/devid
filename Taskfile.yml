@@ -7,6 +7,7 @@ vars:
     sh: git rev-parse --abbrev-ref HEAD
   GIT_COMMIT:
     sh: git log -n 1 --format=%h
+  PACKAGE: github.com/endorama/devid
 
 tasks:
   default:
@@ -22,8 +23,8 @@ tasks:
     cmds:
       - |
         go build -ldflags="-s -w 
-            -X github.com/endorama/devid/internal/version.version={{.VERSION}} 
-            -X github.com/endorama/devid/internal/version.commit={{.GIT_COMMIT}}{{.GIT_DIRTY}}"
+            -X {{.PACKAGE}}/internal/version.version={{.VERSION}} 
+            -X {{.PACKAGE}}/internal/version.commit={{.GIT_COMMIT}}{{.GIT_DIRTY}}"
     vars:
       VERSION: "{{.GIT_BRANCH}}"
       GIT_DIRTY:
@@ -46,7 +47,7 @@ tasks:
   go-imports:
     desc: Perform goimports
     cmds:
-      - goimports -w -local github.com/endorama/devid *.go cmd internal plugins test
+      - goimports -w -local {{.PACKAGE}} *.go cmd internal plugins test
 
   lint:
     desc: Lint go code

@@ -60,6 +60,9 @@ rehash command is directly inspired by rbenv, a ruby version manager.
 			ui.Fatal(err, genericExitCode)
 		}
 
+		var errs []error
+		var err error
+
 		p, err := cmdutils.LoadPersona(cmd)
 		if err != nil {
 			ui.Fatal(fmt.Errorf("cannot instantiate persona: %w", err), noPersonaLoadedExitCode)
@@ -75,7 +78,7 @@ rehash command is directly inspired by rbenv, a ruby version manager.
 		//   os.Exit(pluginManagerLoadingErrorExitCode)
 		// }
 
-		errs, err := manager.LoadCorePlugins(p.Config)
+		errs, err = manager.LoadCorePlugins(p.Config)
 		if err != nil {
 			ui.Error(err)
 
@@ -98,6 +101,17 @@ rehash command is directly inspired by rbenv, a ruby version manager.
 		}
 
 		log.Printf("persona: %+v\n", p)
+
+		errs, err = manager.SetupPlugins(p)
+		if err != nil {
+			ui.Error(err)
+
+			for _, e := range errs {
+				ui.Error(e)
+			}
+
+			os.Exit(pluginGenerationExitCode)
+		}
 
 		errs, err = manager.Generate(p)
 		if err != nil {
