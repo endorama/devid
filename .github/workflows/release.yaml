@@ -37,7 +37,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: "artifact-${{ matrix.operating-system }}.${{ github.run_id }}.${{ github.run_number }}"
-          path: "./checksum-{matrix.operating-system"
+          path: "./checksum-{matrix.operating-system}"
 
   create-release:
     runs-on: ubuntu-latest
