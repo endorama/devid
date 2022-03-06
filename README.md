@@ -1,3 +1,8 @@
+[![lint & tests](https://github.com/endorama/devid/actions/workflows/tests.yaml/badge.svg)](https://github.com/endorama/devid/actions/workflows/tests.yaml) 
+[![GoDoc](https://godoc.org/github.com/endorama/devid?status.svg)](https://godoc.org/github.com/endorama/devid)
+[![DeepSource](https://deepsource.io/gh/endorama/devid.svg/?label=active+issues&show_trend=true&token=BTRDf34oDv0pCRrUBHpklGia)](https://deepsource.io/gh/endorama/devid/?ref=repository-badge)
+[![codecov](https://codecov.io/gh/endorama/devid/branch/main/graph/badge.svg?token=74NTUSEJLV)](https://codecov.io/gh/endorama/devid)
+
 # DevID
 
 `devid` (pronounced `/ˈdeɪvɪd/`) is a Swiss Army Knife for your developer identities personas.
