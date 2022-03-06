@@ -15,8 +15,7 @@ const permUserRWX = os.FileMode(0700)
 const permUserRW = os.FileMode(0600)
 
 func generateExecutableFile(baseDir string, file plugin.GeneratedFile) error {
-	generateFile(baseDir, file)
-
+	// TODO: resolve path to absolute to avoid directory traversal
 	fp := path.Join(baseDir, file.Name)
 	if err := utils.PersistFile(fp, file.Content); err != nil {
 		return fmt.Errorf("cannot persist file %s: %w", fp, err)
