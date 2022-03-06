@@ -1,3 +1,7 @@
+run:
+  skip-dirs:
+    - internal/tmp
+
 output:
   unique-by-line: false
 
@@ -50,8 +54,8 @@ linters:
     - goconst
     - gocritic
     - godot
-    - godox
-    - goerr113
+    # - godox
+    # - goerr113
     - goheader
     # - golint # deprecated
     - gomnd
@@ -88,6 +92,11 @@ linters:
   fast: false
 
 linters-settings:
+  errorlint:
+    # Check whether fmt.Errorf uses the %w verb for formatting errors.
+    # See the https://github.com/polyfloyd/go-errorlint for caveats.
+    # Using %w makes errors part of public API (as they can be inspected). This is not always desired
+    errorf: false
   gocyclo:
     min-complexity: 10
   cyclop:
@@ -96,6 +105,8 @@ linters-settings:
     # put imports beginning with prefix after 3rd-party packages;
     # it's a comma-separated list of prefixes
     local-prefixes: github.com/endorama/devid
+  nestif:
+    min-complexity: 8
   nolintlint:
     allow-unused: true
     require-explanation: true
