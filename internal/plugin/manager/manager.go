@@ -6,6 +6,7 @@ import (
 	"github.com/endorama/devid/internal/plugin"
 )
 
+// Plugins is a managed plugin instance with information about it's enabled or disabled state.
 type Plugin struct {
 	Instance plugin.Pluggable
 	Enabled  bool

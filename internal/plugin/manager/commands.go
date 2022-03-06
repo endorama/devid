@@ -9,6 +9,9 @@ import (
 	"github.com/endorama/devid/internal/plugin/registry"
 )
 
+// LoadCommands load cobra commands from plugin implementing the Commander interface.
+// NOTE that these commands will be available independently from the enablement status of the
+// plugin.
 func LoadCommands() []*cobra.Command {
 	// loggin here cannot be managed via --verbose flag, so disabling it
 	// log.SetPrefix("command-plugins-loader ")

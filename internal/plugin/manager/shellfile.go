@@ -21,6 +21,7 @@ var shellLoader string
 
 // ShellLoader generate profile shell loader file.
 func ShellLoader(p persona.Persona) (string, error) {
+	// data is passed to the template
 	data := struct {
 		ActivePersona     string
 		ActivePersonaPath string

@@ -10,7 +10,10 @@ import (
 	"github.com/spf13/viper"
 )
 
+// errLoadingCorePlugins signal that some Core plugin failed to load.
 var errLoadingCorePlugins = errors.New("cannot load all core plugins")
+
+// errLoadingOptionalPlugins signal that some Optional plugin failed to load.
 var errLoadingOptionalPlugins = errors.New("cannot load all requested optional plugins")
 
 // LoadCorePlugins instantiate and register all core plugins, configuring them using the values
@@ -57,13 +60,13 @@ func LoadOptionalPlugins(config *viper.Viper) ([]error, error) {
 		enabled := config.GetBool(fmt.Sprintf("%s.enabled", name))
 
 		err := configurePlugin(plg, config)
-		if err != nil && !errors.Is(err, errMissingPluginConfig) {
+		if err != nil && !errors.Is(err, errMissingPluginConfigForName) {
 			errs = append(errs, err)
 
 			continue
 		}
 
-		if err != nil && errors.Is(err, errMissingPluginConfig) {
+		if err != nil && errors.Is(err, errMissingPluginConfigForName) {
 			enabled = false
 		}
 
@@ -79,6 +82,7 @@ func LoadOptionalPlugins(config *viper.Viper) ([]error, error) {
 	return errs, nil
 }
 
+// LoadPlugins load all core plugins and all plugins enabled in the read configurationf file.
 func LoadPlugins(config *viper.Viper) ([]error, error) {
 	errs, err := LoadCorePlugins(config)
 	if err != nil {
@@ -93,6 +97,7 @@ func LoadPlugins(config *viper.Viper) ([]error, error) {
 	return []error{}, nil
 }
 
+// humanizeEnabled returns a human friendly text based on the enabled boolean value.
 func humanizeEnabled(enabled bool) string {
 	if enabled {
 		return "enabled"

@@ -6,6 +6,7 @@ import (
 	"github.com/endorama/devid/plugins/tmux"
 )
 
+// Optionals are plugins that extend devid functionalities. Are loaded by devid after Core plugins.
 func Optionals() []plugin.Pluggable {
 	return []plugin.Pluggable{
 		ssh.NewPlugin(),

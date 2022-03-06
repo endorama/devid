@@ -8,6 +8,7 @@ import (
 	"os"
 )
 
+// errCreateArchive signal that an error occurred during archive creation.
 var errCreateArchive = errors.New("cannot create archive")
 
 // Create creates an encrypted gzipped tar archive file.
@@ -31,6 +32,7 @@ func Create(out io.Writer, files []string) error {
 	return nil
 }
 
+// addToArchive reads a file from disk and adds it to the specified tar file.
 func addToArchive(tw *tar.Writer, filename string) error {
 	file, err := os.Open(filename)
 	if err != nil {

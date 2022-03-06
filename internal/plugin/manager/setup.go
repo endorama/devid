@@ -8,6 +8,7 @@ import (
 	"github.com/endorama/devid/internal/plugin"
 )
 
+// setupPlugin execute Setup function a plugin implementing Setuppable interface.
 func setupPlugin(p persona.Persona, plg plugin.Pluggable) error {
 	if setuppablePlugin, ok := plg.(plugin.Setuppable); ok {
 		log.Printf("running setup of: %s", plg.Name())
@@ -21,6 +22,7 @@ func setupPlugin(p persona.Persona, plg plugin.Pluggable) error {
 	return nil
 }
 
+// SetupPlugins perform setup for all initialized plugins implementing Setuppable interface.
 func SetupPlugins(p persona.Persona) ([]error, error) {
 	log.SetPrefix("plugins-setup ")
 	defer log.SetPrefix("")
