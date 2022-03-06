@@ -31,7 +31,7 @@ tasks:
       - |
         go build 
             -X {{.PACKAGE}}/internal/version.version={{.VERSION}} 
-            -X {{.PACKAGE}}/internal/version.commit={{.GIT_COMMIT}}{{.GIT_DIRTY}}"
+            -X {{.PACKAGE}}/internal/version.commit={{.GIT_COMMIT}}{{.GIT_DIRTY}}
     vars:
       VERSION: "{{.GIT_BRANCH}}"
       GIT_DIRTY:
