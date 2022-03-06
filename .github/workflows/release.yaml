@@ -1,0 +1,68 @@
+---
+name: Build and create release
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - v*
+
+jobs:
+  build-release:
+    strategy:
+      matrix:
+        operating-system: [ubuntu-latest, macOS-latest]
+    runs-on: ${{ matrix.operating-system }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-go@v2
+        with:
+          go-version: 1.16
+      - name: Install Taskfile
+        uses: arduino/setup-task@v1
+        with:
+          version: '3.x'
+
+      - name: Build the CLI
+        run: "task build"
+
+      - run: |
+          mv devid devid-{matrix.operating-system}
+          mv checksum checksum-{matrix.operating-system}
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: "artifact-${{ matrix.operating-system }}.${{ github.run_id }}.${{ github.run_number }}"
+          path: "./devid-{matrix.operating-system}"
+      - uses: actions/upload-artifact@v2
+        with:
+          name: "artifact-${{ matrix.operating-system }}.${{ github.run_id }}.${{ github.run_number }}"
+          path: "./checksum-{matrix.operating-system"
+
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: "artifact-${{ matrix.operating-system }}.${{ github.run_id }}.${{ github.run_number }}"
+          
+      - name: Display structure of downloaded files
+        run: ls -R
+
+      - run: |
+          mv devid-macOS-latest devid-${{github.ref_name}}-darwin
+          cat checksum-macOS-latest | cut -d' '-f 1 > checksum
+          echo "devid-${{github.ref_name}}-darwin" >> checksum
+
+          mv devid-ubuntu-latest devid-${{github.ref_name}}-linux
+          cat checksum-ubuntu-latest | cut -d' '-f 1 >> checksum
+          echo "devid-${{github.ref_name}}-linux" >> checksum
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          draft: true
+          files: |
+            checksum
+            devid-${{github.ref_name}}-darwin
+            devid-${{github.ref_name}}-linux
