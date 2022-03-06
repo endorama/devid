@@ -47,3 +47,12 @@ func ReadFile(path string) ([]byte, error) {
 
 	return content, nil
 }
+
+// DeleteFile deletes a file from disk.
+func DeleteFile(filepath string) error {
+	if err := os.Remove(filepath); err != nil {
+		return fmt.Errorf("cannot delete file %s: %w", filepath, err)
+	}
+
+	return nil
+}
