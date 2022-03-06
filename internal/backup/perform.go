@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	encryptedarchive "github.com/endorama/devid/internal/archive/encrypted"
+	encryptedarchive "github.com/endorama/devid/internal/archive/compressed/encrypted"
 )
 
 // Perform create an encrypted backup archive from the specified set of files, using the
