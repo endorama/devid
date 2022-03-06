@@ -8,7 +8,7 @@ vars:
   GIT_COMMIT:
     sh: git log -n 1 --format=%h
   GIT_TAG:
-    sh: "git tag --points-at head"
+    sh: "git tag --points-at HEAD"
   PACKAGE: github.com/endorama/devid
 
 tasks:
