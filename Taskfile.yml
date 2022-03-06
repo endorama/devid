@@ -17,9 +17,6 @@ tasks:
   build:
     desc: Build the project
     cmds:
-      - task: deps
-      - task: go-imports
-      - task: lint
       - task: build:dev
 
   build:dev:
@@ -32,6 +29,14 @@ tasks:
       VERSION: "{{.GIT_BRANCH}}"
       GIT_DIRTY:
         sh: "[[ -z $(git status --porcelain) ]] || echo '-dirty'"
+
+  check:release:
+    desc: Perform multiple checks to ensure app is releaseable
+    cmds:
+      - task: deps
+      - task: go-imports
+      - task: lint
+      - task: tests
 
   deps:
     desc: Vendor mod dependencies
