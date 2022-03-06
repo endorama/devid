@@ -67,7 +67,14 @@ tasks:
   tests:
     desc: Run entire testsuite
     cmds:
-      - go test ./...
+      - go test -race {{.TEST_OPTS}} ./...
+
+  tests:coverage:
+    desc: Run entire testsuite
+    cmds:
+      - task: tests
+        vars:
+          TEST_OPTS: -covermode=atomic -coverprofile=coverage.out
 
   tests:single:
     desc: Run a single test, specify with RUN
