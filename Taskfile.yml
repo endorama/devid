@@ -7,6 +7,8 @@ vars:
     sh: git rev-parse --abbrev-ref HEAD
   GIT_COMMIT:
     sh: git log -n 1 --format=%h
+  GIT_TAG:
+    sh: "git tag --points-at head"
   PACKAGE: github.com/endorama/devid
 
 tasks:
@@ -15,14 +17,19 @@ tasks:
       - task: run
 
   build:
-    desc: Build the project
+    desc: Build the project for release
     cmds:
-      - task: build:dev
+      - |
+        go build -ldflags="-s -w 
+            -X {{.PACKAGE}}/internal/version.version={{.GIT_TAG}} 
+            -X {{.PACKAGE}}/internal/version.commit={{.GIT_COMMIT}}"
+      - sha256sum devid > checksum
+      - ./devid version
 
   build:dev:
     cmds:
       - |
-        go build -ldflags="-s -w 
+        go build 
             -X {{.PACKAGE}}/internal/version.version={{.VERSION}} 
             -X {{.PACKAGE}}/internal/version.commit={{.GIT_COMMIT}}{{.GIT_DIRTY}}"
     vars:
