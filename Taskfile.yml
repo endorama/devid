@@ -29,9 +29,9 @@ tasks:
   build:dev:
     cmds:
       - |
-        go build 
+        go build -ldflags="
             -X {{.PACKAGE}}/internal/version.version={{.VERSION}} 
-            -X {{.PACKAGE}}/internal/version.commit={{.GIT_COMMIT}}{{.GIT_DIRTY}}
+            -X {{.PACKAGE}}/internal/version.commit={{.GIT_COMMIT}}{{.GIT_DIRTY}}"
     vars:
       VERSION: "{{.GIT_BRANCH}}"
       GIT_DIRTY:
