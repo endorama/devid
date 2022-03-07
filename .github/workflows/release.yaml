@@ -55,11 +55,13 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R
 
-      - run: |
-          mv devid-macOS-latest devid-${{github.ref_name}}-darwin
-          cat checksum-macOS-latest | cut -d' '-f 1 > checksum
-          echo "devid-${{github.ref_name}}-darwin" >> checksum
+      - run: touch checksum
+      # - run: |
+      #     mv devid-macOS-latest devid-${{github.ref_name}}-darwin
+      #     cat checksum-macOS-latest | cut -d' '-f 1 >> checksum
+      #     echo "devid-${{github.ref_name}}-darwin" >> checksum
 
+      - run: |
           mv devid-ubuntu-latest devid-${{github.ref_name}}-linux
           cat checksum-ubuntu-latest | cut -d' '-f 1 >> checksum
           echo "devid-${{github.ref_name}}-linux" >> checksum
