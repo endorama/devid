@@ -11,7 +11,9 @@ jobs:
   build-release:
     strategy:
       matrix:
-        operating-system: [ubuntu-latest, macOS-latest]
+        # macos is missing sha256sum https://github.com/endorama/devid/runs/5441490049?check_suite_focus=true
+        # operating-system: [ubuntu-latest, macOS-latest]
+        operating-system: [ubuntu-latest]
     runs-on: ${{ matrix.operating-system }}
     steps:
       - uses: actions/checkout@v2
