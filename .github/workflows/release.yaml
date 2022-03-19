@@ -11,9 +11,7 @@ jobs:
   build-release:
     strategy:
       matrix:
-        # macos is missing sha256sum https://github.com/endorama/devid/runs/5441490049?check_suite_focus=true
         operating-system: [ubuntu-latest, macOS-latest]
-        # operating-system: [ubuntu-latest]
     runs-on: ${{ matrix.operating-system }}
     steps:
       - uses: actions/checkout@v2
@@ -53,12 +51,8 @@ jobs:
 
       - run: touch checksum
       - run: |
-          cat checksum-darwin | cut -d' ' -f 1 >> checksum
-          echo "devid-${{github.ref_name}}-darwin-amd64" >> checksum
-
-      - run: |
-          cat checksum-linux | cut -d' ' -f 1 >> checksum
-          echo "devid-${{github.ref_name}}-linux-amd64" >> checksum
+          cat checksum-darwin >> checksum
+          cat checksum-linux >> checksum
 
       - name: Release
         uses: softprops/action-gh-release@v1
@@ -66,7 +60,5 @@ jobs:
           draft: true
           files: |
             checksum
-            checksum-darwin
             devid-${{github.ref_name}}-darwin-amd64
-            checksum-linux
             devid-${{github.ref_name}}-linux-amd64
