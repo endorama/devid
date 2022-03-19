@@ -1,0 +1,6 @@
+version: '3'
+
+tasks:
+  checksum:
+    cmds:
+      - sha256sum {{.BIN_FILENAME}} > checksum-{{OS}}

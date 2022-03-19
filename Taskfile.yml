@@ -2,6 +2,9 @@
 
 version: '3'
 
+includes:
+  os: ./Taskfile_{{OS}}.yml
+
 vars:
   GIT_BRANCH:
     sh: git rev-parse --abbrev-ref HEAD
@@ -10,21 +13,12 @@ vars:
   GIT_TAG:
     sh: "git tag --points-at HEAD"
   PACKAGE: github.com/endorama/devid
+  BIN_FILENAME: devid-{{.GIT_TAG}}-{{OS}}-{{ARCH}}{{exeExt}}
 
 tasks:
   default:
     cmds:
       - task: run
-
-  build:
-    desc: Build the project for release
-    cmds:
-      - |
-        go build -ldflags="-s -w 
-            -X {{.PACKAGE}}/internal/version.version={{.GIT_TAG}} 
-            -X {{.PACKAGE}}/internal/version.commit={{.GIT_COMMIT}}"
-      - sha256sum devid > checksum
-      - ./devid version
 
   build:dev:
     cmds:
@@ -36,6 +30,17 @@ tasks:
       VERSION: "{{.GIT_BRANCH}}"
       GIT_DIRTY:
         sh: "[[ -z $(git status --porcelain) ]] || echo '-dirty'"
+
+  build:release:
+    desc: Build the project for release
+    cmds:
+      - |
+        go build -ldflags="-s -w
+            -X {{.PACKAGE}}/internal/version.version={{.GIT_TAG}}
+            -X {{.PACKAGE}}/internal/version.commit={{.GIT_COMMIT}}" \
+            -o {{.BIN_FILENAME}}
+      - task: "os:checksum"
+      - ./{{.BIN_FILENAME}} version
 
   check:release:
     desc: Perform multiple checks to ensure app is releaseable
