@@ -26,7 +26,7 @@ jobs:
           version: '3.x'
 
       - name: Build the CLI
-        run: "task build"
+        run: "task build:release"
 
       - uses: actions/upload-artifact@v3
         with:
