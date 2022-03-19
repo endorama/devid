@@ -12,8 +12,8 @@ jobs:
     strategy:
       matrix:
         # macos is missing sha256sum https://github.com/endorama/devid/runs/5441490049?check_suite_focus=true
-        # operating-system: [ubuntu-latest, macOS-latest]
-        operating-system: [ubuntu-latest]
+        operating-system: [ubuntu-latest, macOS-latest]
+        # operating-system: [ubuntu-latest]
     runs-on: ${{ matrix.operating-system }}
     steps:
       - uses: actions/checkout@v2
@@ -28,26 +28,22 @@ jobs:
       - name: Build the CLI
         run: "task build"
 
-      - run: |
-          mv devid devid-${{matrix.operating-system}}
-          mv checksum checksum-${{matrix.operating-system}}
-
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: "artifact-${{ matrix.operating-system }}.${{ github.run_id }}.${{ github.run_number }}"
-          path: "./devid-${{matrix.operating-system}}"
-      - uses: actions/upload-artifact@v2
-        with:
-          name: "artifact-${{ matrix.operating-system }}.${{ github.run_id }}.${{ github.run_number }}"
-          path: "./checksum-${{matrix.operating-system}}"
+          path: |
+            ./devid-*
+            ./checksum-*
+          if-no-files-found: error
+          retention-days: 5
 
   create-release:
     runs-on: ubuntu-latest
     needs: [build-release]
     steps:
-      # - uses: actions/download-artifact@v3
-      #   with:
-      #     name: "artifact-macOS-latest.${{ github.run_id }}.${{ github.run_number }}"
+      - uses: actions/download-artifact@v3
+        with:
+          name: "artifact-macOS-latest.${{ github.run_id }}.${{ github.run_number }}"
       - uses: actions/download-artifact@v3
         with:
           name: "artifact-ubuntu-latest.${{ github.run_id }}.${{ github.run_number }}"
@@ -56,15 +52,13 @@ jobs:
         run: ls -R
 
       - run: touch checksum
-      # - run: |
-      #     mv devid-macOS-latest devid-${{github.ref_name}}-darwin
-      #     cat checksum-macOS-latest | cut -d' ' -f 1 >> checksum
-      #     echo "devid-${{github.ref_name}}-darwin" >> checksum
+      - run: |
+          cat checksum-darwin | cut -d' ' -f 1 >> checksum
+          echo "devid-${{github.ref_name}}-darwin-amd64" >> checksum
 
       - run: |
-          mv devid-ubuntu-latest devid-${{github.ref_name}}-linux
-          cat checksum-ubuntu-latest | cut -d' ' -f 1 >> checksum
-          echo "devid-${{github.ref_name}}-linux" >> checksum
+          cat checksum-linux | cut -d' ' -f 1 >> checksum
+          echo "devid-${{github.ref_name}}-linux-amd64" >> checksum
 
       - name: Release
         uses: softprops/action-gh-release@v1
@@ -72,5 +66,7 @@ jobs:
           draft: true
           files: |
             checksum
-            devid-${{github.ref_name}}-darwin
-            devid-${{github.ref_name}}-linux
+            checksum-darwin
+            devid-${{github.ref_name}}-darwin-amd64
+            checksum-linux
+            devid-${{github.ref_name}}-linux-amd64
