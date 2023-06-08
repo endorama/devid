@@ -48,6 +48,7 @@ jobs:
       matrix:
         os: [macos-latest, ubuntu-latest]
     runs-on: "${{ matrix.os }}"
+    steps:
       - uses: cachix/install-nix-action@v20
       - uses: cachix/cachix-action@v12
         with:
