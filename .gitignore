@@ -1,2 +1,8 @@
 devid
 vendor/
+
+# Devenv
+.devenv*
+devenv.local.nix
+# Direnv
+.direnv/
