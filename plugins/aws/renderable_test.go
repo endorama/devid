@@ -19,6 +19,7 @@ func TestPlugin_Render(t *testing.T) {
 	p := plugintest.GetPersona(t, "alice")
 
 	i := aws.NewPlugin()
+	assert.True(t, plugintest.IsEnabled(t, "aws", p.Config), "plugin is not enabled for this persona")
 
 	r := i.Render(p.Name(), p.Location())
 
