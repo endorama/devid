@@ -5,7 +5,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+	http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,10 +28,11 @@ import (
 )
 
 // newCmd represents the new command.
-var newCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
-	Use:   "new [name]",
-	Short: "create a persona",
-	Long: fmt.Sprintf(`Create a new, empty, persona configuration file, opens it within EDITOR.
+func New() *cobra.Command {
+	newCmd := &cobra.Command{ //nolint:gochecknoglobals // required by cobra
+		Use:   "new [name]",
+		Short: "create a persona",
+		Long: fmt.Sprintf(`Create a new, empty, persona configuration file, opens it within EDITOR.
 
 For security EDITOR variable content is matched against a list of valid editor executable paths.
 NOTE however that if some of this commands are not available on your system is still possible to 
@@ -39,15 +40,14 @@ trigger an unknown command execution trough this command.
 
 Allowed EDITOR values: %s
 `, utils.AllowedEditors),
-	Args: cobra.MinimumNArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
-		runCommand(args)
-	},
-}
+		Args: cobra.MinimumNArgs(1),
+		Run: func(cmd *cobra.Command, args []string) {
+			runCommand(args)
+		},
+	}
 
-func init() { //nolint:gochecknoinits // required by cobra
 	// add --overwrite to overwrite already existing profile
-	rootCmd.AddCommand(newCmd)
+	return newCmd
 }
 
 func runCommand(args []string) {
