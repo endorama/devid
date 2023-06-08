@@ -16,7 +16,6 @@ limitations under the License.
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 
@@ -31,20 +30,8 @@ func main() {
 
 	createPersonasFolder()
 
-	rootCmd := cmd.RootCmd()
-	rootCmd.AddCommand(cmd.Backup())
-	rootCmd.AddCommand(cmd.Delete())
-	rootCmd.AddCommand(cmd.Edit())
-	rootCmd.AddCommand(cmd.List())
-	rootCmd.AddCommand(cmd.New())
-	rootCmd.AddCommand(cmd.Rehash())
-	rootCmd.AddCommand(cmd.Shell())
-	rootCmd.AddCommand(cmd.Whoami())
-
-	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
+	cmd.Init()
+	cmd.Execute()
 }
 
 func createPersonasFolder() {
