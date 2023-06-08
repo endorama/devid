@@ -11,6 +11,7 @@
     pkgs.gotools
     pkgs.go-task
     pkgs.golangci-lint
+    pkgs.silver-searcher
   ];
 
   # https://devenv.sh/scripts/
