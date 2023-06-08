@@ -10,40 +10,34 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-go@v4
+      - uses: cachix/install-nix-action@v20
+      - uses: cachix/cachix-action@v12
         with:
-          go-version: "1.20"
+          name: devenv
+      - name: Install devenv.sh
+        run: nix profile install github:cachix/devenv/latest
+        shell: sh
+      - run: devenv ci
+      - run: devenv shell task lint
 
-      - name: Run golangci-lint
-        uses: golangci/golangci-lint-action@v3.5.0
+  check:
+    name: Check file format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: cachix/install-nix-action@v20
+      - uses: cachix/cachix-action@v12
+        with:
+          name: devenv
+      - name: Install devenv.sh
+        run: nix profile install github:cachix/devenv/latest
+        shell: sh
+      - run: devenv ci
+      - run: devenv shell task fmt:check
+      - run: devenv shell task go-imports
 
   tests:
     name: Run tests
-    strategy:
-      matrix:
-        go-version: [1.16.x]
-        os: [macos-latest, ubuntu-latest]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v4
-        with:
-          go-version: "1.20"
-      - name: Install Taskfile
-        uses: arduino/setup-task@v1
-        with:
-          version: '3.x'
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: run tests
-        run: "task tests:coverage"
-
-      - uses: codecov/codecov-action@v2
-        with:
-          verbose: true
-
-  testwithdevenv:
-    name: Run tests from devenv
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest]
@@ -58,6 +52,7 @@ jobs:
         run: nix profile install github:cachix/devenv/latest
         shell: sh
       - run: devenv ci
-      - run: devenv shell echo ok
-      - run: devenv shell task lint
-      - run: devenv shell task tests
+      - run: devenv shell task tests:coverage
+      - uses: codecov/codecov-action@v2
+        with:
+          verbose: true
