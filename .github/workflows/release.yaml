@@ -14,10 +14,10 @@ jobs:
         operating-system: [ubuntu-latest, macOS-latest]
     runs-on: ${{ matrix.operating-system }}
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-go@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v4
         with:
-          go-version: 1.16
+          go-version: 1.20
       - name: Install Taskfile
         uses: arduino/setup-task@v1
         with:
