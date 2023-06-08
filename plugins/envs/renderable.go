@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func (p Plugin) Render(profileName, profileLocation string) string {
+func (p Plugin) Render(_, _ string) string {
 	sb := strings.Builder{}
 
 	for name, value := range p.config {

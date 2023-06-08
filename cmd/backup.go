@@ -68,8 +68,8 @@ value takes precedence over the --persona flag.
 			ui.Infof("Encryption passphrase is: %s", passphrase)
 		},
 	}
+
 	backupCmd.Flags().String("persona", "", "The persona to backup")
 
 	return backupCmd
-
 }

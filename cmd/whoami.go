@@ -81,5 +81,6 @@ value takes precedence over the --persona flag.
 	}
 
 	whoamiCmd.Flags().BoolP("extended", "e", false, "Print extended identity information")
+
 	return whoamiCmd
 }

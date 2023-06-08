@@ -8,7 +8,7 @@ import (
 	"github.com/endorama/devid/internal/plugin"
 )
 
-func (p *Plugin) Generate(personaDirectory string) (plugin.Generated, error) {
+func (p *Plugin) Generate(_ string) (plugin.Generated, error) {
 	tmux := strings.Builder{}
 	tmux.WriteString("#!/usr/bin/env bash\n")
 	tmux.WriteString("exec ")

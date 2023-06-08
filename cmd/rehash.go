@@ -26,6 +26,7 @@ import (
 
 	"github.com/endorama/devid/cmd/ui"
 	cmdutils "github.com/endorama/devid/cmd/utils"
+	"github.com/endorama/devid/internal/persona"
 	"github.com/endorama/devid/internal/plugin/manager"
 	"github.com/endorama/devid/internal/utils"
 )
@@ -50,103 +51,102 @@ goes bad you can still load a persona's shell environment by running
 
 rehash command is directly inspired by rbenv, a ruby version manager.
 `,
-		Run: func(cmd *cobra.Command, args []string) {
-			if viper.GetString("active_persona") != "" {
-				// NOTE: rehashing when a profile is active is dangerous, as the environment
-				// has been changed with customizations and there is no guarantee about
-				// what those changes have affected.
-				// This may be especially problematic for executable path detection in
-				// plugin.
-				// As such we prevent rehashing while there is an active profile.
-				ui.Fatal(errRehashWithActiveProfile, genericExitCode)
-			}
-
-			var errs []error
-			var err error
-
-			p, err := cmdutils.LoadPersona(cmd)
-			if err != nil {
-				ui.Fatal(fmt.Errorf("cannot instantiate persona: %w", err), noPersonaLoadedExitCode)
-			}
-			// errs, err := manager.LoadPlugins(p.Config)
-			// if err != nil {
-			//   ui.Error(err.Error())
-			//
-			//   for _, e := range errs {
-			//     ui.Error(e.Error())
-			//   }
-			//
-			//   os.Exit(pluginManagerLoadingErrorExitCode)
-			// }
-
-			errs, err = manager.LoadCorePlugins(p.Config)
-			if err != nil {
-				ui.Error(err)
-
-				for _, e := range errs {
-					ui.Error(e)
-				}
-
-				os.Exit(pluginManagerCoreLoadingErrorExitCode)
-			}
-
-			errs, err = manager.LoadOptionalPlugins(p.Config)
-			if err != nil {
-				ui.Error(err)
-
-				for _, e := range errs {
-					ui.Error(e)
-				}
-
-				os.Exit(pluginManagerOptionalLoadingErrorExitCode)
-			}
-
-			log.Printf("persona: %+v\n", p)
-
-			errs, err = manager.SetupPlugins(p)
-			if err != nil {
-				ui.Error(err)
-
-				for _, e := range errs {
-					ui.Error(e)
-				}
-
-				os.Exit(pluginGenerationExitCode)
-			}
-
-			errs, err = manager.Generate(p)
-			if err != nil {
-				ui.Error(err)
-
-				for _, e := range errs {
-					ui.Error(e)
-				}
-
-				os.Exit(pluginGenerationExitCode)
-			}
-
-			content, err := manager.ShellLoader(p)
-			if err != nil {
-				ui.Error(err)
-				os.Exit(1)
-			}
-
-			log.Printf("%+v\n", content)
-
-			shellLoaderFilePath := path.Join(p.Location(), viper.GetString("shell_loader_filename"))
-			err = utils.PersistFile(shellLoaderFilePath, content)
-			if err != nil {
-				ui.Fatal(fmt.Errorf("cannot save shell loader: %w", err), genericExitCode)
-			}
-
-			if err := os.Chmod(shellLoaderFilePath, permUserRWX); err != nil {
-				ui.Fatal(
-					fmt.Errorf("cannot change permissions to %s on %s: %v", permUserRWX, shellLoaderFilePath, err),
-					genericExitCode)
-			}
-		},
+		Run: runRehash,
 	}
 
 	rehashCmd.Flags().String("persona", "", "The persona for which to rebuild the shell configuration")
+
 	return rehashCmd
+}
+
+func runRehash(cmd *cobra.Command, _ []string) {
+	if viper.GetString("active_persona") != "" {
+		// NOTE: rehashing when a profile is active is dangerous, as the environment
+		// has been changed with customizations and there is no guarantee about
+		// what those changes have affected.
+		// This may be especially problematic for executable path detection in
+		// plugin.
+		// As such we prevent rehashing while there is an active profile.
+		ui.Fatal(errRehashWithActiveProfile, genericExitCode)
+	}
+
+	var (
+		errs []error
+		err  error
+	)
+
+	p, err := cmdutils.LoadPersona(cmd)
+	if err != nil {
+		ui.Fatal(fmt.Errorf("cannot instantiate persona: %w", err), noPersonaLoadedExitCode)
+	}
+	// errs, err := manager.LoadPlugins(p.Config)
+	// if err != nil {
+	//   ui.Error(err.Error())
+	//
+	//   for _, e := range errs {
+	//     ui.Error(e.Error())
+	//   }
+	//
+	//   os.Exit(pluginManagerLoadingErrorExitCode)
+	// }
+
+	errs, err = manager.LoadCorePlugins(p.Config)
+	if err != nil {
+		handleAllErrors(errs, err, pluginManagerCoreLoadingErrorExitCode)
+	}
+
+	errs, err = manager.LoadOptionalPlugins(p.Config)
+	if err != nil {
+		handleAllErrors(errs, err, pluginManagerOptionalLoadingErrorExitCode)
+	}
+
+	log.Printf("persona: %+v\n", p)
+
+	errs, err = manager.SetupPlugins(p)
+	if err != nil {
+		handleAllErrors(errs, err, pluginGenerationExitCode)
+	}
+
+	errs, err = manager.Generate(p)
+	if err != nil {
+		handleAllErrors(errs, err, pluginGenerationExitCode)
+	}
+
+	fn := viper.GetString("shell_loader_filename")
+	if err := writeShellLoader(p, fn); err != nil {
+		ui.Fatal(err, genericExitCode)
+	}
+}
+
+func handleAllErrors(errs []error, err error, exitCode int) {
+	ui.Error(err)
+
+	for _, e := range errs {
+		ui.Error(e)
+	}
+
+	os.Exit(exitCode)
+}
+
+func writeShellLoader(p persona.Persona, filename string) error {
+	content, err := manager.ShellLoader(p)
+	if err != nil {
+		ui.Error(err)
+		os.Exit(1)
+	}
+
+	log.Printf("%+v\n", content)
+
+	shellLoaderFilePath := path.Join(p.Location(), filename)
+
+	err = utils.PersistFile(shellLoaderFilePath, content)
+	if err != nil {
+		return fmt.Errorf("cannot save shell loader: %w", err)
+	}
+
+	if err := os.Chmod(shellLoaderFilePath, permUserRWX); err != nil {
+		return fmt.Errorf("cannot change permissions to %s on %s: %w", permUserRWX, shellLoaderFilePath, err)
+	}
+
+	return nil
 }

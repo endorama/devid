@@ -32,7 +32,7 @@ func setDefaults() {
 	viper.SetDefault("shell", os.Getenv("SHELL"))
 }
 
-// nolint:deadcode,unused // will use it
+//nolint:deadcode,unused // will use it
 func readConfigFile() {
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
