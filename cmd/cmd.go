@@ -1,11 +1,12 @@
 package cmd
 
 import (
-	"github.com/endorama/devid/cmd/ui"
 	"github.com/spf13/cobra"
+
+	"github.com/endorama/devid/cmd/ui"
 )
 
-var cli *cobra.Command
+var cli *cobra.Command //nolint:gochecknoglobals // one cli to rule them all
 
 // Init initialises a cobra CLI with all commands from this package.
 func Init() {

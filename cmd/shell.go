@@ -41,5 +41,6 @@ value takes precedence over the --persona flag.`,
 	}
 
 	shellCmd.Flags().String("persona", "", "The persona's shell to load")
+
 	return shellCmd
 }

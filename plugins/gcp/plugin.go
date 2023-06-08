@@ -1,7 +1,7 @@
 package gcp
 
-// TODO: add gcp.NewPlugin() to internal/plugin/manager/available.go under Optional
-// TODO: add enabled check in internal/plugin/manager/manager.go LoadOptionalPlugins switch case
+// TODO: add gcp.NewPlugin() to internal/plugin/manager/available.go under Optional.
+// TODO: add enabled check in internal/plugin/manager/manager.go LoadOptionalPlugins switch case.
 const pluginName = "gcp"
 
 type Plugin struct {

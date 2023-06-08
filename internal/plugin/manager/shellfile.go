@@ -15,8 +15,9 @@ import (
 	"github.com/endorama/devid/internal/plugin"
 )
 
+//
+//nolint:gochecknoglobals // required by embed
 //go:embed load.sh.txt
-// nolint:gochecknoglobals // required by embed
 var shellLoader string
 
 // ShellLoader generate profile shell loader file.

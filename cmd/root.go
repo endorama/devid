@@ -32,7 +32,6 @@ var cfgFile string //nolint:gochecknoglobals // required for init
 var verbose bool   //nolint:gochecknoglobals // require for init
 
 func RootCmd() *cobra.Command {
-	// rootCmd represents the base command when called without any subcommands.
 	var rootCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 		Use:   "devid",
 		Short: "Secure manager for your developer personas",
@@ -68,7 +67,6 @@ for persona's folders.
 
 func init() { //nolint:gochecknoinits // required by cobra
 	cobra.OnInitialize(initConfig)
-
 }
 
 // initConfig reads in config file and ENV variables if set.

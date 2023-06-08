@@ -4,7 +4,7 @@ import (
 	"strings"
 )
 
-func (p Plugin) Render(profileName, profileLocation string) string {
+func (p Plugin) Render(_, _ string) string {
 	sb := strings.Builder{}
 
 	sb.WriteString("export IDENTITY_EMAIL=\"" + p.config.Email + "\"\n")
