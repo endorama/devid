@@ -5,10 +5,10 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/endorama/devid/plugins/name"
+	"github.com/endorama/devid/plugins/aws"
 )
 
 func TestNewPlugin(t *testing.T) {
-	p := name.NewPlugin()
-	assert.IsType(t, &name.Plugin{}, p)
+	p := aws.NewPlugin()
+	assert.IsType(t, &aws.Plugin{}, p)
 }

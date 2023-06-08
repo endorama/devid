@@ -7,23 +7,23 @@ import (
 
 	"github.com/endorama/devid/internal/plugin"
 	"github.com/endorama/devid/internal/plugintest"
-	"github.com/endorama/devid/plugins/name"
+	"github.com/endorama/devid/plugins/aws"
 )
 
 func TestPlugin_Renderable(t *testing.T) {
-	p := name.NewPlugin()
+	p := aws.NewPlugin()
 	assert.Implements(t, (*plugin.Renderable)(nil), p)
 }
 
 func TestPlugin_Render(t *testing.T) {
-	p := plugintest.GetPersona(t)
+	p := plugintest.GetPersona(t, "alice")
 
-	i := name.NewPlugin()
-	i.LoadConfig(p.Config)
+	i := aws.NewPlugin()
 
 	r := i.Render(p.Name(), p.Location())
 
-	expected := `not implemented
+	expected := `export AWS_CONFIG_FILE=testdata/alice/aws/config
+export AWS_SHARED_CREDENTIALS_FILE=testdata/alice/aws/credentials
 `
 	assert.Equal(t, expected, r)
 }
