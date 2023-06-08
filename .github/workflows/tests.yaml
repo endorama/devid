@@ -60,4 +60,4 @@ jobs:
       - run: devenv ci
       - run: devenv shell echo ok
       - run: devenv shell task lint
-      - run: devenv shell task test
+      - run: devenv shell task tests
