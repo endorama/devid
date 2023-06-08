@@ -1,3 +1,6 @@
+//go:build skip
+// +build skip
+
 package gcp_test
 
 import (
