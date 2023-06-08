@@ -5,7 +5,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+	http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,15 +23,15 @@ import (
 )
 
 // versionCmd represents the version command.
-var versionCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
-	Use:   "version",
-	Short: "print version",
-	Long:  `Print version information bundled with the program.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		ui.Outputf(version.BuildString())
-	},
-}
+func VersionCmd() *cobra.Command {
+	versionCmd := &cobra.Command{ //nolint:gochecknoglobals // required by cobra
+		Use:   "version",
+		Short: "print version",
+		Long:  `Print version information bundled with the program.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			ui.Outputf(version.BuildString())
+		},
+	}
 
-func init() { //nolint:gochecknoinits // required by cobra
-	rootCmd.AddCommand(versionCmd)
+	return versionCmd
 }

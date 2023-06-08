@@ -5,7 +5,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+	http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,11 +31,12 @@ import (
 var cfgFile string //nolint:gochecknoglobals // required for init
 var verbose bool   //nolint:gochecknoglobals // require for init
 
-// rootCmd represents the base command when called without any subcommands.
-var rootCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
-	Use:   "devid",
-	Short: "Secure manager for your developer personas",
-	Long: `devid (pronounced /ˈdeɪvɪd/) is a Swiss Army Knife for your developer identity personas.
+func RootCmd() *cobra.Command {
+	// rootCmd represents the base command when called without any subcommands.
+	var rootCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
+		Use:   "devid",
+		Short: "Secure manager for your developer personas",
+		Long: `devid (pronounced /ˈdeɪvɪd/) is a Swiss Army Knife for your developer identity personas.
 
 Each of us has multiple personas for different areas of their life. It may be work/personal, or for
 different open source projects, for different clients, or whatever reason you may think for 
@@ -50,28 +51,24 @@ Environment variables:
 - DEVID_PERSONAS_LOCATION (default $XDG_DATA_HOME/devid/personas): specify where devid will look 
 for persona's folders.
 `,
-	PersistentPreRun: func(cmd *cobra.Command, args []string) {
-		if !verbose {
-			log.SetOutput(ioutil.Discard)
-		}
-	},
-}
-
-// Execute adds all child commands to the root command and sets flags appropriately.
-// This is called by main.main(). It only needs to happen once to the rootCmd.
-func Execute() {
-	if err := rootCmd.Execute(); err != nil {
-		ui.Fatal(err, genericExitCode)
+		PersistentPreRun: func(cmd *cobra.Command, args []string) {
+			if !verbose {
+				log.SetOutput(ioutil.Discard)
+			}
+		},
 	}
-}
-
-func init() { //nolint:gochecknoinits // required by cobra
-	cobra.OnInitialize(initConfig)
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.devid.yaml)")
 	rootCmd.PersistentFlags().BoolVar(&verbose, "verbose", false, "enable diagnostic logs")
 
 	rootCmd.AddCommand(manager.LoadCommands()...)
+
+	return rootCmd
+}
+
+func init() { //nolint:gochecknoinits // required by cobra
+	cobra.OnInitialize(initConfig)
+
 }
 
 // initConfig reads in config file and ENV variables if set.

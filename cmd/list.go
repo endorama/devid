@@ -5,7 +5,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+	http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,26 +27,26 @@ import (
 )
 
 // listCmd represents the list command.
-var listCmd = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
-	Use:   "list",
-	Short: "list personas",
-	Long:  `List all available personas.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		files, err := ioutil.ReadDir(viper.GetString("personas_location"))
-		if err != nil {
-			ui.Fatal(fmt.Errorf("cannot read folder content: %w", err), noPersonaLoadedExitCode)
-		}
-		for _, f := range files {
-			if f.IsDir() {
-				p, _ := persona.New(f.Name())
-				if p.Exists() {
-					ui.Outputf(p.Name())
+func List() *cobra.Command {
+	listCmd := &cobra.Command{ //nolint:gochecknoglobals // required by cobra
+		Use:   "list",
+		Short: "list personas",
+		Long:  `List all available personas.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			files, err := ioutil.ReadDir(viper.GetString("personas_location"))
+			if err != nil {
+				ui.Fatal(fmt.Errorf("cannot read folder content: %w", err), noPersonaLoadedExitCode)
+			}
+			for _, f := range files {
+				if f.IsDir() {
+					p, _ := persona.New(f.Name())
+					if p.Exists() {
+						ui.Outputf(p.Name())
+					}
 				}
 			}
-		}
-	},
-}
+		},
+	}
 
-func init() { //nolint:gochecknoinits // required by cobra
-	rootCmd.AddCommand(listCmd)
+	return listCmd
 }
