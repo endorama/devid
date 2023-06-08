@@ -8,7 +8,9 @@
   packages = [
     pkgs.git
     pkgs.go
+    pkgs.gotools
     pkgs.go-task
+    pkgs.golangci-lint
   ];
 
   # https://devenv.sh/scripts/
