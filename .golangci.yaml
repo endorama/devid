@@ -42,7 +42,7 @@ linters:
     # - rowserrcheck
     # style
     - asciicheck
-    - depguard
+    # depguard
     - dogsled
     - dupl
     # - exhaustivestruct
@@ -62,7 +62,6 @@ linters:
     - gomodguard
     - goprintffuncname
     - gosimple
-    - ifshort
     - importas
     # - interfacer
     - lll
@@ -82,13 +81,10 @@ linters:
     - whitespace
     - wrapcheck
     - wsl
-    # unused
-    - deadcode
+    - unused
     - ineffassign
-    - structcheck
     - unparam
     - unused
-    - varcheck
   fast: false
 
 linters-settings:
