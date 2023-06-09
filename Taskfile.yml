@@ -47,6 +47,7 @@ tasks:
     cmds:
       - task: deps
       - task: go-imports
+      - task: fmt:check
       - task: lint
       - task: tests
 
@@ -68,6 +69,16 @@ tasks:
     desc: Perform goimports
     cmds:
       - goimports -w -local {{.PACKAGE}} *.go cmd internal plugins test
+
+  fmt:
+    desc: Format go code
+    cmds:
+      - go fmt ./...
+
+  fmt:check:
+    desc: Check that all go files are properly formatted
+    cmds:
+      - test -z $(gofmt -l .)
 
   lint:
     desc: Lint go code
