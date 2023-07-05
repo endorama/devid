@@ -4,7 +4,7 @@ import "strings"
 
 // Render returns content rendered by the plugin.
 // Implements `plugin.Renderable` interface.
-func (p Plugin) Render(personaName, personaDirectory string) string {
+func (p *Plugin) Render(personaName, personaDirectory string) string {
 	sb := strings.Builder{}
 
 	if p.config.LocalConfig {

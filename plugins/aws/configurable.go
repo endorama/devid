@@ -22,6 +22,6 @@ func (p *Plugin) Configure(v *viper.Viper) error {
 	return nil
 }
 
-func (p Plugin) Config() Config {
+func (p *Plugin) Config() Config {
 	return p.config
 }
