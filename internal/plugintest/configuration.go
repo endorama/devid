@@ -19,5 +19,6 @@ func GetConfig(t *testing.T, name string) *viper.Viper {
 // IsEnabled checks if the specific plugin is enabled in the provided config.
 func IsEnabled(t *testing.T, plugin string, config *viper.Viper) bool {
 	t.Helper()
+
 	return config.GetBool(fmt.Sprintf("%s.enabled", plugin))
 }
