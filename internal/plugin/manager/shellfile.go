@@ -49,7 +49,22 @@ func ShellLoader(p persona.Persona) (string, error) {
 	}
 
 	log.Printf("%+v", tmpl)
-	log.Printf("%+v", plugins)
+
+	availablePlugins := strings.Builder{}
+	enabledPlugins := strings.Builder{}
+	for _, plg := range plugins {
+		availablePlugins.Write([]byte(plg.Instance.Name()))
+		if plg.Enabled {
+			enabledPlugins.Write([]byte(plg.Instance.Name()))
+		}
+		if plg != plugins[len(plugins)-1] {
+			availablePlugins.WriteByte(',')
+			enabledPlugins.WriteByte(',')
+		}
+	}
+
+	fmt.Printf("available plugins: %s\n", availablePlugins.String())
+	fmt.Printf("enabled plugins  : %s\n", enabledPlugins.String())
 
 	sb := strings.Builder{}
 
