@@ -25,6 +25,7 @@ func TestPlugin_Render(t *testing.T) {
 	r := i.Render(p.Name(), p.Location())
 
 	expected := `export AWS_CONFIG_FILE=testdata/alice/aws/config
+export AWS_PROFILE="alice"
 export AWS_SHARED_CREDENTIALS_FILE=testdata/alice/aws/credentials
 `
 	assert.Equal(t, expected, r)
