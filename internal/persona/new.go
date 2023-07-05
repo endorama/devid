@@ -24,6 +24,7 @@ func NewWithCustomLocation(name, location string) (Persona, error) {
 	v.SetDefault("identity.name", "required")
 	v.SetDefault("identity.email", "required")
 	v.SetDefault("envs", map[string]string{})
+	v.SetDefault("aws.enabled", false)
 	v.SetDefault("ssh.enabled", false)
 	v.SetDefault("tmux.enabled", false)
 

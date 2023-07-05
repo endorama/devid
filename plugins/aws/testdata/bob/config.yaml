@@ -1,0 +1,7 @@
+apiVersion: v1
+identity:
+  email: "bob@example.com"
+  name: "Bob Testcase"
+aws:
+  enabled: true
+  local_config: true
