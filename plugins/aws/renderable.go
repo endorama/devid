@@ -16,6 +16,7 @@ func (p *Plugin) Render(personaName, personaDirectory string) string {
 		if p.config.CustomProfileName == "$PERSONA" {
 			profile = personaName
 		}
+
 		sb.WriteString("export AWS_PROFILE=\"" + profile + "\"\n")
 	}
 
