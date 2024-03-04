@@ -31,6 +31,21 @@ func TestPlugin_Configure(t *testing.T) {
 	assert.Nil(t, err, "err should be nil")
 }
 
+func TestPlugin_ConfigureCustomProfileName(t *testing.T) {
+	config := plugintest.GetConfig(t, "charlie").Sub("aws")
+	require.NotNil(t, config)
+
+	p := aws.NewPlugin()
+
+	err := p.Configure(config)
+	if err != nil {
+		t.Errorf(fmt.Errorf("cannot load plugin config: %w", err).Error())
+	}
+
+	require.Nil(t, err, "err should be nil")
+	require.Equal(t, "foobar", p.Config().CustomProfileName)
+}
+
 func TestPlugin_ConfigureLocalConfig(t *testing.T) {
 	config := plugintest.GetConfig(t, "bob").Sub("aws")
 	require.NotNil(t, config)
