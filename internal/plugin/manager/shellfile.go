@@ -50,22 +50,40 @@ func ShellLoader(p persona.Persona) (string, error) {
 
 	log.Printf("%+v", tmpl)
 
+	logPlugins(plugins)
+
+	data.RenderedPlugins = renderPlugins(p, plugins)
+
+	content := strings.Builder{}
+	if err = tmpl.Execute(&content, data); err != nil {
+		return "", fmt.Errorf("cannot execute shellLoaderFile template: %w", err)
+	}
+
+	return content.String(), nil
+}
+
+func logPlugins(plugins []Plugin) {
 	availablePlugins := strings.Builder{}
 	enabledPlugins := strings.Builder{}
+
 	for _, plg := range plugins {
 		availablePlugins.Write([]byte(plg.Instance.Name()))
+
 		if plg.Enabled {
 			enabledPlugins.Write([]byte(plg.Instance.Name()))
 		}
+
 		if plg != plugins[len(plugins)-1] {
 			availablePlugins.WriteByte(',')
 			enabledPlugins.WriteByte(',')
 		}
 	}
 
-	fmt.Printf("available plugins: %s\n", availablePlugins.String())
-	fmt.Printf("enabled plugins  : %s\n", enabledPlugins.String())
+	log.Printf("available plugins: %s\n", availablePlugins.String())
+	log.Printf("enabled plugins  : %s\n", enabledPlugins.String())
+}
 
+func renderPlugins(p persona.Persona, plugins []Plugin) string {
 	sb := strings.Builder{}
 
 	for _, plg := range plugins {
@@ -78,13 +96,5 @@ func ShellLoader(p persona.Persona) (string, error) {
 		}
 	}
 
-	data.RenderedPlugins = sb.String()
-	content := strings.Builder{}
-
-	err = tmpl.Execute(&content, data)
-	if err != nil {
-		return "", fmt.Errorf("cannot execute shellLoaderFile template: %w", err)
-	}
-
-	return content.String(), nil
+	return sb.String()
 }
