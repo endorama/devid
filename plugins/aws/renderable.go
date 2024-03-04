@@ -11,7 +11,15 @@ func (p *Plugin) Render(personaName, personaDirectory string) string {
 		sb.WriteString("export AWS_CONFIG_FILE=" + personaDirectory + "/aws/config\n")
 	}
 
-	sb.WriteString("export AWS_PROFILE=\"" + personaName + "\"\n")
+	if p.config.CustomProfileName != "" {
+		profile := p.config.CustomProfileName
+		if p.config.CustomProfileName == "$PERSONA" {
+			profile = personaName
+		}
+
+		sb.WriteString("export AWS_PROFILE=\"" + profile + "\"\n")
+	}
+
 	sb.WriteString("export AWS_SHARED_CREDENTIALS_FILE=" + personaDirectory + "/aws/credentials\n")
 
 	return sb.String()

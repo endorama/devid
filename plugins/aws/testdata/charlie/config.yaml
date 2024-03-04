@@ -1,0 +1,7 @@
+apiVersion: v1
+identity:
+  email: "charlie@example.com"
+  name: "Charlie Testcase"
+aws:
+  enabled: true
+  custom_profile_name: "foobar"

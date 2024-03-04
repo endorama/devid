@@ -1,0 +1,7 @@
+apiVersion: v1
+identity:
+  email: "dan@example.com"
+  name: "Dan Testcase"
+aws:
+  enabled: true
+  custom_profile_name: "$PERSONA"

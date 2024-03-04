@@ -25,8 +25,7 @@ func TestPlugin_Render(t *testing.T) {
 
 	r := i.Render(p.Name(), p.Location())
 
-	expected := `export AWS_PROFILE="alice"
-export AWS_SHARED_CREDENTIALS_FILE=testdata/alice/aws/credentials
+	expected := `export AWS_SHARED_CREDENTIALS_FILE=testdata/alice/aws/credentials
 `
 	assert.Equal(t, expected, r)
 }
@@ -47,8 +46,49 @@ func TestPlugin_RenderWithLocalConfig(t *testing.T) {
 	r := i.Render(p.Name(), p.Location())
 
 	expected := `export AWS_CONFIG_FILE=testdata/bob/aws/config
-export AWS_PROFILE="bob"
 export AWS_SHARED_CREDENTIALS_FILE=testdata/bob/aws/credentials
+`
+	assert.Equal(t, expected, r)
+}
+
+func TestPlugin_RenderWithCustomProfileName(t *testing.T) {
+	config := plugintest.GetConfig(t, "charlie").Sub("aws")
+	require.NotNil(t, config)
+
+	p := plugintest.GetPersona(t, "charlie")
+
+	i := aws.NewPlugin()
+
+	err := i.Configure(config)
+	require.NoError(t, err)
+
+	assert.True(t, plugintest.IsEnabled(t, "aws", p.Config), "plugin is not enabled for this persona")
+
+	r := i.Render(p.Name(), p.Location())
+
+	expected := `export AWS_PROFILE="foobar"
+export AWS_SHARED_CREDENTIALS_FILE=testdata/charlie/aws/credentials
+`
+	assert.Equal(t, expected, r)
+}
+
+func TestPlugin_RenderWithCustomProfileNamePersona(t *testing.T) {
+	config := plugintest.GetConfig(t, "dan").Sub("aws")
+	require.NotNil(t, config)
+
+	p := plugintest.GetPersona(t, "dan")
+
+	i := aws.NewPlugin()
+
+	err := i.Configure(config)
+	require.NoError(t, err)
+
+	assert.True(t, plugintest.IsEnabled(t, "aws", p.Config), "plugin is not enabled for this persona")
+
+	r := i.Render(p.Name(), p.Location())
+
+	expected := `export AWS_PROFILE="dan"
+export AWS_SHARED_CREDENTIALS_FILE=testdata/dan/aws/credentials
 `
 	assert.Equal(t, expected, r)
 }
