@@ -2,7 +2,6 @@ package utils
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 )
 
@@ -40,7 +39,7 @@ func PersistExecutableFile(path, content string) error {
 }
 
 func ReadFile(path string) ([]byte, error) {
-	content, err := ioutil.ReadFile(path)
+	content, err := os.ReadFile(path)
 	if err != nil {
 		return []byte{}, fmt.Errorf("cannot read file: %w", err)
 	}

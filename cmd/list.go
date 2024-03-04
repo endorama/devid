@@ -17,7 +17,7 @@ package cmd
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -33,7 +33,7 @@ func List() *cobra.Command {
 		Short: "list personas",
 		Long:  `List all available personas.`,
 		Run: func(cmd *cobra.Command, args []string) {
-			files, err := ioutil.ReadDir(viper.GetString("personas_location"))
+			files, err := os.ReadDir(viper.GetString("personas_location"))
 			if err != nil {
 				ui.Fatal(fmt.Errorf("cannot read folder content: %w", err), noPersonaLoadedExitCode)
 			}
