@@ -11,7 +11,8 @@ type Config struct {
 	// configuration. When true it the plugin will set AWS_CONFIG to a file within the persona
 	// folder.
 	// Default is false.
-	LocalConfig bool `mapstructure:"local_config"`
+	LocalConfig       bool   `mapstructure:"local_config"`
+	CustomProfileName string `mapstructure:"custom_profile_name"`
 }
 
 func (p *Plugin) Configure(v *viper.Viper) error {
