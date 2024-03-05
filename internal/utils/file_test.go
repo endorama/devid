@@ -7,52 +7,59 @@ import (
 	"testing"
 
 	"github.com/endorama/devid/internal/utils"
+
 	"github.com/stretchr/testify/assert"
 )
 
-func TestPersistFile(t *testing.T) {
-	content := "foobar"
+const testContent = "foobar"
 
+func TestPersistFile(t *testing.T) {
 	t.Run("when file doesn't exists", func(t *testing.T) {
 		p := fmt.Sprintf("testdata/%s.txt", t.Name())
-		os.MkdirAll(path.Dir(p), os.FileMode(0770))
+		err := os.MkdirAll(path.Dir(p), os.FileMode(0770))
+		assert.NoError(t, err)
 
-		utils.PersistFile(p, content)
+		err = utils.PersistFile(p, testContent)
+		assert.NoError(t, err)
 
 		c, err := os.ReadFile(p)
 		assert.NoError(t, err)
-		assert.Equal(t, content, string(c))
+		assert.Equal(t, testContent, string(c))
 		os.Remove(p)
 	})
 
 	t.Run("when the file exists", func(t *testing.T) {
 		p := fmt.Sprintf("testdata/%s.txt", t.Name())
-		os.MkdirAll(path.Dir(p), os.FileMode(0770))
+		err := os.MkdirAll(path.Dir(p), os.FileMode(0770))
+		assert.NoError(t, err)
 		f, err := os.Create(p)
+		assert.NoError(t, err)
 		f.Close()
 
-		utils.PersistFile(p, content)
+		err = utils.PersistFile(p, testContent)
+		assert.NoError(t, err)
 
 		c, err := os.ReadFile(p)
 		assert.NoError(t, err)
-		assert.Equal(t, content, string(c))
+		assert.Equal(t, testContent, string(c))
 		os.Remove(p)
 	})
 }
 
 func TestPersistExecutableFile(t *testing.T) {
-	content := "foobar"
-
 	p := fmt.Sprintf("testdata/%s.txt", t.Name())
-	os.MkdirAll(path.Dir(p), os.FileMode(0770))
+	err := os.MkdirAll(path.Dir(p), os.FileMode(0770))
+	assert.NoError(t, err)
 	f, err := os.Create(p)
+	assert.NoError(t, err)
 	f.Close()
 
-	utils.PersistExecutableFile(p, content)
+	err = utils.PersistExecutableFile(p, testContent)
+	assert.NoError(t, err)
 
 	c, err := os.ReadFile(p)
 	assert.NoError(t, err)
-	assert.Equal(t, content, string(c))
+	assert.Equal(t, testContent, string(c))
 
 	info, err := os.Stat(p)
 	assert.NoError(t, err)
@@ -62,27 +69,27 @@ func TestPersistExecutableFile(t *testing.T) {
 }
 
 func TestReadFile(t *testing.T) {
-	content := "foobar"
-
 	p := fmt.Sprintf("testdata/%s.txt", t.Name())
-	os.MkdirAll(path.Dir(p), os.FileMode(0770))
-	os.WriteFile(p, []byte(content), os.FileMode(0660))
+	err := os.MkdirAll(path.Dir(p), os.FileMode(0770))
+	assert.NoError(t, err)
+	err = os.WriteFile(p, []byte(testContent), os.FileMode(0660))
+	assert.NoError(t, err)
 
 	c, err := utils.ReadFile(p)
 	assert.NoError(t, err)
-	assert.Equal(t, content, string(c))
+	assert.Equal(t, testContent, string(c))
 
 	os.Remove(p)
 }
 
 func TestDeleteFile(t *testing.T) {
-	content := "foobar"
-
 	p := fmt.Sprintf("testdata/%s.txt", t.Name())
-	os.MkdirAll(path.Dir(p), os.FileMode(0770))
-	os.WriteFile(p, []byte(content), os.FileMode(0660))
+	err := os.MkdirAll(path.Dir(p), os.FileMode(0770))
+	assert.NoError(t, err)
+	err = os.WriteFile(p, []byte(testContent), os.FileMode(0660))
+	assert.NoError(t, err)
 
-	err := utils.DeleteFile(p)
+	err = utils.DeleteFile(p)
 	assert.NoError(t, err)
 
 	err = os.Remove(p)
