@@ -1,7 +1,7 @@
 package plugintest
 
 import (
-	"io/ioutil"
+	"io"
 	"log"
 	"path"
 	"testing"
@@ -15,7 +15,7 @@ func GetPersona(t *testing.T, name string) persona.Persona {
 	t.Helper()
 
 	if !testing.Verbose() {
-		log.SetOutput(ioutil.Discard)
+		log.SetOutput(io.Discard)
 	}
 
 	// NOTE: this loads personas from within a testdata folder within the tested

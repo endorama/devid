@@ -16,7 +16,7 @@ limitations under the License.
 package cmd
 
 import (
-	"io/ioutil"
+	"io"
 	"log"
 
 	"github.com/spf13/cobra"
@@ -52,7 +52,7 @@ for persona's folders.
 `,
 		PersistentPreRun: func(cmd *cobra.Command, args []string) {
 			if !verbose {
-				log.SetOutput(ioutil.Discard)
+				log.SetOutput(io.Discard)
 			}
 		},
 	}
