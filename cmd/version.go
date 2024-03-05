@@ -22,13 +22,13 @@ import (
 	"github.com/endorama/devid/internal/version"
 )
 
-// versionCmd represents the version command.
-func VersionCmd() *cobra.Command {
-	versionCmd := &cobra.Command{ //nolint:gochecknoglobals // required by cobra
+// Version represents the version command.
+func Version() *cobra.Command {
+	versionCmd := &cobra.Command{
 		Use:   "version",
 		Short: "print version",
 		Long:  `Print version information bundled with the program.`,
-		Run: func(cmd *cobra.Command, args []string) {
+		Run: func(_ *cobra.Command, _ []string) {
 			ui.Outputf(version.BuildString())
 		},
 	}

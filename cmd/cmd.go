@@ -20,6 +20,7 @@ func Init() {
 		Rehash(),
 		Shell(),
 		Whoami(),
+		Version(),
 	)
 }
 
