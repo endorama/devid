@@ -16,7 +16,7 @@ import (
 type FailWriter struct{ io.Writer }
 
 // Write implements io.Writer.
-func (_ FailWriter) Write(_ []byte) (int, error) {
+func (FailWriter) Write(_ []byte) (int, error) {
 	return 0, errors.New("failed")
 }
 

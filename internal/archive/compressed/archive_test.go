@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/endorama/devid/internal/archive/compressed"
+
 	"github.com/stretchr/testify/assert"
 )
 
@@ -14,7 +15,7 @@ import (
 type FailWriter struct{ io.Writer }
 
 // Write implements io.Writer.
-func (_ FailWriter) Write(_ []byte) (int, error) {
+func (FailWriter) Write(_ []byte) (int, error) {
 	return 0, errors.New("failed")
 }
 
@@ -45,7 +46,7 @@ func TestCreate(t *testing.T) {
 	}{
 		{
 			name:        "with writer failure",
-			getWriter:   func(t *testing.T) io.Writer { return FailWriter{} },
+			getWriter:   func(t *testing.T) io.Writer { t.Helper(); return FailWriter{} },
 			files:       f,
 			expectedErr: true,
 		},
@@ -66,6 +67,7 @@ func TestCreate(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			w := tt.getWriter(t)
+
 			err := compressed.Create(w, tt.files)
 			if tt.expectedErr {
 				assert.Error(t, err)
