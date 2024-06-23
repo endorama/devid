@@ -58,7 +58,6 @@ linters:
     # - goerr113
     - goheader
     # - golint # deprecated
-    - gomnd
     - gomodguard
     - goprintffuncname
     - gosimple
@@ -67,7 +66,8 @@ linters:
     - lll
     - makezero
     - misspell
-    - nlreturn
+    - mnd
+    # - nlreturn
     - nolintlint
     # - paralleltest
     - predeclared
