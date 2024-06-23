@@ -15,7 +15,7 @@ jobs:
         with:
           name: devenv
       - name: Install devenv.sh
-        run: nix profile install github:cachix/devenv/latest
+        run: nix profile install github:cachix/devenv/v0.6.3
         shell: sh
       - run: devenv ci
       - run: devenv shell task lint
@@ -30,7 +30,7 @@ jobs:
         with:
           name: devenv
       - name: Install devenv.sh
-        run: nix profile install github:cachix/devenv/latest
+        run: nix profile install github:cachix/devenv/v0.6.3
         shell: sh
       - run: devenv ci
       - run: devenv shell task fmt:check
@@ -49,7 +49,7 @@ jobs:
         with:
           name: devenv
       - name: Install devenv.sh
-        run: nix profile install github:cachix/devenv/latest
+        run: nix profile install github:cachix/devenv/v0.6.3
         shell: sh
       - run: devenv ci
       - run: devenv shell task tests:coverage
