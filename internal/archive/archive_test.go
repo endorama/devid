@@ -16,8 +16,8 @@ import (
 type FailWriter struct{ io.Writer }
 
 // Write implements io.Writer.
-func (w FailWriter) Write(b []byte) (int, error) {
-	return len(b), errors.New("failed")
+func (_ FailWriter) Write(b []byte) (int, error) {
+	return 0, errors.New("failed")
 }
 
 func TestArchive_Create(t *testing.T) {
