@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: cachix/install-nix-action@v20
-      - uses: cachix/cachix-action@v12
+      - uses: cachix/install-nix-action@v27
+      - uses: cachix/cachix-action@v15
         with:
           name: devenv
       - name: Install devenv.sh
@@ -25,8 +25,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: cachix/install-nix-action@v20
-      - uses: cachix/cachix-action@v12
+      - uses: cachix/install-nix-action@v27
+      - uses: cachix/cachix-action@v15
         with:
           name: devenv
       - name: Install devenv.sh
@@ -44,8 +44,8 @@ jobs:
     runs-on: "${{ matrix.os }}"
     steps:
       - uses: actions/checkout@v3
-      - uses: cachix/install-nix-action@v22
-      - uses: cachix/cachix-action@v12
+      - uses: cachix/install-nix-action@v27
+      - uses: cachix/cachix-action@v15
         with:
           name: devenv
       - name: Install devenv.sh
