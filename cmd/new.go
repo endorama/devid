@@ -41,7 +41,7 @@ trigger an unknown command execution trough this command.
 Allowed EDITOR values: %s
 `, utils.AllowedEditors),
 		Args: cobra.MinimumNArgs(1),
-		Run: func(cmd *cobra.Command, args []string) {
+		Run: func(_ *cobra.Command, args []string) {
 			runCommand(args)
 		},
 	}

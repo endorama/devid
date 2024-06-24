@@ -50,7 +50,7 @@ Environment variables:
 - DEVID_PERSONAS_LOCATION (default $XDG_DATA_HOME/devid/personas): specify where devid will look 
 for persona's folders.
 `,
-		PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		PersistentPreRun: func(_ *cobra.Command, _ []string) {
 			if !verbose {
 				log.SetOutput(io.Discard)
 			}

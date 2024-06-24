@@ -15,7 +15,7 @@ var PrintPubKey = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 	Short: "Print public key",
 	Long: `Print SSH public key to be reused or copied outside of devid.
 `,
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, _ []string) {
 		p, err := utils.LoadPersona(cmd)
 		if err != nil {
 			ui.Fatal(err, 1)

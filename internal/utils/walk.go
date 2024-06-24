@@ -48,6 +48,7 @@ func Walk(source string) ([]string, error) {
 			if err != nil {
 				walkErrs = append(walkErrs, err)
 			}
+
 			if !info.IsDir() {
 				files = append(files, path)
 			}
