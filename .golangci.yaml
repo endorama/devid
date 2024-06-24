@@ -1,5 +1,6 @@
-run:
-  skip-dirs:
+---
+issues:
+  exclude-dirs:
     - internal/tmp
 
 output:
