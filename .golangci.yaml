@@ -1,5 +1,6 @@
-run:
-  skip-dirs:
+---
+issues:
+  exclude-dirs:
     - internal/tmp
 
 output:
@@ -19,9 +20,8 @@ linters:
     - govet
     - makezero
     - noctx
-    - rowserrcheck
     # - scopelint
-    - sqlclosecheck
+    # - sqlclosecheck
     - staticcheck
     - typecheck
     # complexity

@@ -32,7 +32,7 @@ func List() *cobra.Command {
 		Use:   "list",
 		Short: "list personas",
 		Long:  `List all available personas.`,
-		Run: func(cmd *cobra.Command, args []string) {
+		Run: func(_ *cobra.Command, _ []string) {
 			files, err := os.ReadDir(viper.GetString("personas_location"))
 			if err != nil {
 				ui.Fatal(fmt.Errorf("cannot read folder content: %w", err), noPersonaLoadedExitCode)

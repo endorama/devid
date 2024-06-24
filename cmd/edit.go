@@ -40,7 +40,7 @@ Allowed EDITOR values: %s
 This command loads the current persona from DEVID_ACTIVE_PERSONA environment variable, and this 
 value takes precedence over the --persona flag.
 `, utils.AllowedEditors),
-		Run: func(cmd *cobra.Command, args []string) {
+		Run: func(cmd *cobra.Command, _ []string) {
 			p, err := cmdutils.LoadPersona(cmd)
 			if err != nil {
 				ui.Fatal(fmt.Errorf("cannot instantiate persona: %w", err), genericExitCode)

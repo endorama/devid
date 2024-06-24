@@ -18,7 +18,7 @@ var CreateKey = &cobra.Command{ //nolint:gochecknoglobals // required by cobra
 	Short: "create a SSH key",
 	Long: `Perform secure SSH key generation.
 `,
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, _ []string) {
 		p, err := utils.LoadPersona(cmd)
 		if err != nil {
 			ui.Fatal(err, 1)

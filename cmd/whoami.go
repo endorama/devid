@@ -39,7 +39,7 @@ If no persona is loaded print nothing and exit with code 128.
 This command loads the current persona from DEVID_ACTIVE_PERSONA environment variable, and this 
 value takes precedence over the --persona flag.
 `,
-		Run: func(cmd *cobra.Command, args []string) {
+		Run: func(cmd *cobra.Command, _ []string) {
 			p, err := utils.LoadPersona(cmd)
 			if err != nil {
 				ui.Fatal(fmt.Errorf("cannot instantiate persona: %w", err), noPersonaLoadedExitCode)
