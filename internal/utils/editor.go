@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"strings"
 )
 
 var errEditorValueNotAllowed = errors.New("$EDITOR environment variable value is not allowed")
@@ -18,7 +19,7 @@ func OpenWithEditor(path string) error {
 			return fmt.Errorf("%w, is empty", errEditorValueNotAllowed)
 		}
 
-		return fmt.Errorf("%w (%s)", errEditorValueNotAllowed, editorCmd)
+		return fmt.Errorf("%w (%s) allowed editors: %s", errEditorValueNotAllowed, editorCmd, strings.Join(AllowedEditors, ","))
 	}
 
 	editor := exec.Command(editorCmd, path)
