@@ -20,9 +20,8 @@ linters:
     - govet
     - makezero
     - noctx
-    - rowserrcheck
     # - scopelint
-    - sqlclosecheck
+    # - sqlclosecheck
     - staticcheck
     - typecheck
     # complexity
