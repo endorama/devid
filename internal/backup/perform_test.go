@@ -12,24 +12,24 @@ import (
 
 func TestPerform(t *testing.T) {
 	t.Skip("not implemented")
-	type args struct {
-		b          backup.Task
-		passphrase string
-	}
-	tests := []struct {
-		name    string
-		args    args
-		wantErr bool
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if err := backup.Perform(tt.args.b, tt.args.passphrase); (err != nil) != tt.wantErr {
-				t.Errorf("Perform() error = %v, wantErr %v", err, tt.wantErr)
-			}
-		})
-	}
+	// type args struct {
+	// 	b          backup.Task
+	// 	passphrase string
+	// }
+	// tests := []struct {
+	// 	name    string
+	// 	args    args
+	// 	wantErr bool
+	// }{
+	// 	// TODO: Add test cases.
+	// }
+	// for _, tt := range tests {
+	// 	t.Run(tt.name, func(t *testing.T) {
+	// 		if err := backup.Perform(tt.args.b, tt.args.passphrase); (err != nil) != tt.wantErr {
+	// 			t.Errorf("Perform() error = %v, wantErr %v", err, tt.wantErr)
+	// 		}
+	// 	})
+	// }
 }
 
 func TestPerform_Chdir(t *testing.T) {
