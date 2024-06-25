@@ -11,7 +11,6 @@ import (
 )
 
 func TestPerform(t *testing.T) {
-	t.Skip("not implemented")
 	// type args struct {
 	// 	b          backup.Task
 	// 	passphrase string
@@ -30,6 +29,7 @@ func TestPerform(t *testing.T) {
 	// 		}
 	// 	})
 	// }
+	t.Skip("not implemented")
 }
 
 func TestPerform_Chdir(t *testing.T) {

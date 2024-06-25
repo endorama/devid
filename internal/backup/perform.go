@@ -10,10 +10,10 @@ import (
 // Perform create an encrypted backup archive from the specified set of files, using the
 // specified passphrase. To support relative paths, it changes cwd before creating the file.
 // Archive will be created in the current folder.
-// TODO: consider removing and use Task.Perform()
+// TODO: consider removing and use Task.Perform().
 func Perform(b Task, passphrase string) (err error) {
 	// NOTE: change folder to source location, as b.Files() return relative
-	// paths for files to be added to the archive
+	// paths for files to be added to the archive.
 	return wrapChdirRestore(b.Source, func() error {
 		files, err := b.Files()
 		if err != nil {
