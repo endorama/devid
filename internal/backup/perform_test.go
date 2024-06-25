@@ -5,8 +5,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/endorama/devid/internal/backup"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/endorama/devid/internal/backup"
 )
 
 func TestPerform(t *testing.T) {
