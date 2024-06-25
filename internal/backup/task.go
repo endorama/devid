@@ -8,6 +8,8 @@ import (
 )
 
 // Task contains required information for backup operation.
+// TODO: add Perform() method to run backups.
+// TODO: move New() here.
 type Task struct {
 	// Name is the name of the backup task
 	Name string
