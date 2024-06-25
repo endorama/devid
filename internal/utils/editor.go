@@ -19,7 +19,8 @@ func OpenWithEditor(path string) error {
 			return fmt.Errorf("%w, is empty", errEditorValueNotAllowed)
 		}
 
-		return fmt.Errorf("%w (%s) allowed editors: %s", errEditorValueNotAllowed, editorCmd, strings.Join(AllowedEditors, ","))
+		return fmt.Errorf("%w (%s) allowed editors: %s",
+			errEditorValueNotAllowed, editorCmd, strings.Join(AllowedEditors, ","))
 	}
 
 	editor := exec.Command(editorCmd, path)
