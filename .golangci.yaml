@@ -2,6 +2,11 @@
 issues:
   exclude-dirs:
     - internal/tmp
+  exclude-rules:
+    # disable funlen for all _test.go files
+    - path: _test.go
+      linters:
+        - funlen
 
 output:
   unique-by-line: false
@@ -107,10 +112,3 @@ linters-settings:
     allow-unused: true
     require-explanation: true
     require-specific: true
-
-issues:
-  exclude-rules:
-    # disable funlen for all _test.go files
-    - path: _test.go
-      linters:
-        - funlen
