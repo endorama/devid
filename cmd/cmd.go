@@ -17,6 +17,7 @@ func Init() {
 		Edit(),
 		List(),
 		New(),
+		Path(),
 		Rehash(),
 		Shell(),
 		Whoami(),
